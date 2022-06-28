@@ -3,7 +3,7 @@
 #include "freeglut.h"
 #include <string>
 #include "V2D.h"
-
+#include "Vector2D.h"
 #include <iostream>
 #include <stdlib.h>
 #include <cstring>
@@ -11,31 +11,29 @@
 
 //#include "Mundo.h"
 using namespace std;
-using ETSIDI::SpriteSequence;
 
-
-enum tipo { T, C, A, K, Q, P, V }; //Torre,Caballo,Alfil, King,Queen,Peon, Vacia
-enum color { B, N };
+enum tipo { TORRE, CABALLO, ALFIL, REY, REINA, PEON, VACIA }; //Torre,Caballo,Alfil, King,Queen,Peon, Vacia
+enum color { BLANCA, NEGRA };
 
 class Pieza
 {
 public:
+	
+	
 	tipo type;
 	color colour;
 
-	string imagen;
+	//const char *imagen;
+	
+	Pieza(tipo t, color c): colour(c), type(t){}
+	
 
-	//SpriteSequence imagen;
-
-	Pieza(tipo t, color c) : colour(c), type(t) {};
-
-	void dibuja(string imagen);
+	virtual void dibuja(Vector2D p);
 
 	//virtual ~Pieza();
-
 	//virtual void mueve() = 0;
 	//virtual bool movimientoValido(V2D origen, V2D destino) = 0;
 
-	string getImagen(Pieza *p);
-
+	
+	
 };
