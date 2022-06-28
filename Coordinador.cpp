@@ -25,6 +25,7 @@ void Coordinador::tecla(unsigned char key)
 
 	if (estado == INICIO) {
 		if (key == '1' ) {
+			tablero.inicializa();
 			estado = JvJ;
 			printf("cambio");
 		}

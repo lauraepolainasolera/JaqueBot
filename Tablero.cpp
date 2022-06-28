@@ -56,6 +56,8 @@ void Tablero::setLado(float l)
 void Tablero::dibuja()
 //Dibujo del tablero
 {
+
+	
 	glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/tablero0.png").id);
