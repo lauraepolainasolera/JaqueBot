@@ -2,11 +2,8 @@
 
 //darle una vuelta
 
-Rey::Rey(color c)
+void Rey::dibuja(Vector2D p)
 {
-	type = K;
-	colour = c;
-	(c == B) ? Pieza(reyblanco) : Pieza(reynegro);
 }
 
 void Rey::mueve(V2D origen, V2D destino)
