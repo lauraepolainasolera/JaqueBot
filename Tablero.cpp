@@ -71,19 +71,33 @@ void Tablero::dibuja()
 	glDisable(GL_TEXTURE_2D);
 }
 
-void Tablero::dibujaPiezas(int i, int j, int mov)
+void Tablero::dibujaPiezas(int i, int j, int movs)
 {
+	//if (pi[i][j]->type == P) {
 
+		glTranslatef(PosicionReal[i][j].x, PosicionReal[i][j].y, 0);
+		glutSolidCube(1);
+		glTranslatef(-PosicionReal[i][j].x, -PosicionReal[i][j].y, 0);
+
+	
+
+	/*glTranslatef(PosicionReal[i][j].x, PosicionReal[i][j].y, 0);
+	glutWireCube(1);
+	glTranslatef(-PosicionReal[i][j].x, -PosicionReal[i][j].y, 0);
+	*/
+	
 	
 	
 }
 
 void Tablero::inicializa()
 {
-	//sequeestamal, pero quiero saber como hacerlo bien
+	//se que esta mal, pero quiero saber como hacerlo bien
 
 	pi[0][0] = new Pieza(T, B);
-	pi[0][7] = new Pieza(T, B);
+
+
+	pi[7][0] = new Pieza(T, B);
 	pi[1][0] = new Pieza(C, B);
 	pi[6][0] = new Pieza(C, B);
 	pi[2][0] = new Pieza(A, B);
@@ -91,14 +105,14 @@ void Tablero::inicializa()
 	pi[3][0] = new Pieza(K, B);
 	pi[4][0] = new Pieza(Q, B);
 
-	pi[0][0] = new Pieza(T, N);//.setPieza(Tab[0][0].p, T, B);
-	pi[7][0] = new Pieza(T, N);
-	pi[1][0] = new Pieza(C, N);
-	pi[6][0] = new Pieza(C, N);
-	pi[2][0] = new Pieza(A, N);
-	pi[5][0] = new Pieza(A, N);
-	pi[3][0] = new Pieza(K, N);
-	pi[4][0] = new Pieza(Q, N);
+	pi[0][7] = new Pieza(T, N);//.setPieza(Tab[0][0].p, T, B);
+	pi[7][7] = new Pieza(T, N);
+	pi[1][7] = new Pieza(C, N);
+	pi[6][7] = new Pieza(C, N);
+	pi[2][7] = new Pieza(A, N);
+	pi[5][7] = new Pieza(A, N);
+	pi[3][7] = new Pieza(K, N);
+	pi[4][7] = new Pieza(Q, N);
 
 	for (int i = 0; i < DIMENSION; i++) {  //X
 		for (int j = 1; j < DIMENSION-1; j++) { //Y

@@ -5,6 +5,8 @@
 #include "Pieza.h"
 #include "Vector2D.h"
 
+#define DIMENSION 8
+
 
 
 	class Tablero
@@ -23,9 +25,11 @@
 
 		//~Tablero();
 
-		Vector2D PosicionReal[8][8];
+		Vector2D PosicionReal[DIMENSION][DIMENSION];
 
-		Pieza* pi[8][8];
+		Pieza* pi[DIMENSION][DIMENSION];
+
+		//Pieza p;
 
 		void setLado(float a);
 

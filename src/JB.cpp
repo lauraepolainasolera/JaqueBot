@@ -108,7 +108,9 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	
 	//poner aqui el código de teclado
+
 	master.tecla(key);
+
 	//glutPostRedisplay();
 
 }
