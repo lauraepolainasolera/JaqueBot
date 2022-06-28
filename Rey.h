@@ -12,7 +12,7 @@ public:
 	
 	//SpriteSequence reyn;
 	
-	Rey(color c) : Pieza(K, c) {}; //, imag (imagen, 1,1 20), imag.setCenter(5, 5); imag.setSize(10, 10);};
+	Rey(color c) : Pieza(REY, c) {}; //, imag (imagen, 1,1 20), imag.setCenter(5, 5); imag.setSize(10, 10);};
 
 
     void mueve(V2D origen, V2D destino);
