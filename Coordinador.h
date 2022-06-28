@@ -7,7 +7,7 @@ class Coordinador
 public:
 	Coordinador();
 	//virtual ~Coordinador();
-
+	
 	void tecla(unsigned char key);
 	void mueve();
 	void dibuja();

@@ -27,13 +27,15 @@ public:
 
 Coordinador master;
 
+void OnKeyboardDown(unsigned char key, int x, int y);
+//void onSpecialKeyboardDown(int key, int x, int y);
+void OnDraw(void);
+void OnTimer(int value);
+//void inicio();
 
 //los callback, funciones que seran llamadas automaticamente por la glut
 //cuando sucedan eventos
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
-void OnDraw(void); //esta funcion sera llamada para dibujar
-void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
-void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
 
 int main(int argc,char* argv[])
 {
@@ -104,13 +106,11 @@ void OnDraw(void)
 }
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
-	//poner aqui el código de teclado
-
-
 	
+	//poner aqui el código de teclado
+	master.tecla(key);
+	//glutPostRedisplay();
 
-
-	glutPostRedisplay();
 }
 
 void OnTimer(int value)

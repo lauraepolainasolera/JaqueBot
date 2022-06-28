@@ -3,14 +3,14 @@
 #include "freeglut.h"
 #include "V2D.h"
 #include "Pieza.h"
+#include "Vector2D.h"
 
-	using ETSIDI::SpriteSequence;
+
 
 	class Tablero
 	{
 	private:
 
-		SpriteSequence tablero0;
 		float lado;
 
 
@@ -23,7 +23,7 @@
 
 		//~Tablero();
 
-		V2D PosicionReal[8][8];
+		Vector2D PosicionReal[8][8];
 
 		Pieza* pi[8][8];
 

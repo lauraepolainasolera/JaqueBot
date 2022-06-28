@@ -4,21 +4,32 @@
 using ETSIDI::SpriteSequence;
 
 class Rey :
-    public Pieza
+	public Pieza
 {
 public:
-	SpriteSequence reyb;
+
+	string im = getImagen();
+
+	SpriteSequence im;
+
+
 	//SpriteSequence reyn;
-	
-    Rey(color c) : Pieza(K, c), reyb("bin/reyblanco.png", 1, 1, 20) { reyb.setCenter(5, 5); reyb.setSize(10, 10); };
+
+	Rey(color c) : Pieza(K, c),};
+
+
+	Rey(color c): 
+	/*
 	void dibuja() {
+		
 		glPushMatrix();
 		glTranslatef(0, 0, 0);
-		reyb.flip(false, false);
-		reyb.draw();
+		im.flip(false, false);
+		im.draw();
 		glTranslatef(0, 0, 0);
 		glPopMatrix();
 	}
+	*/
     void mueve(V2D origen, V2D destino);
     bool movimientoValido(V2D origen, V2D destino);
 };

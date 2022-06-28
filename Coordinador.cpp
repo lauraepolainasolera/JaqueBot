@@ -20,11 +20,12 @@ void Coordinador::tecla(unsigned char key)
 	if (estado == INICIO) {
 		if (key == '1') {
 			estado = JvJ;
+			printf("cambio");
 		}
 		else if (key == '2') {
 			//estado = JVAI;
 		}
-		else if (key == '0' || key == 'S') {
+		else if (key == 'c' || key == 'e') {
 			exit(0);
 		}
 	}
