@@ -24,11 +24,11 @@ void Coordinador::tecla(unsigned char key)
 	}
 
 	if (estado == INICIO) {
-		if (key == 'a') {
+		if (key == '1' ) {
 			estado = JvJ;
 			printf("cambio");
 		}
-		else if (key == 'b') {
+		else if (key == '2' ) {
 			//estado = JVAI;
 		}
 		else if (key == 'c' || key == 'e') {
@@ -59,7 +59,7 @@ void Coordinador::dibuja()
 
 	if (estado == INICIO) {
 		
-		printf("Estoydibujando");
+		
 		
 		glEnable(GL_TEXTURE_2D);
 
@@ -102,9 +102,6 @@ void Coordinador::dibuja()
 			{
 				for (int j = 0;j < DIMENSION;j++)
 				{
-					
-					printf("por qui\n");
-
 					
 					tablero.dibujaPiezas(i, j, 0);
 				}

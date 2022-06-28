@@ -20,8 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Coordinador.cpp" />
+    <ClCompile Include="Peon.cpp" />
+    <ClCompile Include="PeonBlanco.cpp" />
     <ClCompile Include="Pieza.cpp" />
     <ClCompile Include="Rey.cpp" />
+    <ClCompile Include="ReyBlanco.cpp" />
+    <ClCompile Include="ReyNegro.cpp" />
     <ClCompile Include="src\JB.cpp" />
     <ClCompile Include="Tablero.cpp" />
     <ClCompile Include="V2D.cpp" />
@@ -29,8 +33,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Coordinador.h" />
+    <ClInclude Include="Peon.h" />
+    <ClInclude Include="PeonBlanco.h" />
     <ClInclude Include="Pieza.h" />
     <ClInclude Include="Rey.h" />
+    <ClInclude Include="ReyBlanco.h" />
+    <ClInclude Include="ReyNegro.h" />
     <ClInclude Include="Tablero.h" />
     <ClInclude Include="V2D.h" />
     <ClInclude Include="Vector2D.h" />
