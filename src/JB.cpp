@@ -13,7 +13,7 @@ public:
 
 	Peon(): peon("bin/peonblanco.png", 1, 1, 20) { peon.setCenter(5, 5); peon.setSize(10, 10); }
 
-	void dibuja() {
+	void dibuja(SpriteSequence peon) {
 		glPushMatrix();
 		glTranslatef(0, 0, 0);
 		peon.flip(false, false);
@@ -65,6 +65,7 @@ int main(int argc,char* argv[])
 
 	return 0;   
 }
+
 
 
 void OnDraw(void)

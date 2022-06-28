@@ -22,6 +22,8 @@
     <ClCompile Include="Coordinador.cpp" />
     <ClCompile Include="Pieza.cpp" />
     <ClCompile Include="Rey.cpp" />
+    <ClCompile Include="ReyBlanco.cpp" />
+    <ClCompile Include="ReyNegro.cpp" />
     <ClCompile Include="src\JB.cpp" />
     <ClCompile Include="Tablero.cpp" />
     <ClCompile Include="V2D.cpp" />
@@ -31,6 +33,8 @@
     <ClInclude Include="Coordinador.h" />
     <ClInclude Include="Pieza.h" />
     <ClInclude Include="Rey.h" />
+    <ClInclude Include="ReyBlanco.h" />
+    <ClInclude Include="ReyNegro.h" />
     <ClInclude Include="Tablero.h" />
     <ClInclude Include="V2D.h" />
     <ClInclude Include="Vector2D.h" />
@@ -59,7 +63,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">

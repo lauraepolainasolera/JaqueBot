@@ -59,7 +59,7 @@ void Coordinador::dibuja()
 
 	if (estado == INICIO) {
 		
-		printf("Estoydibujando");
+		
 		
 		glEnable(GL_TEXTURE_2D);
 
@@ -102,9 +102,6 @@ void Coordinador::dibuja()
 			{
 				for (int j = 0;j < DIMENSION;j++)
 				{
-					
-					printf("por qui\n");
-
 					
 					tablero.dibujaPiezas(i, j, 0);
 				}
