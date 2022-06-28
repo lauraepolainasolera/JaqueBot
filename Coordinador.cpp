@@ -24,11 +24,11 @@ void Coordinador::tecla(unsigned char key)
 	}
 
 	if (estado == INICIO) {
-		if (key == 'a') {
+		if (key == '1' ) {
 			estado = JvJ;
 			printf("cambio");
 		}
-		else if (key == 'b') {
+		else if (key == '2' ) {
 			//estado = JVAI;
 		}
 		else if (key == 'c' || key == 'e') {

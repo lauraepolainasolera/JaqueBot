@@ -13,12 +13,13 @@
 using namespace std;
 using ETSIDI::SpriteSequence;
 
-enum tipo { T, C, A, K, Q, P, V }; //Torre,Caballo,Alfil, King,Queen,Peon, Vacia
-enum color { B, N };
+enum tipo { TORRE, CABALLO, ALFIL, REY, REINA, PEON, VACIA }; //Torre,Caballo,Alfil, King,Queen,Peon, Vacia
+enum color { BLANCA, NEGRA };
 
 class Pieza
 {
 public:
+	
 	
 	tipo type;
 	color colour;
@@ -34,6 +35,6 @@ public:
 	//virtual void mueve() = 0;
 	//virtual bool movimientoValido(V2D origen, V2D destino) = 0;
 
-	//string getImagen(Pieza *p);
+	string getImagen(Pieza *p);
 
 };

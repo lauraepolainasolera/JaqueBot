@@ -39,9 +39,6 @@ void OnTimer(int value);
 
 int main(int argc,char* argv[])
 {
-
-
-
 	//Inicializar el gestor de ventanas GLUT
 	//y crear la ventana
 	glutInit(&argc, argv);

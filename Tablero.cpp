@@ -94,35 +94,35 @@ void Tablero::inicializa()
 {
 	//se que esta mal, pero quiero saber como hacerlo bien
 
-	pi[0][0] = new Pieza(T, B);
+	pi[0][0] = new Pieza(TORRE, BLANCA);
 
 
-	pi[7][0] = new Pieza(T, B);
-	pi[1][0] = new Pieza(C, B);
-	pi[6][0] = new Pieza(C, B);
-	pi[2][0] = new Pieza(A, B);
-	pi[5][0] = new Pieza(A, B);
-	pi[3][0] = new Pieza(K, B);
-	pi[4][0] = new Pieza(Q, B);
+	pi[7][0] = new Pieza(TORRE, BLANCA);
+	pi[1][0] = new Pieza(CABALLO, BLANCA);
+	pi[6][0] = new Pieza(CABALLO, BLANCA);
+	pi[2][0] = new Pieza(ALFIL, BLANCA);
+	pi[5][0] = new Pieza(ALFIL, BLANCA);
+	pi[3][0] = new Pieza(REY, BLANCA);
+	pi[4][0] = new Pieza(REINA, BLANCA);
 
-	pi[0][7] = new Pieza(T, N);//.setPieza(Tab[0][0].p, T, B);
-	pi[7][7] = new Pieza(T, N);
-	pi[1][7] = new Pieza(C, N);
-	pi[6][7] = new Pieza(C, N);
-	pi[2][7] = new Pieza(A, N);
-	pi[5][7] = new Pieza(A, N);
-	pi[3][7] = new Pieza(K, N);
-	pi[4][7] = new Pieza(Q, N);
+	pi[0][7] = new Pieza(TORRE, NEGRA);//.setPieza(Tab[0][0].p, T, B);
+	pi[7][7] = new Pieza(TORRE, NEGRA);
+	pi[1][7] = new Pieza(CABALLO, NEGRA);
+	pi[6][7] = new Pieza(CABALLO, NEGRA);
+	pi[2][7] = new Pieza(ALFIL, NEGRA);
+	pi[5][7] = new Pieza(ALFIL, NEGRA);
+	pi[3][7] = new Pieza(REY, NEGRA);
+	pi[4][7] = new Pieza(REINA, NEGRA);
 
 	for (int i = 0; i < DIMENSION; i++) {  //X
 		for (int j = 1; j < DIMENSION-1; j++) { //Y
 
 			if (j == 1)
-				pi[i][j] = new Pieza(P, B);
+				pi[i][j] = new Pieza(PEON, BLANCA);
 			else if (j == 6)
-				pi[i][j] = new Pieza(P, N);
+				pi[i][j] = new Pieza(PEON, NEGRA);
 			else
-				pi[i][j] == new Pieza(V, B);
+				pi[i][j] == new Pieza(VACIA, BLANCA);
 
 		}
 	}
