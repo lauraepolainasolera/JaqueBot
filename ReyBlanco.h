@@ -15,7 +15,6 @@ public:
 		
 	virtual void dibuja(Vector2D p)
 {
-	cout << "STOYPINTANDOUNREYBLANCO\n\n" << endl;
 	glPushMatrix();
 	glTranslatef(p.x, p.y, 0.5);
 	reyb.flip(false, false);
