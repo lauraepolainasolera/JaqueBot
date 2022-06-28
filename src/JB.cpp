@@ -5,23 +5,23 @@
 
 using ETSIDI::SpriteSequence;
 
-class Peon {
-public:
-	SpriteSequence peon;
-
-	//informarme de si se pueden poner ifs en constructores, si no, clases peon negro y peon blanco
-
-	Peon(): peon("bin/peonblanco.png", 1, 1, 20) { peon.setCenter(5, 5); peon.setSize(10, 10); }
-
-	void dibuja() {
-		glPushMatrix();
-		glTranslatef(0, 0, 0);
-		peon.flip(false, false);
-		peon.draw();
-		glTranslatef(0, 0, 0);
-		glPopMatrix();
-	}
-};
+//class Peon {
+//public:
+//	SpriteSequence peon;
+//
+//	//informarme de si se pueden poner ifs en constructores, si no, clases peon negro y peon blanco
+//
+//	Peon(): peon("bin/peonblanco.png", 1, 1, 20) { peon.setCenter(5, 5); peon.setSize(10, 10); }
+//
+//	void dibuja() {
+//		glPushMatrix();
+//		glTranslatef(0, 0, 0);
+//		peon.flip(false, false);
+//		peon.draw();
+//		glTranslatef(0, 0, 0);
+//		glPopMatrix();
+//	}
+//};
 
 //void Peon::peon()
 
@@ -96,7 +96,7 @@ void OnDraw(void)
 	glMatrixMode(GL_MODELVIEW);	
 	glLoadIdentity();
 	
-
+	
 	master.dibuja();
 
 	//p.dibuja();

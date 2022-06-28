@@ -8,7 +8,7 @@ public:
 	Coordinador();
 	//virtual ~Coordinador();
 	
-	int movs;
+	//int movs;
 
 	void tecla(unsigned char key);
 	void mueve();

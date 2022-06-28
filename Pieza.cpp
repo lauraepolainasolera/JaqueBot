@@ -2,6 +2,16 @@
 
 using ETSIDI::SpriteSequence;
 
+
+void Pieza::dibuja() {
+	glPushMatrix();
+	glTranslatef(0, 0, 0);
+	pie.flip(false, false);
+	pie.draw();
+	glTranslatef(0, 0, 0);
+	glPopMatrix();
+	
+}
 //
 //string Pieza::getImagen(Pieza* p)
 //{

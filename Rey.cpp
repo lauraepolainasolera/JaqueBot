@@ -2,6 +2,13 @@
 
 //darle una vuelta
 
+Rey::Rey(color c)
+{
+	type = K;
+	colour = c;
+	(c == B) ? Pieza(reyblanco) : Pieza(reynegro);
+}
+
 void Rey::mueve(V2D origen, V2D destino)
 {
 	bool mov = movimientoValido(origen,destino);

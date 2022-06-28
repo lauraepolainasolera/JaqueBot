@@ -3,6 +3,7 @@
 #include "freeglut.h"
 #include "V2D.h"
 #include "Pieza.h"
+#include "Rey.h"
 #include "Vector2D.h"
 
 #define DIMENSION 8
@@ -27,15 +28,14 @@
 
 		Vector2D PosicionReal[DIMENSION][DIMENSION];
 
-		Pieza* pi[DIMENSION][DIMENSION];
+		Pieza** p;
 
-		//Pieza p;
 
 		void setLado(float a);
 
-		void dibuja();
+		void dibuja(); //dibuja el tablero
 
-		void dibujaPiezas(int, int, int);
+		void dibujaPiezas(int, int); //dibuja las piezas
 
 		void inicializa();
 
