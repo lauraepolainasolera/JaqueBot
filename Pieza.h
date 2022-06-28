@@ -11,6 +11,7 @@
 
 //#include "Mundo.h"
 using namespace std;
+using ETSIDI::SpriteSequence;
 
 
 enum tipo { T, C, A, K, Q, P, V }; //Torre,Caballo,Alfil, King,Queen,Peon, Vacia
@@ -24,13 +25,17 @@ public:
 
 	string imagen;
 
+	//SpriteSequence imagen;
+
 	Pieza(tipo t, color c) : colour(c), type(t) {};
+
+	void dibuja(string imagen);
 
 	//virtual ~Pieza();
 
 	//virtual void mueve() = 0;
 	//virtual bool movimientoValido(V2D origen, V2D destino) = 0;
 
-	string getImagen();
+	string getImagen(Pieza *p);
 
 };

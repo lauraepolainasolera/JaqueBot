@@ -25,6 +25,7 @@
     <ClCompile Include="src\JB.cpp" />
     <ClCompile Include="Tablero.cpp" />
     <ClCompile Include="V2D.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Coordinador.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="Rey.h" />
     <ClInclude Include="Tablero.h" />
     <ClInclude Include="V2D.h" />
+    <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
