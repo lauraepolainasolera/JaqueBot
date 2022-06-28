@@ -9,12 +9,8 @@ class Rey :
 {
 public:
 
-	string imagen;
-
 	
-	//SpriteSequence reyn;
-	
-	Rey(color c) : Pieza(REY, c) {}; //, imag (imagen, 1,1 20), imag.setCenter(5, 5); imag.setSize(10, 10);};
+	Rey(color c) : Pieza(REY, c) {}; 
 
 	virtual void dibuja(Vector2D p);
 

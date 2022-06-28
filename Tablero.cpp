@@ -8,9 +8,9 @@ using ETSIDI::SpriteSequence;
 Tablero::Tablero() {
 	
 
-	for (int i = 0; i < DIMENSION;i++)
+	for (int j = 0; j < DIMENSION;j++)
 	{
-		for (int j = 0; j < DIMENSION; j++)
+		for (int i = 0; i < DIMENSION; i++)
 		{
 			if ((j % 2) == 0 && (i % 2) == 0)
 			{
@@ -100,7 +100,7 @@ void Tablero::inicializa()
 	pi[7][6] = new Pieza(CABALLO, NEGRA);
 	pi[7][2] = new Pieza(ALFIL, NEGRA);
 	pi[7][5] = new Pieza(ALFIL, NEGRA);
-	pi[7][3] = new ReyNegro();
+	pi[7][4] = new ReyNegro();
 	pi[7][4]->dibuja(PosicionReal[7][4]);
 	pi[7][3] = new Pieza(REINA, NEGRA);
 
