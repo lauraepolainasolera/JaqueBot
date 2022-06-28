@@ -4,16 +4,16 @@
 
 
 using ETSIDI::SpriteSequence;
-
+//
 //class Peon {
 //public:
 //	SpriteSequence peon;
 //
-//	//informarme de si se pueden poner ifs en constructores, si no, clases peon negro y peon blanco
+//	informarme de si se pueden poner ifs en constructores, si no, clases peon negro y peon blanco
 //
 //	Peon(): peon("bin/peonblanco.png", 1, 1, 20) { peon.setCenter(5, 5); peon.setSize(10, 10); }
 //
-//	void dibuja() {
+//	void dibuja(SpriteSequence peon) {
 //		glPushMatrix();
 //		glTranslatef(0, 0, 0);
 //		peon.flip(false, false);
@@ -39,9 +39,6 @@ void OnTimer(int value);
 
 int main(int argc,char* argv[])
 {
-
-
-
 	//Inicializar el gestor de ventanas GLUT
 	//y crear la ventana
 	glutInit(&argc, argv);
@@ -70,6 +67,7 @@ int main(int argc,char* argv[])
 }
 
 
+
 void OnDraw(void)
 {
 	gluLookAt(0, 0, 15,  // posicion del ojo
@@ -96,7 +94,7 @@ void OnDraw(void)
 	glMatrixMode(GL_MODELVIEW);	
 	glLoadIdentity();
 	
-	
+
 	master.dibuja();
 
 	//p.dibuja();

@@ -7,7 +7,7 @@ Tablero tablero;
 Coordinador::Coordinador()
 {
 	estado = INICIO;
-	//movs = 0;
+	movs = 0;
 }
 
 /*void Coordinador::teclaEspecial(unsigned char key)
@@ -20,16 +20,15 @@ void Coordinador::tecla(unsigned char key)
 
 	if (key == '0')
 	{
-		//movs++;
+		movs++;
 	}
 
 	if (estado == INICIO) {
-		if (key == 'a') {
-			tablero.inicializa();
+		if (key == '1' ) {
 			estado = JvJ;
 			printf("cambio");
 		}
-		else if (key == 'b') {
+		else if (key == '2' ) {
 			//estado = JVAI;
 		}
 		else if (key == 'c' || key == 'e') {
@@ -60,7 +59,7 @@ void Coordinador::dibuja()
 
 	if (estado == INICIO) {
 		
-		//printf("Estoydibujando");
+		
 		
 		glEnable(GL_TEXTURE_2D);
 
@@ -80,33 +79,39 @@ void Coordinador::dibuja()
 	else if (estado == JvJ) {
 		tablero.dibuja();
 
-		for (int i = 0; i < DIMENSION; i++)
+		if (movs == 0)
 		{
-			for (int j=0 ;j < DIMENSION;j++)
-			{
-				//cout << tablero.pi[i][j]->colour << tablero.pi[i][j]->type << endl;
-				tablero.dibujaPiezas(i, j);
-				tablero.p[i][j].dibuja();
-			}
-		}
-			
-			
-	}
+			tablero.inicializa();
 
-		else {
+			printf("yaestoy");
+
+			for (int i = 0; i < DIMENSION; i++)
+			{
+				for (int j=0 ;j < DIMENSION;j++)
+				{
+					
+					//cout << tablero.pi[i][j]->colour << tablero.pi[i][j]->type << endl;
+					tablero.dibujaPiezas(i, j, 0);
+				}
+			}
+			
+		}
+
+		else 
 			for (int i = 0; i < DIMENSION; i++)
 			{
 				for (int j = 0;j < DIMENSION;j++)
 				{
 					
-					printf("por qui\n");
-
-					
-					tablero.dibujaPiezas(i, j);
+					tablero.dibujaPiezas(i, j, 0);
 				}
 			}
 
-	}	
+	}
+	else if (estado == JvAI)
+	{
+
+	}
 
 }
 
