@@ -1,27 +1,27 @@
 #pragma once
-#include "Rey.h"
+#include "Alfil.h"
 
 using ETSIDI::SpriteSequence;
 
-class ReyNegro : public Rey
+class AlfilNegro :
+    public Alfil
 {
-
 public:
-	SpriteSequence reyn;
+	SpriteSequence alfiln;
 
 	//informarme de si se pueden poner ifs en constructores, si no, clases peon negro y peon blanco
 
-	ReyNegro() :Rey(NEGRA), reyn("bin/reynegro.png", 1, 1, 20) { reyn.setCenter(0.6, 1); reyn.setSize(1.5, 1.5); }
+	AlfilNegro() : Alfil(NEGRA), alfiln("bin/alfilnegro.png", 1, 1, 20) { alfiln.setCenter(0.6, 1); alfiln.setSize(1.5, 1.5); }
 
 	virtual void dibuja(Vector2D p)
 	{
 		glPushMatrix();
 		glTranslatef(p.x, p.y, 0.5);
-		reyn.flip(false, false);
-		reyn.draw();
+		alfiln.flip(false, false);
+		alfiln.draw();
 		glTranslatef(-p.x, -p.y, 0.5);
 		glPopMatrix();
 
 	}
-
 };
+

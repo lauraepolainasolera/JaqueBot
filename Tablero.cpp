@@ -1,6 +1,17 @@
 #include "Tablero.h"
 #include "ReyBlanco.h"
 #include "ReyNegro.h"
+#include "TorreBlanca.h"
+#include "TorreNegra.h"
+#include "CaballoBlanco.h"
+#include "CaballoNegro.h"
+#include "AlfilBlanco.h"
+#include "AlfilNegro.h"
+#include "ReinaBlanca.h"
+#include "ReinaNegra.h"
+#include "PeonBlanco.h"
+#include "PeonNegro.h"
+
 #define DIMENSION 8
 
 using ETSIDI::SpriteSequence;
@@ -14,29 +25,29 @@ Tablero::Tablero() {
 		{
 			if ((j % 2) == 0 && (i % 2) == 0)
 			{
-				PosicionReal[i][j].x = -4.2 + (i * 1.2);
-				PosicionReal[i][j].y = 4.2 - (j * 1.2);
+				PosicionReal[i][j].x = -4.2 + (j * 1.2);
+				PosicionReal[i][j].y = 4.2 - (i * 1.2);
 				//m[i][j].setPosicion(i, j);
 			}
 
 			else if ((j % 2) != 0 && (i % 2) == 0)
 			{
-				PosicionReal[i][j].x = -4.2 + (i * 1.2);
-				PosicionReal[i][j].y = 4.2 - (j * 1.2);
+				PosicionReal[i][j].x = -4.2 + (j * 1.2);
+				PosicionReal[i][j].y = 4.2 - (i * 1.2);
 				//m[i][j].setPosicion(i, j);
 			}
 
 			else if ((j % 2) == 0 && (i % 2) != 0)
 			{
-				PosicionReal[i][j].x = -4.2 + (i * 1.2);
-				PosicionReal[i][j].y = 4.2 - (j * 1.2);
+				PosicionReal[i][j].x = -4.2 + (j * 1.2);
+				PosicionReal[i][j].y = 4.2 - (i * 1.2);
 				//PosicionReal[i][j].setPosicion(i, j);
 			}
 
 			else if ((j % 2) != 0 && (i % 2) != 0)
 			{
-				PosicionReal[i][j].x = -4.2 + (i * 1.2);
-				PosicionReal[i][j].y = 4.2 - (j * 1.2);
+				PosicionReal[i][j].x = -4.2 + (j * 1.2);
+				PosicionReal[i][j].y = 4.2 - (i * 1.2);
 				//m[i][j].setPosicion(i, j);
 			}
 
@@ -83,44 +94,61 @@ void Tablero::inicializa()
 {
 	//se que esta mal, pero quiero saber como hacerlo bien
 
-	pi[0][0] = new Pieza(TORRE, BLANCA);
-	pi[0][7] = new Pieza(TORRE, BLANCA);
-	pi[0][1] = new Pieza(CABALLO, BLANCA);
-	pi[0][6] = new Pieza(CABALLO, BLANCA);
-	pi[0][2] = new Pieza(ALFIL, BLANCA);
-	pi[0][5] = new Pieza(ALFIL, BLANCA);
-	pi[0][3] = new ReyBlanco();
-	pi[0][3]->dibuja(PosicionReal[0][3]);
+	pi[0][0] = new TorreBlanca();
+	pi[0][0]->dibuja(PosicionReal[0][0]);
+	pi[7][0] = new TorreBlanca();
+	pi[7][0]->dibuja(PosicionReal[7][0]);
+	pi[1][0] = new CaballoBlanco();
+	pi[1][0]->dibuja(PosicionReal[1][0]);
+	pi[6][0] = new CaballoBlanco();
+	pi[6][0]->dibuja(PosicionReal[6][0]);
+	pi[2][0] = new AlfilBlanco();
+	pi[2][0]->dibuja(PosicionReal[2][0]);
+	pi[5][0] = new AlfilBlanco();
+	pi[5][0]->dibuja(PosicionReal[5][0]);
+	pi[4][0] = new ReyBlanco();
+	pi[4][0]->dibuja(PosicionReal[4][0]);
 
-	pi[0][4] = new Pieza(REINA, BLANCA);
+	pi[3][0] = new ReinaBlanca();
+	pi[3][0]->dibuja(PosicionReal[3][0]);
 
-	pi[7][0] = new Pieza(TORRE, NEGRA);//.setPieza(Tab[0][0].p, T, B);
-	pi[7][7] = new Pieza(TORRE, NEGRA);
-	pi[7][1] = new Pieza(CABALLO, NEGRA);
-	pi[7][6] = new Pieza(CABALLO, NEGRA);
-	pi[7][2] = new Pieza(ALFIL, NEGRA);
-	pi[7][5] = new Pieza(ALFIL, NEGRA);
-	pi[7][4] = new ReyNegro();
-	pi[7][4]->dibuja(PosicionReal[7][4]);
-	pi[7][3] = new Pieza(REINA, NEGRA);
+	pi[0][7] = new TorreNegra();//.setPieza(Tab[0][0].p, T, B);
+	pi[0][7]->dibuja(PosicionReal[0][7]);
+	pi[7][7] = new TorreNegra();
+	pi[7][7]->dibuja(PosicionReal[7][7]);
+	pi[1][7] = new CaballoNegro();
+	pi[1][7]->dibuja(PosicionReal[1][7]);
+	pi[6][7] = new CaballoNegro();
+	pi[6][7]->dibuja(PosicionReal[6][7]);
+	pi[2][7] = new AlfilNegro();
+	pi[2][7]->dibuja(PosicionReal[2][7]);
+	pi[5][7] = new AlfilNegro();
+	pi[5][7]->dibuja(PosicionReal[5][7]);
+	pi[4][7] = new ReyNegro();
+	pi[4][7]->dibuja(PosicionReal[4][7]);
+	pi[3][7] = new ReinaNegra();
+	pi[3][7]->dibuja(PosicionReal[3][7]);
 
-	for (int i = 1; i < DIMENSION-1; i++) {  //X
-		for (int j = 0; j < DIMENSION; j++) { //Y
+	for (int i = 0; i < DIMENSION; i++) {  //X
+		for (int j = 1; j < DIMENSION-1; j++) { //Y
 
-			if (i == 1)
+			if (j == 1)
 			{
-				pi[i][j] = new Pieza(PEON, BLANCA);
+				pi[i][j] = new PeonBlanco();
+				pi[i][j]->dibuja(PosicionReal[i][j]);
 
 			}
 
-			else if (i == 6)
+			else if (j == 6)
 			{
-				pi[i][j] = new Pieza(PEON, NEGRA);
+				pi[i][j] = new PeonNegro();
+				pi[i][j]->dibuja(PosicionReal[i][j]);
 				
 			}
 			else 
 			{
 				pi[i][j] = new Pieza(VACIA, NEGRA);
+				pi[i][j]->dibuja(PosicionReal[i][j]);
 				
 			}
 		}

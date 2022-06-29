@@ -18,8 +18,6 @@ enum color { BLANCA, NEGRA };
 class Pieza
 {
 public:
-	
-	
 	tipo type;
 	color colour;
 
@@ -34,6 +32,4 @@ public:
 	//virtual void mueve() = 0;
 	//virtual bool movimientoValido(V2D origen, V2D destino) = 0;
 
-	
-	
 };
