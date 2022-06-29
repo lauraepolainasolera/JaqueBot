@@ -6,7 +6,7 @@ Tablero tablero;
 
 Coordinador::Coordinador()
 {
-	estado = INICIO;
+	estado = JvJ;
 	movs = 0;
 }
 

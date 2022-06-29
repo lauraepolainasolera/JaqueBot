@@ -46,6 +46,8 @@
 
 		bool igualdadColor(Pieza* p, Pieza* m);
 
+		void comerPieza(V2D origen, V2D destino);
+
 
 	};
 

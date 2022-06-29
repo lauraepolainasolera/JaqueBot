@@ -156,18 +156,27 @@ void Tablero::moverPiezas()
 			cin >> origen.y;
 		} while (igualdadTipo(pi[origen.x][origen.y], piaux) || igualdadColor(pi[origen.x][origen.y], piaux));
 		cout << "coordenadas aceptadas" << endl;
+		
 		do {
 			cout << "inserte destino blancas" << endl;
 			cin >> destino.x;
 			cin >> destino.y;
 			//if (Rey::movimientoValido(origen, destino)) break;
-		} while (igualdadTipo(pi[destino.x][destino.y], piaux) == 0);
+		} while (igualdadColor(pi[destino.x][destino.y], pi[origen.x][origen.y]));
 		cout << "destino aceptado" << endl;
-		aux = pi[origen.x][origen.y];
-		pi[origen.x][origen.y] = pi[destino.x][destino.y];
-		pi[destino.x][destino.y] = aux;
 
-		pi[destino.x][destino.y]->dibuja(PosicionReal[destino.x][destino.y]);
+		if (igualdadTipo(pi[destino.x][destino.y], piaux) == 1) {
+			cout << "Estoy en el IF" << endl;
+			aux = pi[origen.x][origen.y];
+			pi[origen.x][origen.y] = pi[destino.x][destino.y];
+			pi[destino.x][destino.y] = aux;
+
+			pi[destino.x][destino.y]->dibuja(PosicionReal[destino.x][destino.y]);
+		}
+		else{
+			cout << "Estoy en el else" << endl;
+			comerPieza(origen, destino);
+		}
 
 		turno = 1;
 	}
@@ -200,10 +209,33 @@ void Tablero::moverPiezas()
 bool Tablero::igualdadTipo(Pieza* p, Pieza* m)
 {
 	if (p->type == m->type) return true;
-	else return false;
+	else return false; //Retorna falso cuando es de distinto tipo
 }
 bool Tablero::igualdadColor(Pieza* p, Pieza* m)
 {
 	if (p->colour == m->colour) return true;
-	else return false;
+	else return false; //Retorna falso cuando es de distinto color
+}
+
+void Tablero::comerPieza(V2D origen, V2D destino)
+{
+	Pieza aux1(VACIA,BLANCA);
+
+	cout << "Estoy en el COMER PIEZA" << endl;
+	ETSIDI::play("sonidos/muerte.wav");
+
+	aux1.type = pi[origen.x][origen.y]->type;
+	aux1.colour = pi[origen.x][origen.y]->colour;
+	if (aux1.type == pi[origen.x][origen.y]->type)cout << "ESTOY AUX IGUAL QUE ORIGEN" << endl;
+	pi[origen.x][origen.y]->type = VACIA;
+	if (pi[origen.x][origen.y]->type == VACIA)cout << "ESTOY AQUÍ VACIA" << endl;
+	pi[destino.x][destino.y]->type = aux1.type;
+	pi[destino.x][destino.y]->colour = aux1.colour;
+	cout << pi[destino.x][destino.y]->type << endl;
+	cout << pi[destino.x][destino.y]->colour << endl;
+
+	pi[destino.x][destino.y]->dibuja(PosicionReal[destino.x][destino.y]);
+	glutPostRedisplay();
+	//pi[origen.x][origen.y]->dibuja(PosicionReal[origen.x][origen.y]);
+
 }
