@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Tablero tablero;
+//Tablero tablero;
 
 Coordinador::Coordinador()
 {
@@ -83,7 +83,7 @@ void Coordinador::dibuja()
 		{
 			tablero.inicializa();
 
-			//printf("yaestoy");
+			//printf("Ya estoy en JVJ");
 
 			for (int i = 0; i < DIMENSION; i++)
 			{

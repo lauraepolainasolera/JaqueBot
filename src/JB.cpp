@@ -1,6 +1,8 @@
 #include "freeglut.h"
 #include "ETSIDI.h"
 #include "../Coordinador.h"
+#include "../Tablero.h"
+
 
 
 using ETSIDI::SpriteSequence;
@@ -96,7 +98,7 @@ void OnDraw(void)
 	
 
 	master.dibuja();
-
+	glutPostRedisplay();
 	//p.dibuja();
 
 	//no borrar esta linea ni poner nada despues
@@ -109,7 +111,9 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 
 	master.tecla(key);
 
-	//glutPostRedisplay();
+	master.tablero.SeleccionarCasilla(key);
+
+	glutPostRedisplay();
 
 }
 

@@ -16,6 +16,7 @@
 
 using ETSIDI::SpriteSequence;
 
+
 Tablero::Tablero() {
 	
 
@@ -92,7 +93,6 @@ void Tablero::dibujaPiezas(int i, int j, int movs)
 
 void Tablero::inicializa()
 {
-	//se que esta mal, pero quiero saber como hacerlo bien
 
 	pi[0][0] = new TorreBlanca();
 	pi[0][0]->dibuja(PosicionReal[0][0]);
@@ -158,24 +158,47 @@ void Tablero::inicializa()
 
 V2D Tablero::SeleccionarCasilla(unsigned char key)
 {
+	cout << "DENTRO DE SELECCIONAR CASILLA" << endl;
 	V2D posicion;
+	posicion.x = 3;
+	posicion.y = 5;
+
+	PosicionReal[posicion.x][posicion.y].x = -4.2 + (posicion.x * 1.2);
+	PosicionReal[posicion.x][posicion.y].y = -4.2 + (posicion.y * 1.2);
+
 	switch (key) {
 	case 'm':
 		return posicion;
+		cout << "Se ha pulsado la letra m" << endl;
 		break;
 	case 'a':
 		posicion.x--;
+		cout << "Se ha pulsado la letra a" << endl;
 		break;
 	case 'w':
 		posicion.y++;
+		cout << "Se ha pulsado la letra w" << endl;
 		break;
 	case 's':
 		posicion.y--;
+		cout << "Se ha pulsado la letra s" << endl;
 		break;
 	case 'd':
 		posicion.x++;
+		cout << "Se ha pulsado la letra d" << endl;
+		break;
+	default:
 		break;
 	}
+
+		//Pintar un cubo para marcar la posición seleccionada
+		glTranslatef(PosicionReal[posicion.x][posicion.y].x, PosicionReal[posicion.x][posicion.y].y, 1);
+		glColor3ub(255, 255, 255);
+		glutSolidCube(5);
+		glTranslatef(-PosicionReal[posicion.x][posicion.y].x, -PosicionReal[posicion.x][posicion.y].y, -1);
+		cout << "Estoy pintando el cubo" << endl;
+		glutPostRedisplay();
+
 }
 
 void Tablero::moverPieza(V2D origen, V2D destino)
@@ -185,7 +208,5 @@ void Tablero::moverPieza(V2D origen, V2D destino)
 
 	pi[origen.x][origen.y]->dibuja(PosicionReal[origen.x][origen.y]);
 	pi[destino.x][destino.y]->dibuja(PosicionReal[destino.x][destino.y]);
-	/*dibujaPiezas(destino);
-	dibujaPiezas(origen);*/
 }
 
