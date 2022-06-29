@@ -156,3 +156,36 @@ void Tablero::inicializa()
 	
 }
 
+V2D Tablero::SeleccionarCasilla(unsigned char key)
+{
+	V2D posicion;
+	switch (key) {
+	case 'm':
+		return posicion;
+		break;
+	case 'a':
+		posicion.x--;
+		break;
+	case 'w':
+		posicion.y++;
+		break;
+	case 's':
+		posicion.y--;
+		break;
+	case 'd':
+		posicion.x++;
+		break;
+	}
+}
+
+void Tablero::moverPieza(V2D origen, V2D destino)
+{
+	pi[destino.x][destino.y]->type = pi[origen.x][origen.y]->type;
+	pi[origen.x][origen.y]->type = VACIA;
+
+	pi[origen.x][origen.y]->dibuja(PosicionReal[origen.x][origen.y]);
+	pi[destino.x][destino.y]->dibuja(PosicionReal[destino.x][destino.y]);
+	/*dibujaPiezas(destino);
+	dibujaPiezas(origen);*/
+}
+

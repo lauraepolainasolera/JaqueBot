@@ -31,13 +31,13 @@ void Coordinador::tecla(unsigned char key)
 		else if (key == '2' ) {
 			//estado = JVAI;
 		}
-		else if (key == 'c' || key == 'e') {
+		else if (key == '3') {
 			exit(0);
 		}
 	}
 	else if (estado == JvJ) {
 		//mundo.tecla(key);
-		if (key == 's' || key == 'S') {
+		if (key == 'p' || key == 'P') {
 			exit(0);
 		}
 	}
@@ -83,7 +83,7 @@ void Coordinador::dibuja()
 		{
 			tablero.inicializa();
 
-			printf("yaestoy");
+			//printf("yaestoy");
 
 			for (int i = 0; i < DIMENSION; i++)
 			{

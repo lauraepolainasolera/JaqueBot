@@ -13,7 +13,7 @@ public:
 	void tecla(unsigned char key);
 	void mueve();
 	void dibuja();
-
+	
 protected:
 	//Tablero tablero;
 

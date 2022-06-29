@@ -39,6 +39,10 @@
 
 		void inicializa();
 
+		V2D SeleccionarCasilla(unsigned char key);
+
+		void moverPieza(V2D origen, V2D destino);
+
 
 	};
 
