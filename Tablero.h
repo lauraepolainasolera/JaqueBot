@@ -15,6 +15,7 @@
 
 		float lado;
 
+		bool turno = 0;
 
 	public:
 
@@ -35,9 +36,15 @@
 
 		void dibuja();
 
-		void dibujaPiezas(int, int, int);
+		void dibujaPiezas(int);
 
 		void inicializa();
+
+		void moverPiezas();
+
+		bool igualdadTipo(Pieza* p, Pieza* m);
+
+		bool igualdadColor(Pieza* p, Pieza* m);
 
 
 	};
