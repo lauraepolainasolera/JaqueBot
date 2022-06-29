@@ -14,7 +14,7 @@
 	private:
 
 		float lado;
-
+		bool turno = 0;
 
 	public:
 
@@ -39,8 +39,8 @@
 
 		void inicializa();
 		void moverPiezas();
-		bool igualdad(Pieza*, Pieza);
-
+		bool igualdadTipo(Pieza*, Pieza*);
+		bool igualdadColor(Pieza*, Pieza*);
 
 	};
 

@@ -162,40 +162,62 @@ void Tablero::inicializa()
 
 void Tablero::moverPiezas()
 {
-	bool turno = 0;
 	V2D origen;
 	V2D destino;
-	Pieza aux(VACIA, NEGRA);
-	if (turno == 0) {
+	Pieza* aux;
+	Pieza* piaux;
+	piaux = new Pieza(VACIA, NEGRA);
+	if (turno == 0) { //blancas
 		do {
-			printf("insterte origen");
+			cout << "insterte origen blancas" << endl;
 			cin >> origen.x;
 			cin >> origen.y;
-		} while (igualdad(pi[origen.x][origen.y], Pieza(VACIA, NEGRA)));
-		printf("coordenadas aceptadas");
+		} while (igualdadTipo(pi[origen.x][origen.y], piaux) || igualdadColor(pi[origen.x][origen.y], piaux));
+		cout << "coordenadas aceptadas" << endl;
 		do {
-			printf("inserte destino");
+			cout << "inserte destino blancas" << endl;
 			cin >> destino.x;
 			cin >> destino.y;
-			if (Rey::movimientoValido(origen, destino)) break;
-		} while (igualdad(pi[destino.x][destino.y], Pieza(VACIA, NEGRA)) == 0);
-		printf("destino aceptado");
-		aux = *pi[origen.x][origen.y];
+			//if (Rey::movimientoValido(origen, destino)) break;
+		} while (igualdadTipo(pi[destino.x][destino.y], piaux) == 0);
+		cout << "destino aceptado" << endl;
+		aux = pi[origen.x][origen.y];
 		pi[origen.x][origen.y] = pi[destino.x][destino.y];
-		*pi[destino.x][destino.y] = aux;
+		pi[destino.x][destino.y] = aux;
 
 			turno = 1;
 	}
-	else {
+	else { //negras
+		do {
+			cout << "insterte origen negras" << endl;
+			cin >> origen.x;
+			cin >> origen.y;
+		} while (igualdadTipo(pi[origen.x][origen.y], piaux) || igualdadColor(pi[origen.x][origen.y], piaux) == 0);
+		cout << "coordenadas aceptadas" << endl;
+		do {
+			cout << "inserte destino negras" << endl;
+			cin >> destino.x;
+			cin >> destino.y;
+			//if (Rey::movimientoValido(origen, destino)) break;
+		} while (igualdadTipo(pi[destino.x][destino.y], piaux) == 0);
+		cout << "destino aceptado" << endl;
+		aux = pi[origen.x][origen.y];
+		pi[origen.x][origen.y] = pi[destino.x][destino.y];
+		pi[destino.x][destino.y] = aux;
+
 		turno = 0;
 	}
 
 }
 
-bool Tablero::igualdad(Pieza* p, Pieza m)
+bool Tablero::igualdadTipo(Pieza* p, Pieza* m)
 {
-	//Pieza& aux =  *p;
-	if (p->type == m.type) return true;
+	if (p->type == m->type) return true;
+	else return false;
+}
+bool Tablero::igualdadColor(Pieza* p, Pieza* m)
+{
+	if (p->colour == m->colour) return true;
 	else return false;
 }
 
