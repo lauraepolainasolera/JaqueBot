@@ -116,28 +116,28 @@ void Coordinador::dibuja()
 	}
 
 }
-
-V2D Coordinador::seleccionarCasilla() {
-	V2D retorno;
-	if (ratonEstado == GLUT_DOWN) {
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				if (pulsaRect(270 + 34 * i, 170 + 34 * j, 300 + 34 * i, 200 + 34 * j)) {
-					if (pi[i][j].type != VACIA) return retorno;
-				}
-			}
-		}
-		return NULL;
-	}
-	return NULL;
-}
-
-void Coordinador::setRaton(V2D pos, int e) {
-	ratonPos = pos;
-	ratonEstado = e;
-}
-
-bool Coordinador::pulsaRect(float x1, float y1, float x2, float y2) {
-	if (x1 < ratonPos.x && ratonPos.x < x2 && y1 < ratonPos.y && ratonPos.y < y2) return true;
-	else return false;
-}
+//
+//V2D Coordinador::seleccionarCasilla() {
+//	V2D retorno;
+//	if (ratonEstado == GLUT_DOWN) {
+//		for (int i = 0; i < 8; i++) {
+//			for (int j = 0; j < 8; j++) {
+//				if (pulsaRect(270 + 34 * i, 170 + 34 * j, 300 + 34 * i, 200 + 34 * j)) {
+//					if (pi[i][j].type != VACIA) return retorno;
+//				}
+//			}
+//		}
+//		return NULL;
+//	}
+//	return NULL;
+//}
+//
+//void Coordinador::setRaton(V2D pos, int e) {
+//	ratonPos = pos;
+//	ratonEstado = e;
+//}
+//
+//bool Coordinador::pulsaRect(float x1, float y1, float x2, float y2) {
+//	if (x1 < ratonPos.x && ratonPos.x < x2 && y1 < ratonPos.y && ratonPos.y < y2) return true;
+//	else return false;
+//}

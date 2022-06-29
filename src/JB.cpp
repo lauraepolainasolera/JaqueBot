@@ -58,7 +58,7 @@ int main(int argc,char* argv[])
 	glEnable(GL_COLOR_MATERIAL);	
 	glMatrixMode(GL_PROJECTION);
 	gluPerspective( 40.0, 800/600.0f, 0.1, 150);
-	glutMouseFunc(raton);
+	//glutMouseFunc(raton);
 
 	//Registrar los callbacks
 	glutDisplayFunc(OnDraw);
@@ -128,31 +128,31 @@ void OnTimer(int value)
 	glutPostRedisplay();
 }
 
-void raton(int boton, int est, int x, int y)
-{
-	ratonPos.x = x;
-	ratonPos.y = y;
-	tablero.setRaton(ratonPos, est);
-
-	if (boton == GLUT_LEFT_BUTTON)
-	{
-		if (est == GLUT_DOWN)
-		{
-			ratonIzq = true;
-			std::cout << std::endl << "x: " << ratonPos.x << std::endl << "y: " << ratonPos.y << std::endl;
-		}
-		else if (est == GLUT_UP)
-		{
-			ratonIzq = false;
-		}
-	}
-	/*
-		else if (boton == GLUT_RIGHT_BUTTON)
-		{
-			if (estado == GLUT_DOWN)
-				ratonDer == true;
-			else if (estado == GLUT_UP)
-				ratonDer = false;
-		}*/
-}
-
+//void raton(int boton, int est, int x, int y)
+//{
+//	ratonPos.x = x;
+//	ratonPos.y = y;
+//	tablero.setRaton(ratonPos, est);
+//
+//	if (boton == GLUT_LEFT_BUTTON)
+//	{
+//		if (est == GLUT_DOWN)
+//		{
+//			ratonIzq = true;
+//			std::cout << std::endl << "x: " << ratonPos.x << std::endl << "y: " << ratonPos.y << std::endl;
+//		}
+//		else if (est == GLUT_UP)
+//		{
+//			ratonIzq = false;
+//		}
+//	}
+//	/*
+//		else if (boton == GLUT_RIGHT_BUTTON)
+//		{
+//			if (estado == GLUT_DOWN)
+//				ratonDer == true;
+//			else if (estado == GLUT_UP)
+//				ratonDer = false;
+//		}*/
+//}
+//
