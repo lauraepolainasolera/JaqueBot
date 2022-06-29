@@ -23,34 +23,9 @@ Tablero::Tablero() {
 	{
 		for (int i = 0; i < DIMENSION; i++)
 		{
-			if ((j % 2) == 0 && (i % 2) == 0)
-			{
 				PosicionReal[i][j].x = -4.2 + (j * 1.2);
 				PosicionReal[i][j].y = 4.2 - (i * 1.2);
 				//m[i][j].setPosicion(i, j);
-			}
-
-			else if ((j % 2) != 0 && (i % 2) == 0)
-			{
-				PosicionReal[i][j].x = -4.2 + (j * 1.2);
-				PosicionReal[i][j].y = 4.2 - (i * 1.2);
-				//m[i][j].setPosicion(i, j);
-			}
-
-			else if ((j % 2) == 0 && (i % 2) != 0)
-			{
-				PosicionReal[i][j].x = -4.2 + (j * 1.2);
-				PosicionReal[i][j].y = 4.2 - (i * 1.2);
-				//PosicionReal[i][j].setPosicion(i, j);
-			}
-
-			else if ((j % 2) != 0 && (i % 2) != 0)
-			{
-				PosicionReal[i][j].x = -4.2 + (j * 1.2);
-				PosicionReal[i][j].y = 4.2 - (i * 1.2);
-				//m[i][j].setPosicion(i, j);
-			}
-
 		}
 
 	}
@@ -84,8 +59,17 @@ void Tablero::dibuja()
 	glDisable(GL_TEXTURE_2D);
 }
 
-void Tablero::dibujaPiezas(int i, int j, int movs)
+void Tablero::dibujaPiezas(int movs)
 {
+	
+	moverPiezas();
+
+	for (int i = 0; i < DIMENSION; i++) {  //X
+		for (int j = 0; j < DIMENSION; j++) { //Y
+			pi[i][j]->dibuja(PosicionReal[i][j]);
+		}
+	}
+
 	
 	
 }
@@ -96,6 +80,7 @@ void Tablero::inicializa()
 
 	pi[0][0] = new TorreBlanca();
 	pi[0][0]->dibuja(PosicionReal[0][0]);
+	cout << "pinta" << endl;
 	pi[7][0] = new TorreBlanca();
 	pi[7][0]->dibuja(PosicionReal[7][0]);
 	pi[1][0] = new CaballoBlanco();
@@ -156,3 +141,69 @@ void Tablero::inicializa()
 	
 }
 
+
+void Tablero::moverPiezas()
+{
+	V2D origen;
+	V2D destino;
+	Pieza* aux;
+	Pieza* piaux;
+	piaux = new Pieza(VACIA, NEGRA);
+	if (turno == 0) { //blancas
+		do {
+			cout << "insterte origen blancas" << endl;
+			cin >> origen.x;
+			cin >> origen.y;
+		} while (igualdadTipo(pi[origen.x][origen.y], piaux) || igualdadColor(pi[origen.x][origen.y], piaux));
+		cout << "coordenadas aceptadas" << endl;
+		do {
+			cout << "inserte destino blancas" << endl;
+			cin >> destino.x;
+			cin >> destino.y;
+			//if (Rey::movimientoValido(origen, destino)) break;
+		} while (igualdadTipo(pi[destino.x][destino.y], piaux) == 0);
+		cout << "destino aceptado" << endl;
+		aux = pi[origen.x][origen.y];
+		pi[origen.x][origen.y] = pi[destino.x][destino.y];
+		pi[destino.x][destino.y] = aux;
+
+		pi[destino.x][destino.y]->dibuja(PosicionReal[destino.x][destino.y]);
+
+		turno = 1;
+	}
+	else { //negras
+		do {
+			cout << "insterte origen negras" << endl;
+			cin >> origen.x;
+			cin >> origen.y;
+		} while (igualdadTipo(pi[origen.x][origen.y], piaux) || igualdadColor(pi[origen.x][origen.y], piaux) == 0);
+		cout << "coordenadas aceptadas" << endl;
+		do {
+			cout << "inserte destino negras" << endl;
+			cin >> destino.x;
+			cin >> destino.y;
+			//if (Rey::movimientoValido(origen, destino)) break;
+		} while (igualdadTipo(pi[destino.x][destino.y], piaux) == 0);
+		cout << "destino aceptado" << endl;
+		aux = pi[origen.x][origen.y];
+		pi[origen.x][origen.y] = pi[destino.x][destino.y];
+		pi[destino.x][destino.y] = aux;
+
+		pi[destino.x][destino.y]->dibuja(PosicionReal[destino.x][destino.y]);
+
+		
+		turno = 0;
+	}
+
+}
+
+bool Tablero::igualdadTipo(Pieza* p, Pieza* m)
+{
+	if (p->type == m->type) return true;
+	else return false;
+}
+bool Tablero::igualdadColor(Pieza* p, Pieza* m)
+{
+	if (p->colour == m->colour) return true;
+	else return false;
+}
