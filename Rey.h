@@ -10,6 +10,7 @@ class Rey :
 public:
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	string im = getImagen();
 
 	SpriteSequence im;
@@ -34,6 +35,8 @@ public:
 	*/
 =======
 	
+=======
+>>>>>>> 0ebb92baff6846ba550945611fd8053f1508e766
 	Rey(color c) : Pieza(REY, c) {}; 
 
 	virtual void dibuja(Vector2D p);

@@ -3,16 +3,16 @@
 #include "freeglut.h"
 #include "Pieza.h"
 
-
-class Peon :
-	public Pieza
+class Reina :
+    public Pieza
 {
 public:
 
-	Peon(color c) : Pieza(PEON, c) {};
+	Reina(color c) : Pieza(REINA, c) {};
 
 	virtual void dibuja(Vector2D p);
 
 	//void mueve(V2D origen, V2D destino);
 	//bool movimientoValido(V2D origen, V2D destino);
 };
+
