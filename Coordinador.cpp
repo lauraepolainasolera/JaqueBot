@@ -27,6 +27,8 @@ void Coordinador::tecla(unsigned char key)
 		if (key == '1' ) {
 			estado = JvJ;
 			printf("cambio");
+			tablero.inicializa();
+			tablero.dibuja();
 		}
 		else if (key == '2' ) {
 			//estado = JVAI;
@@ -59,8 +61,6 @@ void Coordinador::dibuja()
 
 	if (estado == INICIO) {
 		
-		
-		
 		glEnable(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_INICIO.png").id);
@@ -77,19 +77,27 @@ void Coordinador::dibuja()
 
 	}
 	else if (estado == JvJ) {
+		Vector2D origen, destino;
+
+		cout << "introduce posciones origen" << endl;
+		cin >> origen.x;
+		cin >> origen.y;
+		//cout << "las posiciones origen son" << origen.x << origen.y << endl;
+		cout << "introduce posciones destino" << endl;
+		cin >> destino.x;
+		cin >> destino.y;
+		//cout << "las posiciones origen son" << destino.x << destino.y << endl;
+		tablero.mueve(origen, destino);
 		tablero.dibuja();
 
-		if (movs == 0)
+		/*if (movs == 0)
 		{
-			tablero.inicializa();
-
 			printf("yaestoy");
 
 			for (int i = 0; i < DIMENSION; i++)
 			{
 				for (int j=0 ;j < DIMENSION;j++)
 				{
-					
 					//cout << tablero.pi[i][j]->colour << tablero.pi[i][j]->type << endl;
 					tablero.dibujaPiezas(i, j, 0);
 				}
@@ -106,6 +114,7 @@ void Coordinador::dibuja()
 					tablero.dibujaPiezas(i, j, 0);
 				}
 			}
+			*/
 
 	}
 	else if (estado == JvAI)

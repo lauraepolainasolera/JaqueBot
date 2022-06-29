@@ -11,7 +11,7 @@ public:
 
 	Rey(color c) : Pieza(REY, c) {}; 
 
-	virtual void dibuja(Vector2D p);
+	virtual void dibuja(Vector2D p)=0;
 
     void mueve(V2D origen, V2D destino);
     bool movimientoValido(V2D origen, V2D destino);

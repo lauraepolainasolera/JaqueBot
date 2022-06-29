@@ -1,11 +1,5 @@
 #include "Rey.h"
 
-//darle una vuelta
-
-void Rey::dibuja(Vector2D p)
-{
-}
-
 void Rey::mueve(V2D origen, V2D destino)
 {
 	bool mov = movimientoValido(origen,destino);

@@ -31,14 +31,19 @@
 
 		//Pieza p;
 
+		Vector2D obtenerPosicionesReales(Vector2D);
+		Pieza* obtenerPieza(Vector2D v);
+
 		void setLado(float a);
 
 		void dibuja();
 
-		void dibujaPiezas(int, int, int);
+		void dibujaPiezas();
+		//void dibujaPiezas(int, int,int);
 
 		void inicializa();
-
+		void mueve(Vector2D origen, Vector2D destino);
+		void setPieza(Pieza* origen, Pieza* destino);
 
 	};
 
