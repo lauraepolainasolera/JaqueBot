@@ -7,6 +7,6 @@ public:
     PiezaVacia() :Pieza(VACIA, BLANCA) { };
 
     void dibuja(Vector2D p) {};
-    bool movimientoValido(V2D origen, V2D destino) { return true; };
+    bool movimientoValido(Vector2D origen, Vector2D destino) { return true; };
 };
 

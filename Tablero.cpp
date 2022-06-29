@@ -180,7 +180,7 @@ Pieza* Tablero::obtenerPieza(Vector2D v) {
 			if (pi[i][j]->pos.x == v.x && pi[i][j]->pos.y == v.y) { //sobrecargar operador igual
 				piezax = i;
 				piezay = j;
-				//cout << "Esta es su pieza:" << piezax << piezay << endl;
+				cout << "Esta es su pieza:" << piezax << piezay << endl;
 				return pi[piezax][piezay];
 			}
 			//cout << i << " " << j << " "<< pi[i][j]->pos.x<< " "<<pi[i][j]->pos.y<<endl;
@@ -216,14 +216,21 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	Pieza* orig = obtenerPieza(origen);
 	Pieza* dest = obtenerPieza(destino);
 
-	if (orig->movimientoValido(origen, destino))
+	cout << orig->movimientoValido(origen, destino) << endl;
+	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false))
 	{
-		setPieza(orig, dest);
-		cout << "soy una pieza del tipo" << orig->type << endl;
-		cout << "la pieza se ha movido" << endl;
+		if (casillaVacia(destino))
+			setPieza(orig, dest);
+		else
+			comerPieza(orig, dest);
+		//cout << "soy una pieza del tipo" << orig->type <<endl;
+		//cout << "la pieza se ha movido" << endl;
 	}
 	else
+	{
 		cout << "movimiento invalido" << endl;
+		dibujaPiezas();
+	}
 }
 
 bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
@@ -348,8 +355,8 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 bool Tablero::casillaVacia(Vector2D pos) {
 	cout << "soy casilla vacia" << endl;
 	Pieza* p = obtenerPieza(pos);
-	cout << "soy del tipo" << p->type << endl;
-	if (p->type == VACIA)
+	cout << "soy del tipo" << obtenerTipo(p) << endl;
+	if (obtenerTipo(p) == VACIA)
 		return true;
 	else
 		return false;
