@@ -159,9 +159,7 @@ void Tablero::inicializa()
 V2D Tablero::SeleccionarCasilla(unsigned char key)
 {
 	cout << "DENTRO DE SELECCIONAR CASILLA" << endl;
-	V2D posicion;
-	posicion.x = 3;
-	posicion.y = 5;
+	V2D posicion(0,0);
 
 	PosicionReal[posicion.x][posicion.y].x = -4.2 + (posicion.x * 1.2);
 	PosicionReal[posicion.x][posicion.y].y = -4.2 + (posicion.y * 1.2);
@@ -172,19 +170,19 @@ V2D Tablero::SeleccionarCasilla(unsigned char key)
 		cout << "Se ha pulsado la letra m" << endl;
 		break;
 	case 'a':
-		posicion.x--;
+		posicion.x = posicion.x - 1;
 		cout << "Se ha pulsado la letra a" << endl;
 		break;
 	case 'w':
-		posicion.y++;
+		posicion.y = posicion.y + 1;
 		cout << "Se ha pulsado la letra w" << endl;
 		break;
 	case 's':
-		posicion.y--;
+		posicion.y = posicion.y - 1;
 		cout << "Se ha pulsado la letra s" << endl;
 		break;
 	case 'd':
-		posicion.x++;
+		posicion.x = posicion.x + 1;
 		cout << "Se ha pulsado la letra d" << endl;
 		break;
 	default:
