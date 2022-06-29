@@ -44,6 +44,10 @@
 		void inicializa();
 		void mueve(Vector2D origen, Vector2D destino);
 		void setPieza(Pieza* origen, Pieza* destino);
+		bool obstaculo(Vector2D origen, Vector2D destino);
+		bool casillaVacia(Vector2D pos);
+		void comerPieza(Pieza* origen, Pieza* destino);
+
 
 	};
 

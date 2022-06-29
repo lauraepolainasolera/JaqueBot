@@ -22,12 +22,11 @@ public:
 	color colour;
 
 	Vector2D pos;
-	//const char *imagen;
-	
+
 	Pieza(tipo t, color c): colour(c), type(t){}
 	Pieza() { colour = BLANCA; type = VACIA; }
 
-	virtual void dibuja(Vector2D p)=0;
+	virtual void dibuja(Vector2D p) = 0;
 
 	//virtual ~Pieza();
 	//virtual void mueve() = 0;

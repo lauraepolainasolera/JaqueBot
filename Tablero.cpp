@@ -172,12 +172,6 @@ void Tablero::inicializa()
 	
 }
 
-/*void Tablero::dibujaPiezas(int i, int j, int movs)
-{
-
-
-}
-*/
 
 Pieza* Tablero::obtenerPieza(Vector2D v) {
 	int piezax = 0, piezay = 0;
@@ -186,7 +180,7 @@ Pieza* Tablero::obtenerPieza(Vector2D v) {
 			if (pi[i][j]->pos.x == v.x && pi[i][j]->pos.y == v.y) { //sobrecargar operador igual
 				piezax = i;
 				piezay = j;
-				cout << "Esta es su pieza:" << piezax << piezay << endl;
+				//cout << "Esta es su pieza:" << piezax << piezay << endl;
 				return pi[piezax][piezay];
 			}
 			//cout << i << " " << j << " "<< pi[i][j]->pos.x<< " "<<pi[i][j]->pos.y<<endl;
@@ -206,6 +200,16 @@ void Tablero::setPieza(Pieza* origen, Pieza* destino) {
 	//cout << "soy la pieza origen y me he cambiado" << endl;
 }
 
+void Tablero::comerPieza(Pieza* origen, Pieza* destino) {
+	Vector2D aux;
+	aux = destino->pos;
+	destino = new PiezaVacia();
+	destino->pos = aux;
+	origen->pos = aux;
+	cout << "he comido" << endl;
+	dibujaPiezas();
+}
+
 void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
 
@@ -220,4 +224,133 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	}
 	else
 		cout << "movimiento invalido" << endl;
+}
+
+bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
+	cout << "he entrado" << endl;
+	cout << "origen:" << origen.x << origen.y << endl;
+	cout << "destino:" << destino.x << destino.y << endl;
+	Vector2D res = destino - origen;
+	cout << "resta" << res.x << res.y << endl;
+
+	int ocupacion = 0;
+	if ((abs(res.x) == abs(res.y)) && (origen.x < destino.x) && (origen.y < destino.y)) { //diagonal con coordenadas x,y positiva
+		cout << "diagonal con coordenadas x,y positiva" << endl;
+		for (int i = origen.x + 1; i < destino.x; i++) {
+			for (int j = origen.y + 1; j < destino.y; j++) {
+				Vector2D v;
+				v.x = i;
+				v.y = j;
+
+				if (casillaVacia(v) == false)
+					ocupacion++;
+			}
+		}
+	}
+
+	if ((abs(res.x) == abs(res.y)) && (origen.x > destino.x) && (origen.y > destino.y)) { //diagonal con coordenadas x,y negativa
+		cout << "diagonal con coordenadas x,y negativa" << endl;
+		for (int i = origen.x - 1; i > destino.x; i--) {
+			for (int j = origen.y - 1; j > destino.y; j--) {
+				Vector2D v;
+				v.x = i;
+				v.y = j;
+
+				if (casillaVacia(v) == false)
+					ocupacion++;
+			}
+		}
+	}
+
+	if ((abs(res.x) == abs(res.y)) && (origen.x > destino.x) && (origen.y < destino.y)) { //diagonal con coordenadas x negativa, y positiva
+		cout << "diagonal con coordenadas x negativa y positiva" << endl;
+		for (int i = origen.x - 1; i > destino.x; i--) {
+			for (int j = origen.y + 1; j < destino.y; j++) {
+				Vector2D v;
+				v.x = i;
+				v.y = j;
+
+				if (casillaVacia(v) == false)
+					ocupacion++;
+			}
+		}
+	}
+
+	if ((abs(res.x) == abs(res.y)) && (origen.x < destino.x) && (origen.y > destino.y)) { //diagonal con coordenadas x positiva, y negativa
+		cout << "diagonal con coordenadas x positiva y negativa" << endl;
+		for (int i = origen.x + 1; i < destino.x; i++) {
+			for (int j = origen.y - 1; j > destino.y; j--) {
+				Vector2D v;
+				v.x = i;
+				v.y = j;
+
+				if (casillaVacia(v) == false)
+					ocupacion++;
+
+			}
+		}
+	}
+
+	if ((origen.x == destino.x) && (origen.y < destino.y)) { // desplazarse en y positiva
+		cout << "desplazarse y positiva" << endl;
+		for (int j = origen.y + 1; j < destino.y; j++) {
+			Vector2D v;
+			v.x = origen.x;
+			v.y = j;
+
+			if (casillaVacia(v) == false)
+				ocupacion++;
+			cout << casillaVacia(v) << endl;
+		}
+	}
+
+	if ((origen.x == destino.x) && (origen.y > destino.y)) { //desplazarse y negativa
+		cout << "desplazarse y negativa" << endl;
+		for (int j = origen.y - 1; j > destino.y; j--) {
+			Vector2D v;
+			v.x = origen.x;
+			v.y = j;
+
+			if (casillaVacia(v) == false)
+				ocupacion++;
+		}
+	}
+
+	if ((origen.x < destino.x) && (origen.y == destino.y)) { //Desplazarse x positiva
+		cout << "desplazarse x positiva" << endl;
+		for (int i = origen.x + 1; i < destino.x; i++) {
+			Vector2D v;
+			v.x = i;
+			v.y = origen.y;
+
+			if (casillaVacia(v) == false)
+				ocupacion++;
+		}
+	}
+
+	if ((origen.x > destino.x) && (origen.y == destino.y)) { //desplazarse x negativa
+		cout << "desplazarse x negativa" << endl;
+		for (int i = origen.x - 1; i > destino.x; i--) {
+			Vector2D v;
+			v.x = i;
+			v.y = origen.y;
+
+			if (casillaVacia(v) == false)
+				ocupacion++;
+		}
+	}
+	if (ocupacion >= 1)
+		return true;
+	else
+		return false; //tambien puede ser un caballo
+}
+
+bool Tablero::casillaVacia(Vector2D pos) {
+	cout << "soy casilla vacia" << endl;
+	Pieza* p = obtenerPieza(pos);
+	cout << "soy del tipo" << p->type << endl;
+	if (p->type == VACIA)
+		return true;
+	else
+		return false;
 }
