@@ -18,10 +18,10 @@ Coordinador::Coordinador()
 void Coordinador::tecla(unsigned char key)
 {
 
-	if (key == '0')
+	/*if (key == '0')
 	{
 		movs++;
-	}
+	}*/
 
 	if (estado == INICIO) {
 		if (key == '1' ) {
@@ -29,6 +29,7 @@ void Coordinador::tecla(unsigned char key)
 			printf("cambio");
 			tablero.inicializa();
 			tablero.dibuja();
+			tablero.dibujaPiezas();
 		}
 		else if (key == '2' ) {
 			//estado = JVAI;
@@ -87,8 +88,9 @@ void Coordinador::dibuja()
 		cin >> destino.x;
 		cin >> destino.y;
 		//cout << "las posiciones origen son" << destino.x << destino.y << endl;
-		tablero.mueve(origen, destino);
+		
 		tablero.dibuja();
+		tablero.mueve(origen, destino);
 
 		/*if (movs == 0)
 		{
