@@ -11,5 +11,6 @@ public:
 
 	//void mueve(V2D origen, V2D destino);
 	bool movimientoValido(Vector2D origen, Vector2D destino);
+
 };
 
