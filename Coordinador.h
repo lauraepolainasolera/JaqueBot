@@ -17,7 +17,7 @@ public:
 protected:
 	//Tablero tablero;
 
-	enum Estado { INICIO, JvJ, JvAI, CONF };
+	enum Estado { INICIO, ModoNormal, ModoLocura, CONF };
 	Estado estado;
 };
 

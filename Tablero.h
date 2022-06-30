@@ -40,6 +40,8 @@
 		void dibuja();
 
 		void dibujaPiezas();
+
+		void inicializaModoLocura();
 	
 		//void dibujaPiezas(int, int,int);
 

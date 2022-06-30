@@ -81,6 +81,72 @@ void Tablero::dibujaPiezas()
 
 
 
+void Tablero::inicializaModoLocura()
+{
+	int a;
+	int b;
+
+	a = rand() % DIMENSION - 1; 
+	b = rand() % DIMENSION - 1;
+	
+	
+pi[0][0] = new TorreBlanca();
+	pi[7][0] = new TorreBlanca();
+	pi[1][0] = new CaballoBlanco();
+	pi[6][0] = new CaballoBlanco();
+	pi[2][0] = new AlfilBlanco();
+	pi[5][0] = new AlfilBlanco();
+	pi[4][0] = new ReyBlanco();
+	pi[3][0] = new ReinaBlanca();
+
+	pi[0][7] = new TorreNegra();//.setPieza(Tab[0][0].p, T, B);
+	pi[7][7] = new TorreNegra();
+	pi[1][7] = new CaballoNegro();
+	pi[6][7] = new CaballoNegro();
+	pi[2][7] = new AlfilNegro();
+	pi[5][7] = new AlfilNegro();
+	pi[4][7] = new ReyNegro();
+	pi[3][7] = new ReinaNegra();
+
+	for (int i = 0; i < DIMENSION; i++) {  //X
+		for (int j = 2 ; j < 6; j++) { //Y
+			{
+				pi[i][j] = new PiezaVacia();
+			}
+		}
+	}
+
+	for (int i = 0; i < DIMENSION; i++) {
+		if (a = i) {
+			pi[1][i] = new TorreBlanca();
+		}
+		else 
+			pi[1][i] = new PeonBlanco();
+	}
+
+	for (int i = 0; i < DIMENSION; i++) {
+		if (b = i) {
+			pi[6][i] = new TorreNegra();
+		}
+		else
+			pi[6][i] = new PeonNegro();
+	}
+
+	
+
+
+	for (int i = 0; i < DIMENSION; i++) {
+		for (int j = 0; j < DIMENSION; j++) {
+			pi[i][j]->pos.x = i;
+			pi[i][j]->pos.y = j;
+		}
+	}
+
+}
+
+
+
+
 void Tablero::inicializa()
 {
 	pi[0][0] = new TorreBlanca();

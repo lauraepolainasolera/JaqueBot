@@ -25,26 +25,29 @@ void Coordinador::tecla(unsigned char key)
 
 	if (estado == INICIO) {
 		if (key == '1' ) {
-			estado = JvJ;
+			estado = ModoNormal;
 			printf("cambio");
 			tablero.inicializa();
 			tablero.dibuja();
 			tablero.dibujaPiezas();
 		}
 		else if (key == '2' ) {
-			//estado = JVAI;
+			printf("cambio");
+			estado = ModoLocura;
+			tablero.inicializaModoLocura();
+			tablero.dibuja();
+			tablero.dibujaPiezas();
 		}
 		else if (key == 'c' || key == 'e') {
 			exit(0);
 		}
 	}
-	else if (estado == JvJ) {
-		//mundo.tecla(key);
-		if (key == 's' || key == 'S') {
-			exit(0);
-		}
+	//else if (estado == ) {
+	//	//mundo.tecla(key);
+	//	if (key == 's' || key == 'S') {
+	//		exit(0);
+	//	}
 	}
-}
 
 void Coordinador::mueve()
 {
@@ -77,7 +80,7 @@ void Coordinador::dibuja()
 		glDisable(GL_TEXTURE_2D);
 
 	}
-	else if (estado == JvJ) {
+	else if (estado == ModoNormal|| estado == ModoLocura) {
 		Vector2D origen, destino;
 
 		cout << "introduce posciones origen" << endl;
@@ -94,10 +97,7 @@ void Coordinador::dibuja()
 
 
 	}
-	else if (estado == JvAI)
-	{
-
-	}
+	
 
 }
 
