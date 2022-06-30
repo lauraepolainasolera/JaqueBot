@@ -14,7 +14,7 @@
 	private:
 
 		float lado;
-
+		int movimiento = 0;
 
 	public:
 
@@ -48,7 +48,7 @@
 		bool obstaculo(Vector2D origen, Vector2D destino);
 		bool casillaVacia(Vector2D pos);
 		void comerPieza(Pieza* origen, Pieza* destino);
-
+		bool setTurno(int movimiento, Pieza* p);
 
 	};
 

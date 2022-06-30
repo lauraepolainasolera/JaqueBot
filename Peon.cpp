@@ -4,9 +4,8 @@
 bool Peon::movimientoValido(Vector2D origen, Vector2D destino) {
 
 	Vector2D res = destino - origen;
-	cout << "resta" << res.x << res.y << endl;
+	//cout << "resta" << res.x << res.y << endl;
 	if (colour == BLANCA) { //piezas blancas
-		cout << "soyblanca" << endl;
 		if (origen.y == 1) //posicion de salida de los peones
 		{
 			if ((res.y == 2 && res.x == 0) || (res.y == 1 && res.x == 0))

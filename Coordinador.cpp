@@ -92,31 +92,6 @@ void Coordinador::dibuja()
 		tablero.dibuja();
 		tablero.mueve(origen, destino);
 
-		/*if (movs == 0)
-		{
-			printf("yaestoy");
-
-			for (int i = 0; i < DIMENSION; i++)
-			{
-				for (int j=0 ;j < DIMENSION;j++)
-				{
-					//cout << tablero.pi[i][j]->colour << tablero.pi[i][j]->type << endl;
-					tablero.dibujaPiezas(i, j, 0);
-				}
-			}
-			
-		}
-
-		else 
-			for (int i = 0; i < DIMENSION; i++)
-			{
-				for (int j = 0;j < DIMENSION;j++)
-				{
-					
-					tablero.dibujaPiezas(i, j, 0);
-				}
-			}
-			*/
 
 	}
 	else if (estado == JvAI)

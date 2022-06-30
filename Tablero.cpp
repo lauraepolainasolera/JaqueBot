@@ -187,7 +187,7 @@ Pieza* Tablero::obtenerPieza(Vector2D v) {
 			if (pi[i][j]->pos.x == v.x && pi[i][j]->pos.y == v.y) { //sobrecargar operador igual
 				piezax = i;
 				piezay = j;
-				cout << "Esta es su pieza:" << piezax << piezay << endl;
+				//cout << "Esta es su pieza:" << piezax << piezay << endl;
 				return pi[piezax][piezay];
 			}
 			//cout << i << " " << j << " "<< pi[i][j]->pos.x<< " "<<pi[i][j]->pos.y<<endl;
@@ -224,8 +224,9 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	Pieza* dest = obtenerPieza(destino);
 
 	cout << orig->movimientoValido(origen, destino) << endl;
-	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false))
+	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento,orig))
 	{
+		movimiento++;
 		if (casillaVacia(destino))
 			setPieza(orig, dest);
 		else
@@ -241,11 +242,11 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 }
 
 bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
-	cout << "he entrado" << endl;
-	cout << "origen:" << origen.x << origen.y << endl;
-	cout << "destino:" << destino.x << destino.y << endl;
+	//cout << "he entrado" << endl;
+	//cout << "origen:" << origen.x << origen.y << endl;
+	//cout << "destino:" << destino.x << destino.y << endl;
 	Vector2D res = destino - origen;
-	cout << "resta" << res.x << res.y << endl;
+	//cout << "resta" << res.x << res.y << endl;
 
 	int ocupacion = 0;
 	if ((abs(res.x) == abs(res.y)) && (origen.x < destino.x) && (origen.y < destino.y)) { //diagonal con coordenadas x,y positiva
@@ -353,18 +354,32 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 				ocupacion++;
 		}
 	}
-	if (ocupacion >= 1)
+	if (ocupacion >= 1) {
+		cout << "hay un obstaculo" << endl;
 		return true;
+	}
 	else
 		return false; //tambien puede ser un caballo
 }
 
 bool Tablero::casillaVacia(Vector2D pos) {
-	cout << "soy casilla vacia" << endl;
+	//cout << "soy casilla vacia" << endl;
 	Pieza* p = obtenerPieza(pos);
-	cout << "soy del tipo" << obtenerTipo(p) << endl;
+	//cout << "soy del tipo" << obtenerTipo(p) << endl;
 	if (obtenerTipo(p) == VACIA)
 		return true;
 	else
 		return false;
+}
+
+bool Tablero::setTurno(int mov, Pieza* p) {
+	if ((mov % 2 == 0) && p->colour == BLANCA)
+		return true;
+	else if ((mov % 2 != 0) && p->colour == NEGRA)
+		return true;
+	else
+	{
+		cout << "es el turno del otro jugador" << endl;
+		return false;
+	}
 }
