@@ -210,8 +210,10 @@ void Tablero::setPieza(Pieza* origen, Pieza* destino) {
 void Tablero::comerPieza(Pieza* origen, Pieza *destino) {
 	Vector2D aux = { 0, 0};
 	aux = destino->pos;
+	destino->pos = { 6.2,6.2};
 	destino = new PiezaVacia();
-	destino->pos = { 0,0 };
+	cout << "soy la pieza comida" << destino->type << endl;
+	destino->pos = aux;
 	origen->pos = aux;
 	cout << "he comido" << endl;
 	dibujaPiezas();
