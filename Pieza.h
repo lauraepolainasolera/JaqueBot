@@ -12,7 +12,7 @@
 //#include "Mundo.h"
 using namespace std;
 
-enum tipo { TORRE, CABALLO, ALFIL, REY, REINA, PEON, VACIA }; //Torre,Caballo,Alfil, King,Queen,Peon, Vacia
+enum tipo { TORRE, CABALLO, ALFIL, REY, REINA, PEON, VACIA, MUERTE }; //Torre,Caballo,Alfil, King,Queen,Peon, Vacia, Muerte
 enum color { BLANCA, NEGRA };
 
 class Pieza

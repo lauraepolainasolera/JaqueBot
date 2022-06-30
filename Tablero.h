@@ -40,7 +40,10 @@
 		void dibuja();
 
 		void dibujaPiezas();
+	
 		//void dibujaPiezas(int, int,int);
+
+	
 
 		void inicializa();
 		void mueve(Vector2D origen, Vector2D destino);

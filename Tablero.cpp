@@ -24,71 +24,18 @@ Tablero::Tablero() {
 	{
 		for (int i = 0; i < DIMENSION; i++)
 		{
-			if ((j % 2) == 0 && (i % 2) == 0)
-			{
 				PosicionReal[i][j].x = -4.2 + (j * 1.2);
 				PosicionReal[i][j].y = 4.2 - (i * 1.2);
-				//m[i][j].setPosicion(i, j);
-			}
-
-			else if ((j % 2) != 0 && (i % 2) == 0)
-			{
-				PosicionReal[i][j].x = -4.2 + (j * 1.2);
-				PosicionReal[i][j].y = 4.2 - (i * 1.2);
-				//m[i][j].setPosicion(i, j);
-			}
-
-			else if ((j % 2) == 0 && (i % 2) != 0)
-			{
-				PosicionReal[i][j].x = -4.2 + (j * 1.2);
-				PosicionReal[i][j].y = 4.2 - (i * 1.2);
-				//PosicionReal[i][j].setPosicion(i, j);
-			}
-
-			else if ((j % 2) != 0 && (i % 2) != 0)
-			{
-				PosicionReal[i][j].x = -4.2 + (j * 1.2);
-				PosicionReal[i][j].y = 4.2 - (i * 1.2);
-				//m[i][j].setPosicion(i, j);
-			}
-
 		}
-
 	}
-
 }
 
 Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
 	int i = v.x;
 	int j = v.y;
-
-	if ((j % 2) == 0 && (i % 2) == 0)
-	{
 		PosicionReal[i][j].x = -4.2 + (j * 1.2);
 		PosicionReal[i][j].y = 4.2 - (i * 1.2);
-		//m[i][j].setPosicion(i, j);
-	}
 
-	else if ((j % 2) != 0 && (i % 2) == 0)
-	{
-		PosicionReal[i][j].x = -4.2 + (j * 1.2);
-		PosicionReal[i][j].y = 4.2 - (i * 1.2);
-		//m[i][j].setPosicion(i, j);
-	}
-
-	else if ((j % 2) == 0 && (i % 2) != 0)
-	{
-		PosicionReal[i][j].x = -4.2 + (j * 1.2);
-		PosicionReal[i][j].y = 4.2 - (i * 1.2);
-		//PosicionReal[i][j].setPosicion(i, j);
-	}
-
-	else if ((j % 2) != 0 && (i % 2) != 0)
-	{
-		PosicionReal[i][j].x = -4.2 + (j * 1.2);
-		PosicionReal[i][j].y = 4.2 - (i * 1.2);
-		//m[i][j].setPosicion(i, j);
-	}
 	return PosicionReal[i][j];
 }
 
@@ -126,9 +73,12 @@ void Tablero::dibujaPiezas()
 			Vector2D posR = { 0,0 };
 			posR = obtenerPosicionesReales(pi[i][j]->pos);
 			pi[i][j]->dibuja(posR);
-		}
+
+			cout << i << j << endl;
+		}		
 	}
 }
+
 
 
 void Tablero::inicializa()
@@ -210,7 +160,7 @@ void Tablero::setPieza(Pieza* origen, Pieza* destino) {
 void Tablero::comerPieza(Pieza* origen, Pieza *destino) {
 	Vector2D aux = { 0, 0};
 	aux = destino->pos;
-	destino->pos = { 6.2,6.2};
+	destino->pos = { 12, 12};
 	destino = new PiezaVacia();
 	cout << "soy la pieza comida" << destino->type << endl;
 	destino->pos = aux;
@@ -221,7 +171,7 @@ void Tablero::comerPieza(Pieza* origen, Pieza *destino) {
 
 void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
-
+	
 	Pieza* orig = obtenerPieza(origen);
 	Pieza* dest = obtenerPieza(destino);
 
@@ -230,11 +180,15 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	{
 		movimiento++;
 		if (casillaVacia(destino))
+		{
 			setPieza(orig, dest);
+		}
+
 		else
 			comerPieza(orig, dest);
 		//cout << "soy una pieza del tipo" << orig->type <<endl;
 		//cout << "la pieza se ha movido" << endl;
+
 	}
 	else
 	{
