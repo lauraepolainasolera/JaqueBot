@@ -207,11 +207,11 @@ void Tablero::setPieza(Pieza* origen, Pieza* destino) {
 	//cout << "soy la pieza origen y me he cambiado" << endl;
 }
 
-void Tablero::comerPieza(Pieza* origen, Pieza* destino) {
-	Vector2D aux;
+void Tablero::comerPieza(Pieza* origen, Pieza *destino) {
+	Vector2D aux = { 0, 0};
 	aux = destino->pos;
 	destino = new PiezaVacia();
-	destino->pos = aux;
+	destino->pos = { 0,0 };
 	origen->pos = aux;
 	cout << "he comido" << endl;
 	dibujaPiezas();
@@ -251,58 +251,65 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 	int ocupacion = 0;
 	if ((abs(res.x) == abs(res.y)) && (origen.x < destino.x) && (origen.y < destino.y)) { //diagonal con coordenadas x,y positiva
 		cout << "diagonal con coordenadas x,y positiva" << endl;
-		for (int i = origen.x + 1; i < destino.x; i++) {
-			for (int j = origen.y + 1; j < destino.y; j++) {
-				Vector2D v;
-				v.x = i;
-				v.y = j;
+		int i = origen.x + 1;
+		int j = origen.y + 1;
 
-				if (casillaVacia(v) == false)
-					ocupacion++;
-			}
+		while (i < destino.x && j<destino.y) {
+			Vector2D v;
+			v.x = i;
+			v.y = j;
+			if (casillaVacia(v) == false)
+				ocupacion++;
+			i++;
+			j++;
 		}
 	}
 
 	if ((abs(res.x) == abs(res.y)) && (origen.x > destino.x) && (origen.y > destino.y)) { //diagonal con coordenadas x,y negativa
 		cout << "diagonal con coordenadas x,y negativa" << endl;
-		for (int i = origen.x - 1; i > destino.x; i--) {
-			for (int j = origen.y - 1; j > destino.y; j--) {
-				Vector2D v;
-				v.x = i;
-				v.y = j;
+		int i = origen.x - 1;
+		int j = origen.y - 1;
 
-				if (casillaVacia(v) == false)
-					ocupacion++;
-			}
+		while (i > destino.x && j > destino.y) {
+			Vector2D v;
+			v.x = i;
+			v.y = j;
+			if (casillaVacia(v) == false)
+				ocupacion++;
+			i--;
+			j--;
 		}
 	}
 
 	if ((abs(res.x) == abs(res.y)) && (origen.x > destino.x) && (origen.y < destino.y)) { //diagonal con coordenadas x negativa, y positiva
 		cout << "diagonal con coordenadas x negativa y positiva" << endl;
-		for (int i = origen.x - 1; i > destino.x; i--) {
-			for (int j = origen.y + 1; j < destino.y; j++) {
-				Vector2D v;
-				v.x = i;
-				v.y = j;
+		int i = origen.x - 1;
+		int j = origen.y + 1;
 
-				if (casillaVacia(v) == false)
-					ocupacion++;
-			}
+		while (i > destino.x && j < destino.y) {
+			Vector2D v;
+			v.x = i;
+			v.y = j;
+			if (casillaVacia(v) == false)
+				ocupacion++;
+			i--;
+			j++;
 		}
 	}
 
 	if ((abs(res.x) == abs(res.y)) && (origen.x < destino.x) && (origen.y > destino.y)) { //diagonal con coordenadas x positiva, y negativa
 		cout << "diagonal con coordenadas x positiva y negativa" << endl;
-		for (int i = origen.x + 1; i < destino.x; i++) {
-			for (int j = origen.y - 1; j > destino.y; j--) {
-				Vector2D v;
-				v.x = i;
-				v.y = j;
-
-				if (casillaVacia(v) == false)
-					ocupacion++;
-
-			}
+		int i = origen.x + 1;
+		int j = origen.y-1;
+	
+		while (i < destino.x && j>destino.y) {
+			Vector2D v;
+			v.x = i;
+			v.y = j;
+			if (casillaVacia(v) == false)
+				ocupacion++;
+			i++;
+			j--;
 		}
 	}
 

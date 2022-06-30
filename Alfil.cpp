@@ -8,5 +8,4 @@ bool Alfil::movimientoValido(Vector2D origen, Vector2D destino) {
 		return true;
 	else
 		return false;
-
 }
