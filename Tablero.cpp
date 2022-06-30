@@ -169,6 +169,13 @@ void Tablero::inicializa()
 			}
 		}
 	}
+
+	for (int i = 0; i < DIMENSION; i++) {
+		for (int j = 0; j < DIMENSION; j++) {
+			pi[i][j]->pos.x = i;
+			pi[i][j]->pos.y = j;
+		}
+	}
 	
 }
 
