@@ -40,8 +40,7 @@ void Tablero::setLado(float l)
 void Tablero::dibuja()
 //Dibujo del tablero
 {
-
-	
+	//Dibujo de las casillas del tablero
 	glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/tablero0.png").id);
@@ -55,6 +54,23 @@ void Tablero::dibuja()
 	glEnd();
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
+
+	//Dibujo de las coordenadas del tablero
+	glEnable(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/CoordenadasTab.png").id);
+	glDisable(GL_LIGHTING);
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glTexCoord2d(0, 0); glVertex3f(5.7, 5.8, 0);
+	glTexCoord2d(1, 0); glVertex3f(5.7, -5.8, 0);
+	glTexCoord2d(1, 1); glVertex3f(-5.9, -5.8, 0);
+	glTexCoord2d(0, 1); glVertex3f(-5.9, 5.8, 0);
+	glEnd();
+	glEnable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	
+	
 }
 
 void Tablero::dibujaPiezas()
@@ -76,8 +92,8 @@ void Tablero::inicializaModoLocura()
 	int a;
 	int b;
 
-	a = rand() % DIMENSION - 1; 
-	b = rand() % DIMENSION - 1;
+	a = rand() %DIMENSION - 1; 
+	b = rand() %DIMENSION - 1;
 	
 	
 	pi[0][0] = new TorreBlanca();
@@ -88,7 +104,7 @@ void Tablero::inicializaModoLocura()
 	pi[5][0] = new AlfilBlanco();
 	pi[4][0] = new ReyBlanco();
 	pi[3][0] = new ReinaBlanca();
-	pi[0][7] = new TorreNegra();//.setPieza(Tab[0][0].p, T, B);
+	pi[0][7] = new TorreNegra();
 	pi[7][7] = new TorreNegra();
 	pi[1][7] = new CaballoNegro();
 	pi[6][7] = new CaballoNegro();
@@ -104,8 +120,6 @@ void Tablero::inicializaModoLocura()
 			}
 		}
 	}
-
-
 
 	for (int j = 0; j < DIMENSION; j++) {
 		if (a == j) {
@@ -132,8 +146,6 @@ void Tablero::inicializaModoLocura()
 	}
 
 }
-
-
 
 
 void Tablero::inicializa()
@@ -239,7 +251,6 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		{
 			setPieza(orig, dest);
 		}
-
 		else
 			comerPieza(orig, dest);
 		//cout << "soy una pieza del tipo" << orig->type <<endl;
@@ -392,10 +403,14 @@ bool Tablero::casillaVacia(Vector2D pos) {
 }
 
 bool Tablero::setTurno(int mov, Pieza* p) {
-	if ((mov % 2 == 0) && p->colour == BLANCA)
+	if ((mov % 2 == 0) && p->colour == BLANCA) {
+		cout << "Turno de negras" << endl;
 		return true;
-	else if ((mov % 2 != 0) && p->colour == NEGRA)
+	}
+	else if ((mov % 2 != 0) && p->colour == NEGRA){
+		cout << "Turno de blancas" << endl;
 		return true;
+	}
 	else
 	{
 		cout << "es el turno del otro jugador" << endl;

@@ -9,7 +9,7 @@ class CaballoBlanco :
 public:
 	SpriteSequence caballob;
 
-	CaballoBlanco() : Caballo(BLANCA), caballob("bin/caballoblanco.png", 1, 1, 20) { caballob.setCenter(0.6, 1); caballob.setSize(1.5, 1.5); }
+	CaballoBlanco() : Caballo(BLANCA), caballob("bin/caballoblanco.png", 1, 1, 20) { caballob.setCenter(0.6, 0.9); caballob.setSize(1.5, 1.5); }
 
 	virtual void dibuja(Vector2D p)
 	{

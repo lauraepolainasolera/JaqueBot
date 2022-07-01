@@ -9,7 +9,7 @@ class ReinaNegra :
 public:
 	SpriteSequence reinan;
 
-	ReinaNegra() : Reina(NEGRA), reinan("bin/reinanegra.png", 1, 1, 20) { reinan.setCenter(0.6, 1); reinan.setSize(1.5, 1.5); }
+	ReinaNegra() : Reina(NEGRA), reinan("bin/reinanegra.png", 1, 1, 20) { reinan.setCenter(0.6, 0.9); reinan.setSize(1.5, 1.5); }
 
 	virtual void dibuja(Vector2D p)
 	{

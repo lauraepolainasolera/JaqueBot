@@ -9,7 +9,7 @@ class AlfilNegro :
 public:
 	SpriteSequence alfiln;
 
-	AlfilNegro() : Alfil(NEGRA), alfiln("bin/alfilnegro.png", 1, 1, 20) { alfiln.setCenter(0.6, 1); alfiln.setSize(1.5, 1.5); }
+	AlfilNegro() : Alfil(NEGRA), alfiln("bin/alfilnegro.png", 1, 1, 20) { alfiln.setCenter(0.6, 0.9); alfiln.setSize(1.5, 1.5); }
 
 	virtual void dibuja(Vector2D p)
 	{

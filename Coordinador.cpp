@@ -8,6 +8,7 @@ Coordinador::Coordinador()
 {
 	estado = INICIO;
 	movs = 0;
+	a = 0;
 }
 
 /*void Coordinador::teclaEspecial(unsigned char key)
@@ -17,40 +18,27 @@ Coordinador::Coordinador()
 
 void Coordinador::tecla(unsigned char key)
 {
-
-	/*if (key == '0')
+	if (key == '0')
 	{
 		movs++;
-	}*/
+		a++;
+	}
 
 	if (estado == INICIO) {
 		if (key == '1') {
 			estado = ModoNormal;
-			printf("cambio");
+			cout << "Iniciando el Modo Normal. Espere unos momentos." << endl;
 			tablero.inicializa();
-			tablero.dibuja();
 			tablero.dibujaPiezas();
 		}
 		else if (key == '2') {
-			printf("cambio");
+			cout << "Iniciando el Modo Locura. Espere unos momentos." << endl;
 			estado = ModoLocura;
 			tablero.inicializaModoLocura();
-			tablero.dibuja();
 			tablero.dibujaPiezas();
 		}
-		else if (key == 'r')
-			estado = INICIO;
-
-		else if (key == 'c' || key == 'e') {
-			exit(0);
-		}
 	}
-	//else if (estado == ) {
-	//	//mundo.tecla(key);
-	//	if (key == 's' || key == 'S') {
-	//		exit(0);
-	//	}
-	}
+}
 
 
 void Coordinador::dibuja()
@@ -60,7 +48,7 @@ void Coordinador::dibuja()
 	ETSIDI::printxy("Ajedrez", -10, 11);
 
 	if (estado == INICIO) {
-		
+
 		glEnable(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_INICIO.png").id);
@@ -76,25 +64,29 @@ void Coordinador::dibuja()
 		glDisable(GL_TEXTURE_2D);
 
 	}
-	else if (estado == ModoNormal|| estado == ModoLocura) {
+	
+	else if (estado == ModoNormal || estado == ModoLocura) {
 		
 		Vector2D origen, destino;
 
-		cout << "introduce posciones origen" << endl;
+		tablero.dibuja();
+
+		if (a == 0) {
+			tablero.dibujaPiezas();
+			//cout << "Estoy en el if" << endl;
+			a++;
+		}
+		else {
+		cout << "Introduce posciones origen" << endl;
 		cin >> origen.x;
 		cin >> origen.y;
 		//cout << "las posiciones origen son" << origen.x << origen.y << endl;
-		cout << "introduce posciones destino" << endl;
+		cout << "Introduce posciones destino" << endl;
 		cin >> destino.x;
 		cin >> destino.y;
 		//cout << "las posiciones origen son" << destino.x << destino.y << endl;
-		
-		tablero.dibuja();
 		tablero.mueve(origen, destino);
-
-
-	}
-	
-
+		}
+	}	
 }
 
