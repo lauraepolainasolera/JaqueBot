@@ -24,20 +24,23 @@ void Coordinador::tecla(unsigned char key)
 	}*/
 
 	if (estado == INICIO) {
-		if (key == '1' ) {
+		if (key == '1') {
 			estado = ModoNormal;
 			printf("cambio");
 			tablero.inicializa();
 			tablero.dibuja();
 			tablero.dibujaPiezas();
 		}
-		else if (key == '2' ) {
+		else if (key == '2') {
 			printf("cambio");
 			estado = ModoLocura;
 			tablero.inicializaModoLocura();
 			tablero.dibuja();
 			tablero.dibujaPiezas();
 		}
+		else if (key == 'r')
+			estado = INICIO;
+
 		else if (key == 'c' || key == 'e') {
 			exit(0);
 		}
@@ -49,13 +52,6 @@ void Coordinador::tecla(unsigned char key)
 	//	}
 	}
 
-void Coordinador::mueve()
-{
-
-//gestiona cuando mueve cada jugador
-
-
-}
 
 void Coordinador::dibuja()
 {
@@ -81,6 +77,7 @@ void Coordinador::dibuja()
 
 	}
 	else if (estado == ModoNormal|| estado == ModoLocura) {
+		
 		Vector2D origen, destino;
 
 		cout << "introduce posciones origen" << endl;

@@ -1,7 +1,6 @@
 #pragma once
 #include "ETSIDI.h"
 #include "freeglut.h"
-#include "V2D.h"
 #include "Pieza.h"
 #include "Vector2D.h"
 
@@ -17,10 +16,6 @@
 		int movimiento = 0;
 
 	public:
-
-		//void eliminarPieza(V2D origen);
-		//void dibujarPieza(V2D destino);
-
 		Tablero();
 
 		//~Tablero();
@@ -29,10 +24,10 @@
 
 		Pieza* pi[DIMENSION][DIMENSION];
 
-		//Pieza p;
-
 		Vector2D obtenerPosicionesReales(Vector2D);
+
 		Pieza* obtenerPieza(Vector2D v);
+		
 		tipo obtenerTipo(Pieza* p) { return p->type; };
 
 		void setLado(float a);
@@ -42,17 +37,19 @@
 		void dibujaPiezas();
 
 		void inicializaModoLocura();
-	
-		//void dibujaPiezas(int, int,int);
-
-	
 
 		void inicializa();
+		
 		void mueve(Vector2D origen, Vector2D destino);
+		
 		void setPieza(Pieza* origen, Pieza* destino);
+		
 		bool obstaculo(Vector2D origen, Vector2D destino);
+		
 		bool casillaVacia(Vector2D pos);
+		
 		void comerPieza(Pieza* origen, Pieza *destino);
+		
 		bool setTurno(int movimiento, Pieza* p);
 
 	};

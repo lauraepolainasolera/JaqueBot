@@ -11,11 +11,10 @@ public:
 	int movs;
 
 	void tecla(unsigned char key);
-	void mueve();
+
 	void dibuja();
 
 protected:
-	//Tablero tablero;
 
 	enum Estado { INICIO, ModoNormal, ModoLocura, CONF };
 	Estado estado;

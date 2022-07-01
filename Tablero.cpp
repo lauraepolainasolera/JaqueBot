@@ -19,15 +19,6 @@ using ETSIDI::SpriteSequence;
 
 Tablero::Tablero() {
 	
-
-	for (int j = 0; j < DIMENSION;j++)
-	{
-		for (int i = 0; i < DIMENSION; i++)
-		{
-				PosicionReal[i][j].x = -4.2 + (j * 1.2);
-				PosicionReal[i][j].y = 4.2 - (i * 1.2);
-		}
-	}
 }
 
 Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
@@ -73,8 +64,6 @@ void Tablero::dibujaPiezas()
 			Vector2D posR = { 0,0 };
 			posR = obtenerPosicionesReales(pi[i][j]->pos);
 			pi[i][j]->dibuja(posR);
-
-			cout << i << j << endl;
 		}		
 	}
 }
@@ -83,6 +72,7 @@ void Tablero::dibujaPiezas()
 
 void Tablero::inicializaModoLocura()
 {
+
 	int a;
 	int b;
 
@@ -90,7 +80,7 @@ void Tablero::inicializaModoLocura()
 	b = rand() % DIMENSION - 1;
 	
 	
-pi[0][0] = new TorreBlanca();
+	pi[0][0] = new TorreBlanca();
 	pi[7][0] = new TorreBlanca();
 	pi[1][0] = new CaballoBlanco();
 	pi[6][0] = new CaballoBlanco();
@@ -98,7 +88,6 @@ pi[0][0] = new TorreBlanca();
 	pi[5][0] = new AlfilBlanco();
 	pi[4][0] = new ReyBlanco();
 	pi[3][0] = new ReinaBlanca();
-
 	pi[0][7] = new TorreNegra();//.setPieza(Tab[0][0].p, T, B);
 	pi[7][7] = new TorreNegra();
 	pi[1][7] = new CaballoNegro();
@@ -116,25 +105,25 @@ pi[0][0] = new TorreBlanca();
 		}
 	}
 
-	for (int i = 0; i < DIMENSION; i++) {
-		if (a = i) {
-			pi[1][i] = new TorreBlanca();
+
+
+	for (int j = 0; j < DIMENSION; j++) {
+		if (a == j) {
+			pi[j][1] = new TorreBlanca();
 		}
 		else 
-			pi[1][i] = new PeonBlanco();
+			pi[j][1] = new PeonBlanco();
 	}
 
-	for (int i = 0; i < DIMENSION; i++) {
-		if (b = i) {
-			pi[6][i] = new TorreNegra();
+	for (int j = 0; j < DIMENSION; j++) {
+		if (b == j) {
+			pi[j][6] = new TorreNegra();
 		}
 		else
-			pi[6][i] = new PeonNegro();
+			pi[j][6] = new PeonNegro();
 	}
 
 	
-
-
 	for (int i = 0; i < DIMENSION; i++) {
 		for (int j = 0; j < DIMENSION; j++) {
 			pi[i][j]->pos.x = i;
@@ -158,7 +147,7 @@ void Tablero::inicializa()
 	pi[4][0] = new ReyBlanco();
 	pi[3][0] = new ReinaBlanca();
 
-	pi[0][7] = new TorreNegra();//.setPieza(Tab[0][0].p, T, B);
+	pi[0][7] = new TorreNegra();
 	pi[7][7] = new TorreNegra();
 	pi[1][7] = new CaballoNegro();
 	pi[6][7] = new CaballoNegro();
@@ -185,6 +174,7 @@ void Tablero::inicializa()
 			}
 		}
 	}
+
 
 	for (int i = 0; i < DIMENSION; i++) {
 		for (int j = 0; j < DIMENSION; j++) {

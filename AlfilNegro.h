@@ -9,8 +9,6 @@ class AlfilNegro :
 public:
 	SpriteSequence alfiln;
 
-	//informarme de si se pueden poner ifs en constructores, si no, clases peon negro y peon blanco
-
 	AlfilNegro() : Alfil(NEGRA), alfiln("bin/alfilnegro.png", 1, 1, 20) { alfiln.setCenter(0.6, 1); alfiln.setSize(1.5, 1.5); }
 
 	virtual void dibuja(Vector2D p)
