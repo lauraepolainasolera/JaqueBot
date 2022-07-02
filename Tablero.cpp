@@ -477,3 +477,134 @@ bool Tablero::setTurno(int mov, Pieza* p) {
 	}
 }
 
+
+bool Tablero::jaque(Vector2D rey, Pieza* ataq)
+{
+	if (ataq->movimientoValido(ataq->pos, rey) && obstaculo(rey, ataq->pos) == false) {
+		//cout << "jaque" << endl;
+		return true;
+	}
+	else return false;
+}
+
+int Tablero::jaqueReal()
+{
+	if (movimiento % 2 == 0) {
+		for (int i = 0; i < DIMENSION; i++) {
+			for (int j = 0; j < DIMENSION; j++) {
+				Vector2D pos = { float(i),float(j) };
+				Pieza* aux = obtenerPieza(pos);
+				if (aux->type == REY && aux->colour == NEGRA) {
+					//cout << "Tengo un rey de color "<< aux->colour << endl;
+					for (int k = 0; k < DIMENSION; k++) {
+						for (int l = 0; l < DIMENSION; l++) {
+							Vector2D pos2 = { float(k), float(l) };
+							Pieza* aux2 = obtenerPieza(pos2);
+							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
+							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
+								//cout << "Evita" << endl;
+								continue;
+							}
+							if (jaque(pos, aux2)) {
+								cout << "jaque NEGRAS1" << endl;
+								return 1;
+							}
+						}
+					}
+				}
+				else if (aux->type == REY && aux->colour == BLANCA) {
+					//cout << "Tengo un rey de color "<< aux->colour << endl;
+					for (int k = 0; k < DIMENSION; k++) {
+						for (int l = 0; l < DIMENSION; l++) {
+							Vector2D pos2 = { float(k), float(l) };
+							Pieza* aux2 = obtenerPieza(pos2);
+							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
+							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
+								//cout << "Evita" << endl;
+								continue;
+							}
+							if (jaque(pos, aux2)) {
+								cout << "jaque BLANCAS1" << endl;
+								return 2;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < DIMENSION; i++) {
+			for (int j = 0; j < DIMENSION; j++) {
+				Vector2D pos = { float(i),float(j) };
+				Pieza* aux = obtenerPieza(pos);
+				if (aux->type == REY && aux->colour == BLANCA) {
+					//cout << "Tengo un rey de color "<< aux->colour << endl;
+					for (int k = 0; k < DIMENSION; k++) {
+						for (int l = 0; l < DIMENSION; l++) {
+							Vector2D pos2 = { float(k), float(l) };
+							Pieza* aux2 = obtenerPieza(pos2);
+							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
+							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
+								//cout << "Evita" << endl;
+								continue;
+							}
+							if (jaque(pos, aux2)) {
+								cout << "jaque BLANCAS2" << endl;
+								return 2;
+							}
+						}
+					}
+				}
+				else if (aux->type == REY && aux->colour == NEGRA) {
+					//cout << "Tengo un rey de color "<< aux->colour << endl;
+					for (int k = 0; k < DIMENSION; k++) {
+						for (int l = 0; l < DIMENSION; l++) {
+							Vector2D pos2 = { float(k), float(l) };
+							Pieza* aux2 = obtenerPieza(pos2);
+							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
+							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
+								//cout << "Evita" << endl;
+								continue;
+							}
+							if (jaque(pos, aux2)) {
+								cout << "jaque NEGRAS2" << endl;
+								return 1;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+
+bool Tablero::evaluaEnclavamiento()
+{
+	int jr = jaqueReal();
+	cout << "Hay jaque del tipo" << jr << endl;
+	if (jr == 1 && movimiento % 2 == 0) {
+		//cout << "jaque" << endl;
+		movimiento++;
+		cout << "es el turno de las negras" << endl;
+		return false;
+	}
+	else if (jr == 2 && movimiento % 2 == 0) {
+		cout << "Con ese movimiento te produces un jaque" << endl;
+		return true;
+	}
+	else if (jr == 1 && movimiento % 2 == 1) {
+		cout << "Con ese movimiento te produces un jaque" << endl;
+		return true;
+	}
+	else if (jr == 2 && movimiento % 2 == 1) {
+		//cout << "jaque" << endl;
+		movimiento++;
+		cout << "es el turno de las blancas" << endl;
+		return false;
+	}
+	else movimiento++; return false;
+}
+

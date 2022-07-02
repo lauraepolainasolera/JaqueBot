@@ -51,5 +51,8 @@
 		bool casillaVacia(Vector2D pos);
 		bool setTurno(int movimiento, Pieza* p);
 
+		bool jaque(Vector2D rey, Pieza* ataq);
+		int jaqueReal();
+		bool evaluaEnclavamiento();
 	};
 
