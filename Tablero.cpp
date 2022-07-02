@@ -213,14 +213,14 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
 	cout << orig->movimientoValido(origen, destino) << endl;
 	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino)){
-		movimiento++;
+		//movimiento++;
 		setPieza(orig, dest);
 		if (evaluaEnclavamiento()) setPieza(dest, orig);
 		coronar(orig);				//comprueba si la pieza ha coronado
 	}
 
 	else if (orig->movimientoComer(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && (casillaVacia(destino) == false) && (dest->colour != orig->colour)){
-		movimiento++;
+		//movimiento++;
 		comerPieza(orig, dest);
 		if (evaluaEnclavamiento()) setPieza(dest, orig);
 		coronar(orig);
