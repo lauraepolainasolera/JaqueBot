@@ -249,7 +249,10 @@ void Tablero::comerPieza(Pieza* origen, Pieza *destino) {
 	origen->pos = aux;										//se intercambian las posiciones de las piezas
 	destino->pos = aux2;
 	
-	cambiarTipoPieza(destino, VACIA, BLANCA);
+	destino=cambiarTipoPieza(destino, VACIA, BLANCA,aux2);
+	
+	cout << "posicion pieza vacia nueva" << destino->pos.x << destino->pos.y << endl;
+
 	dibujaPiezas();
 
 }
@@ -264,23 +267,23 @@ void Tablero::coronar(Pieza* p) {
 		cin >> letra;
 		switch (letra) {
 		case 'r':
-			cambiarTipoPieza(p, REINA, p->colour);
+			cambiarTipoPieza(p, REINA, p->colour,aux);
 			p->pos = aux;
 			break;
 		case 't':
-			cambiarTipoPieza(p, TORRE, p->colour);
+			cambiarTipoPieza(p, TORRE, p->colour,aux);
 			p->pos = aux;
 			break;
 		case 'a':
-			cambiarTipoPieza(p, ALFIL, p->colour);
+			cambiarTipoPieza(p, ALFIL, p->colour,aux);
 			p->pos = aux;
 			break;
 		case 'c':
-			cambiarTipoPieza(p, CABALLO, p->colour);
+			cambiarTipoPieza(p, CABALLO, p->colour,aux);
 			p->pos = aux;
 			break;
 		case 'p':
-			cambiarTipoPieza(p, PEON, p->colour);
+			cambiarTipoPieza(p, PEON, p->colour,aux);
 			p->pos = aux;
 			break;
 		}
@@ -288,7 +291,7 @@ void Tablero::coronar(Pieza* p) {
 	}
 }
 
-void Tablero::cambiarTipoPieza(Pieza* p, tipo t, color c) {
+Pieza* Tablero::cambiarTipoPieza(Pieza* p, tipo t, color c, Vector2D posicion) {
 	Vector2D puntero = { 0,0 };
 	puntero = obtenerPunteroPieza(p->pos);
 	delete pi[(int)puntero.x][(int)puntero.y];				//eliminamos el puntero de la pieza comida
@@ -296,6 +299,7 @@ void Tablero::cambiarTipoPieza(Pieza* p, tipo t, color c) {
 	switch (t) {
 	case VACIA:
 		pi[(int)puntero.x][(int)puntero.y] = new PiezaVacia(); //creamos ese mismo puntero, pero de la clase concreta
+		cout << "la posicion en la funcion es" << pi[(int)puntero.x][(int)puntero.y]->pos.x << pi[(int)puntero.x][(int)puntero.y]->pos.y << endl;
 		break;
 	case ALFIL:
 		if (c == BLANCA)
@@ -329,6 +333,10 @@ void Tablero::cambiarTipoPieza(Pieza* p, tipo t, color c) {
 		break;
 
 	}
+
+	pi[(int)puntero.x][(int)puntero.y]->pos = posicion;
+	return pi[(int)puntero.x][(int)puntero.y];
+
 }
 
 
@@ -494,13 +502,15 @@ int Tablero::jaqueReal()
 	if (movimiento % 2 == 0) {
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
-				Vector2D pos = { float(i),float(j) };
+				Vector2D pos = { 0,0 };
+				pos.x = i;
+				pos.y = j;
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type == REY && aux->colour == NEGRA) {
 					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { float(k), float(l) };
+							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
 							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
 							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
@@ -518,7 +528,7 @@ int Tablero::jaqueReal()
 					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { float(k), float(l) };
+							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
 							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
 							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
@@ -538,13 +548,14 @@ int Tablero::jaqueReal()
 	else {
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
-				Vector2D pos = { float(i),float(j) };
+				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
+
 				if (aux->type == REY && aux->colour == BLANCA) {
 					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { float(k), float(l) };
+							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
 							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
 							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
@@ -562,7 +573,7 @@ int Tablero::jaqueReal()
 					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { float(k), float(l) };
+							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
 							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
 							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {

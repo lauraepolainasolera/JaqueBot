@@ -45,7 +45,7 @@
 		void setPieza(Pieza* origen, Pieza* destino);
 		void comerPieza(Pieza* origen, Pieza* destino);
 		void coronar(Pieza* origen);
-		void cambiarTipoPieza(Pieza* origen, tipo t, color c);
+		Pieza* cambiarTipoPieza(Pieza* origen, tipo t, color c, Vector2D pos);
 
 		bool obstaculo(Vector2D origen, Vector2D destino);
 		bool casillaVacia(Vector2D pos);
