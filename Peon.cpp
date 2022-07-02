@@ -14,7 +14,7 @@ bool Peon::movimientoValido(Vector2D origen, Vector2D destino) {
 				return false;
 		}
 		else {  //posicion en el resto del tablero
-			if (res.y <= 7 && res.x == 0)
+			if (res.y ==1 && res.x == 0)
 				return true;
 			else
 				return false;
