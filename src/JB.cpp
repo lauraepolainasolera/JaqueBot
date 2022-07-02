@@ -135,7 +135,6 @@ void raton(int boton, int est, int x, int y)
 		{
 			master.tablero.getRaton().Izq = true;
 			std::cout << std::endl << "x: " << master.tablero.getRaton().Pos.x << std::endl << "y: " << master.tablero.getRaton().Pos.y << std::endl;
-			if (master.tablero.seleccionarCasilla() != NULL) std::cout << master.tablero.seleccionarCasilla()->x << ", " << master.tablero.seleccionarCasilla()->y << std::endl;
 		}
 		else if (est == GLUT_UP)
 		{
