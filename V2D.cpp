@@ -5,5 +5,4 @@ V2D V2D:: operator - (V2D v) {
 	res.x = x - v.x;
 	res.y = y - v.y;
 	return res;
-
 }

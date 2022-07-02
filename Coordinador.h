@@ -7,7 +7,7 @@ class Coordinador
 public:
 	Coordinador();
 	//virtual ~Coordinador();
-	
+	Tablero tablero;
 	int movs;
 
 	void tecla(unsigned char key);
@@ -15,8 +15,6 @@ public:
 	void dibuja();
 
 protected:
-	//Tablero tablero;
-
 	enum Estado { INICIO, JvJ, JvAI, CONF };
 	Estado estado;
 };

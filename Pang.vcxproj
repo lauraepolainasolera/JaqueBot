@@ -30,6 +30,7 @@
     <ClCompile Include="PeonBlanco.cpp" />
     <ClCompile Include="PeonNegro.cpp" />
     <ClCompile Include="Pieza.cpp" />
+    <ClCompile Include="Raton.cpp" />
     <ClCompile Include="Reina.cpp" />
     <ClCompile Include="ReinaBlanca.cpp" />
     <ClCompile Include="ReinaNegra.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="PeonBlanco.h" />
     <ClInclude Include="PeonNegro.h" />
     <ClInclude Include="Pieza.h" />
+    <ClInclude Include="Raton.h" />
     <ClInclude Include="Reina.h" />
     <ClInclude Include="ReinaBlanca.h" />
     <ClInclude Include="ReinaNegra.h" />

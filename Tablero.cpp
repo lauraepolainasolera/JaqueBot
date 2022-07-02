@@ -62,7 +62,7 @@ void Tablero::dibuja()
 void Tablero::dibujaPiezas(int movs)
 {
 	
-	moverPiezas();
+	//moverPiezas();
 
 	for (int i = 0; i < DIMENSION; i++) {  //X
 		for (int j = 0; j < DIMENSION; j++) { //Y
@@ -144,7 +144,13 @@ void Tablero::inicializa()
 
 void Tablero::moverPiezas()
 {
-	V2D origen;
+	V2D origen, destino;
+	bool flag;
+
+	if (&origen != NULL) {
+		
+	}
+	/*V2D origen;
 	V2D destino;
 	Pieza* aux;
 	Pieza* piaux;
@@ -193,8 +199,7 @@ void Tablero::moverPiezas()
 
 		
 		turno = 0;
-	}
-
+	}*/
 }
 
 bool Tablero::igualdadTipo(Pieza* p, Pieza* m)
@@ -202,8 +207,36 @@ bool Tablero::igualdadTipo(Pieza* p, Pieza* m)
 	if (p->type == m->type) return true;
 	else return false;
 }
+
 bool Tablero::igualdadColor(Pieza* p, Pieza* m)
 {
 	if (p->colour == m->colour) return true;
 	else return false;
+}
+
+V2D* Tablero::seleccionarCasilla() {
+	if (raton.Estado == GLUT_DOWN) {
+		V2D aux;
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (raton.pulsaRect(145 + 68 * j, 35 + 67 * i, 180 + 68 * j, 95 + 67 * i) && pi[i][j] != NULL) {
+					aux.x = i; aux.y = j;
+					return &aux;
+				}
+			}
+		}
+	}
+	return NULL;
+}
+
+bool Tablero::seleccionarOrigen() {
+
+}
+
+bool Tablero::seleccionarDestino() {
+
+}
+
+Raton& Tablero::getRaton() {
+	return raton;
 }

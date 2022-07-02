@@ -4,6 +4,7 @@
 #include "V2D.h"
 #include "Pieza.h"
 #include "Vector2D.h"
+#include "Raton.h"
 
 #define DIMENSION 8
 
@@ -12,6 +13,7 @@
 	class Tablero
 	{
 	private:
+		Raton raton;
 
 		float lado;
 
@@ -45,6 +47,14 @@
 		bool igualdadTipo(Pieza* p, Pieza* m);
 
 		bool igualdadColor(Pieza* p, Pieza* m);
+
+		V2D* seleccionarCasilla();
+
+		bool seleccionarOrigen();
+
+		bool seleccionarDestino();
+
+		Raton& getRaton();
 
 
 	};

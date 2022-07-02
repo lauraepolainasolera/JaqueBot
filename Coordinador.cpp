@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Tablero tablero;
+
 
 Coordinador::Coordinador()
 {
