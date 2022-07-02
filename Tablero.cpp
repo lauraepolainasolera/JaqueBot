@@ -144,13 +144,7 @@ void Tablero::inicializa()
 
 void Tablero::moverPiezas()
 {
-	V2D origen, destino;
-	bool flag;
-
-	if (&origen != NULL) {
-		
-	}
-	/*V2D origen;
+	V2D origen;
 	V2D destino;
 	Pieza* aux;
 	Pieza* piaux;
@@ -199,7 +193,7 @@ void Tablero::moverPiezas()
 
 		
 		turno = 0;
-	}*/
+	}
 }
 
 bool Tablero::igualdadTipo(Pieza* p, Pieza* m)
@@ -227,14 +221,6 @@ V2D* Tablero::seleccionarCasilla() {
 		}
 	}
 	return NULL;
-}
-
-bool Tablero::seleccionarOrigen() {
-
-}
-
-bool Tablero::seleccionarDestino() {
-
 }
 
 Raton& Tablero::getRaton() {
