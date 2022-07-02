@@ -119,18 +119,6 @@ void Tablero::dibuja()
 	glDisable(GL_TEXTURE_2D);
 }
 
-void Tablero::dibujaPiezas()
-{
-	for (int i = 0; i < DIMENSION; i++) {
-		for (int j = 0; j < DIMENSION; j++) {
-			Vector2D posR = { 0,0 };
-			posR = obtenerPosicionesReales(pi[i][j]->pos);
-			pi[i][j]->dibuja(posR);
-		}
-	}
-}
-
-
 void Tablero::inicializa()
 {
 	pi[0][0] = new TorreBlanca();
@@ -179,6 +167,17 @@ void Tablero::inicializa()
 	
 }
 
+void Tablero::dibujaPiezas()
+{
+	for (int i = 0; i < DIMENSION; i++) {
+		for (int j = 0; j < DIMENSION; j++) {
+			Vector2D posR = { 0,0 };
+			posR = obtenerPosicionesReales(pi[i][j]->pos);
+			pi[i][j]->dibuja(posR);
+		}
+	}
+}
+
 
 Pieza* Tablero::obtenerPieza(Vector2D v) {
 	int piezax = 0, piezay = 0;
@@ -208,6 +207,34 @@ Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
 	}
 }
 
+void Tablero::mueve(Vector2D origen, Vector2D destino) {
+	cout << "es el movimiento numero " << movimiento << endl;
+
+	Pieza* orig = obtenerPieza(origen);
+	Pieza* dest = obtenerPieza(destino);
+
+	cout << orig->movimientoValido(origen, destino) << endl;
+	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino))
+	{
+		movimiento++;
+		setPieza(orig, dest);
+		coronar(orig);				//comprueba si la pieza ha coronado
+	}
+
+	else if (orig->movimientoComer(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && (casillaVacia(destino) == false) && (dest->colour != orig->colour))
+	{
+			movimiento++;
+			comerPieza(orig, dest);
+			coronar(orig);
+	}
+
+	else
+	{
+		cout << "movimiento invalido" << endl;
+		dibujaPiezas();
+	}
+}
+
 void Tablero::setPieza(Pieza* origen, Pieza* destino) {
 	Vector2D aux;
 	//cout << "mi origen era" << origen->pos.x << origen->pos.y << endl;
@@ -224,51 +251,100 @@ void Tablero::comerPieza(Pieza* origen, Pieza *destino) {
 	Vector2D aux = { 0, 0}, aux2 = { 0, 0 };
 	aux = destino->pos;
 	aux2 = origen->pos;
-	Vector2D puntero;
+	//Vector2D puntero;
 	
-	origen->pos = aux;
+	origen->pos = aux;										//se intercambian las posiciones de las piezas
 	destino->pos = aux2;
 	
-	puntero= obtenerPunteroPieza(destino->pos);
-
-	delete pi[(int)puntero.x][(int)puntero.y];
-	pi[(int)puntero.x][(int)puntero.y] = new PiezaVacia();
-	pi[(int)puntero.x][(int)puntero.y]->pos = aux2;
-
+	cambiarTipoPieza(destino, VACIA, BLANCA);
 	dibujaPiezas();
 
-	cout << "soy la pieza comida" << destino->type << endl;
-	  //situa la pieza vacia en la posicion correpondiente
-	cout << "soy la pieza comida y tengo la posicion" << destino->pos.x << destino->pos.y << endl;
+	//cout << "soy la pieza comida" << destino->type << endl;
+	//cout << "soy la pieza comida y tengo la posicion" << destino->pos.x << destino->pos.y << endl;
 	
 	cout << "he comido" << endl;
 }
 
-void Tablero::mueve(Vector2D origen, Vector2D destino) {
-	cout << "es el movimiento numero " << movimiento << endl;
+void Tablero::coronar(Pieza* p) {
+	char letra;
 
-	Pieza* orig = obtenerPieza(origen);
-	Pieza* dest = obtenerPieza(destino);
+	Vector2D aux = p->pos;
 
-	cout << orig->movimientoValido(origen, destino) << endl;
-	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento,orig) && casillaVacia(destino))
-	{
-		movimiento++;
-		setPieza(orig, dest);
-	}
-
-	else if (orig->movimientoComer(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && (casillaVacia(destino) == false))
-	{
-		movimiento++;
-		comerPieza(orig, dest);
-	}
-
-	else
-	{
-		cout << "movimiento invalido" << endl;
+	if ((p->colour == BLANCA && p->pos.y == 7 && p->type == PEON) || (p->colour == NEGRA && p->pos.y == 1 && p->type == PEON)) {
+		cout << "Has coronado. Pulsa la inicial de la pieza que quieras" << endl;
+		cin >> letra;
+		switch (letra) {
+		case 'r':
+			cambiarTipoPieza(p, REINA, p->colour);
+			p->pos = aux;
+			break;
+		case 't':
+			cambiarTipoPieza(p, TORRE, p->colour);
+			p->pos = aux;
+			break;
+		case 'a':
+			cambiarTipoPieza(p, ALFIL, p->colour);
+			p->pos = aux;
+			break;
+		case 'c':
+			cambiarTipoPieza(p, CABALLO, p->colour);
+			p->pos = aux;
+			break;
+		case 'p':
+			cambiarTipoPieza(p, PEON, p->colour);
+			p->pos = aux;
+			break;
+		}
 		dibujaPiezas();
 	}
 }
+
+void Tablero::cambiarTipoPieza(Pieza* p, tipo t, color c) {
+	Vector2D puntero = { 0,0 };
+	puntero = obtenerPunteroPieza(p->pos);
+	delete pi[(int)puntero.x][(int)puntero.y];				//eliminamos el puntero de la pieza comida
+
+	switch (t) {
+	case VACIA:
+		pi[(int)puntero.x][(int)puntero.y] = new PiezaVacia(); //creamos ese mismo puntero, pero de la clase concreta
+		break;
+	case ALFIL:
+		if (c == BLANCA)
+			pi[(int)puntero.x][(int)puntero.y] = new AlfilBlanco();
+		else
+			pi[(int)puntero.x][(int)puntero.y] = new AlfilNegro();
+		break;
+	case CABALLO:
+		if (c == BLANCA)
+			pi[(int)puntero.x][(int)puntero.y] = new CaballoBlanco();
+		else
+			pi[(int)puntero.x][(int)puntero.y] = new CaballoNegro();
+		break;
+	case TORRE:
+		if (c == BLANCA)
+			pi[(int)puntero.x][(int)puntero.y] = new TorreBlanca();
+		else
+			pi[(int)puntero.x][(int)puntero.y] = new TorreNegra();
+		break;
+	case REINA:
+		if (c == BLANCA)
+			pi[(int)puntero.x][(int)puntero.y] = new ReinaBlanca();
+		else
+			pi[(int)puntero.x][(int)puntero.y] = new ReinaNegra();
+		break;
+	case PEON:
+		if (c == BLANCA)
+			pi[(int)puntero.x][(int)puntero.y] = new PeonBlanco();
+		else
+			pi[(int)puntero.x][(int)puntero.y] = new PeonNegro();
+		break;
+
+	}
+}
+
+
+
+
 
 bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 	//cout << "he entrado" << endl;
@@ -402,7 +478,7 @@ bool Tablero::casillaVacia(Vector2D pos) {
 	//cout << "soy casilla vacia" << endl;
 	Pieza* p = obtenerPieza(pos);
 	//cout << "soy del tipo" << obtenerTipo(p) << endl;
-	if (obtenerTipo(p) == VACIA)
+	if (p->type == VACIA)
 		return true;
 	else
 		return false;
@@ -419,3 +495,4 @@ bool Tablero::setTurno(int mov, Pieza* p) {
 		return false;
 	}
 }
+

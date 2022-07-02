@@ -35,21 +35,20 @@
 		Pieza* obtenerPieza(Vector2D v);
 		Vector2D obtenerPunteroPieza(Vector2D v);
 
-		tipo obtenerTipo(Pieza* p) { return p->type; };
-
 		void setLado(float a);
 
-		void dibuja();
-
-		void dibujaPiezas();
-		//void dibujaPiezas(int, int,int);
-
 		void inicializa();
+		void dibuja();
+		void dibujaPiezas();
+
 		void mueve(Vector2D origen, Vector2D destino);
 		void setPieza(Pieza* origen, Pieza* destino);
+		void comerPieza(Pieza* origen, Pieza* destino);
+		void coronar(Pieza* origen);
+		void cambiarTipoPieza(Pieza* origen, tipo t, color c);
+
 		bool obstaculo(Vector2D origen, Vector2D destino);
 		bool casillaVacia(Vector2D pos);
-		void comerPieza(Pieza* origen, Pieza *destino);
 		bool setTurno(int movimiento, Pieza* p);
 
 	};

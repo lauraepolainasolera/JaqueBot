@@ -14,7 +14,7 @@ bool Peon::movimientoValido(Vector2D origen, Vector2D destino) {
 				return false;
 		}
 		else {  //posicion en el resto del tablero
-			if (res.y == 1 && res.x == 0)
+			if (res.y <= 7 && res.x == 0)
 				return true;
 			else
 				return false;
@@ -39,22 +39,7 @@ bool Peon::movimientoValido(Vector2D origen, Vector2D destino) {
 	}
 }
 
-//bool Peon::comerPeon(Vector2D origen, Vector2D destino){
-//	Vector2D res = destino - origen;
-//	if (colour == BLANCA) {
-//		if (abs(res.x) == 1 && res.y == 1)
-//			return true;
-//		else
-//			return false;
-//	}
-//	else {
-//		if (abs(res.x) == 1 && res.y == -1)
-//			return true;
-//		else
-//			return false;
-//	}
-//	
-//}
+
 
 bool Peon::movimientoComer(Vector2D origen, Vector2D destino) {
 	Vector2D res = destino - origen;
