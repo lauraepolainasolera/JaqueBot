@@ -1,12 +1,5 @@
 #include "Rey.h"
 
-//void Rey::mueve(Vector2D origen, Vector2D destino)
-//{
-//	bool mov = movimientoValido(origen,destino);
-//	//eliminarPieza(origen);
-//	//dibujarPieza(destino);
-//}
-
 bool Rey::movimientoValido(Vector2D origen, Vector2D destino)
 {
 	Vector2D res = destino - origen;
@@ -19,4 +12,9 @@ bool Rey::movimientoValido(Vector2D origen, Vector2D destino)
 		return true;
 	else
 		return false;
+}
+
+
+bool Rey::movimientoComer(Vector2D origen, Vector2D destino) {
+	return movimientoValido(origen, destino);  //come en la misma direccion que se mueve
 }

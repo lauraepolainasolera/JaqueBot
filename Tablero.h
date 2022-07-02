@@ -33,6 +33,8 @@
 
 		Vector2D obtenerPosicionesReales(Vector2D);
 		Pieza* obtenerPieza(Vector2D v);
+		Vector2D obtenerPunteroPieza(Vector2D v);
+
 		tipo obtenerTipo(Pieza* p) { return p->type; };
 
 		void setLado(float a);

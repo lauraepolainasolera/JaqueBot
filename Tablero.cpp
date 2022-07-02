@@ -195,6 +195,19 @@ Pieza* Tablero::obtenerPieza(Vector2D v) {
 	}
 }
 
+Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
+	Vector2D punt = { 0,0 };
+	for (int i = 0; i < DIMENSION; i++) {
+		for (int j = 0; j < DIMENSION; j++) {
+			if (pi[i][j]->pos.x == v.x && pi[i][j]->pos.y == v.y) { //sobrecargar operador igual
+				punt.x = i;
+				punt.y = j;
+				return punt;
+			}
+		}
+	}
+}
+
 void Tablero::setPieza(Pieza* origen, Pieza* destino) {
 	Vector2D aux;
 	//cout << "mi origen era" << origen->pos.x << origen->pos.y << endl;
@@ -208,34 +221,48 @@ void Tablero::setPieza(Pieza* origen, Pieza* destino) {
 }
 
 void Tablero::comerPieza(Pieza* origen, Pieza *destino) {
-	Vector2D aux = { 0, 0};
+	Vector2D aux = { 0, 0}, aux2 = { 0, 0 };
 	aux = destino->pos;
-	destino->pos = { 6.2,6.2};
-	destino = new PiezaVacia();
-	cout << "soy la pieza comida" << destino->type << endl;
-	destino->pos = aux;
+	aux2 = origen->pos;
+	Vector2D puntero;
+	
 	origen->pos = aux;
-	cout << "he comido" << endl;
+	destino->pos = aux2;
+	
+	puntero= obtenerPunteroPieza(destino->pos);
+
+	delete pi[(int)puntero.x][(int)puntero.y];
+	pi[(int)puntero.x][(int)puntero.y] = new PiezaVacia();
+	pi[(int)puntero.x][(int)puntero.y]->pos = aux2;
+
 	dibujaPiezas();
+
+	cout << "soy la pieza comida" << destino->type << endl;
+	  //situa la pieza vacia en la posicion correpondiente
+	cout << "soy la pieza comida y tengo la posicion" << destino->pos.x << destino->pos.y << endl;
+	
+	cout << "he comido" << endl;
 }
 
 void Tablero::mueve(Vector2D origen, Vector2D destino) {
-
+	cout << "es el movimiento numero " << movimiento << endl;
 
 	Pieza* orig = obtenerPieza(origen);
 	Pieza* dest = obtenerPieza(destino);
 
 	cout << orig->movimientoValido(origen, destino) << endl;
-	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento,orig))
+	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento,orig) && casillaVacia(destino))
 	{
 		movimiento++;
-		if (casillaVacia(destino))
-			setPieza(orig, dest);
-		else
-			comerPieza(orig, dest);
-		//cout << "soy una pieza del tipo" << orig->type <<endl;
-		//cout << "la pieza se ha movido" << endl;
+		setPieza(orig, dest);
 	}
+
+	else if (orig->movimientoComer(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && (casillaVacia(destino) == false))
+	{
+		movimiento++;
+		comerPieza(orig, dest);
+	}
+
 	else
 	{
 		cout << "movimiento invalido" << endl;

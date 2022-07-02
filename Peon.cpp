@@ -38,3 +38,37 @@ bool Peon::movimientoValido(Vector2D origen, Vector2D destino) {
 		}
 	}
 }
+
+//bool Peon::comerPeon(Vector2D origen, Vector2D destino){
+//	Vector2D res = destino - origen;
+//	if (colour == BLANCA) {
+//		if (abs(res.x) == 1 && res.y == 1)
+//			return true;
+//		else
+//			return false;
+//	}
+//	else {
+//		if (abs(res.x) == 1 && res.y == -1)
+//			return true;
+//		else
+//			return false;
+//	}
+//	
+//}
+
+bool Peon::movimientoComer(Vector2D origen, Vector2D destino) {
+	Vector2D res = destino - origen;
+	if (colour == BLANCA) {
+		if (abs(res.x) == 1 && res.y == 1)
+			return true;
+		else
+			return false;
+	}
+	else {
+		if (abs(res.x) == 1 && res.y == -1)
+			return true;
+		else
+			return false;
+	}
+
+}

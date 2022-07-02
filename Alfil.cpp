@@ -9,3 +9,7 @@ bool Alfil::movimientoValido(Vector2D origen, Vector2D destino) {
 	else
 		return false;
 }
+
+bool Alfil::movimientoComer(Vector2D origen, Vector2D destino) {
+	return movimientoValido(origen,destino);  //come en la misma direccion que se mueve
+}
