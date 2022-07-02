@@ -29,6 +29,7 @@ Coordinador master;
 
 void OnKeyboardDown(unsigned char key, int x, int y);
 //void onSpecialKeyboardDown(int key, int x, int y);
+void raton(int boton, int est, int x, int y);
 void OnDraw(void);
 void OnTimer(int value);
 //void inicio();
@@ -55,6 +56,7 @@ int main(int argc,char* argv[])
 	gluPerspective( 40.0, 800/600.0f, 0.1, 150);
 
 	//Registrar los callbacks
+	glutMouseFunc(raton);
 	glutDisplayFunc(OnDraw);
 	glutTimerFunc(25,OnTimer,0);//le decimos que dentro de 25ms llame 1 vez a la funcion OnTimer()
 	glutKeyboardFunc(OnKeyboardDown);
@@ -122,3 +124,29 @@ void OnTimer(int value)
 	glutPostRedisplay();
 }
 
+void raton(int boton, int est, int x, int y)
+{
+	master.tablero.getRaton().Pos.x = x;
+	master.tablero.getRaton().Pos.y = y;
+
+	if (boton == GLUT_LEFT_BUTTON)
+	{
+		if (est == GLUT_DOWN)
+		{
+			master.tablero.getRaton().Izq = true;
+			std::cout << std::endl << "x: " << master.tablero.getRaton().Pos.x << std::endl << "y: " << master.tablero.getRaton().Pos.y << std::endl;
+		}
+		else if (est == GLUT_UP)
+		{
+			master.tablero.getRaton().Izq = false;
+		}
+	}
+
+	else if (boton == GLUT_RIGHT_BUTTON)
+	{
+		if (master.tablero.getRaton().Estado == GLUT_DOWN)
+			master.tablero.getRaton().Der == true;
+		else if (master.tablero.getRaton().Estado == GLUT_UP)
+			master.tablero.getRaton().Der = false;
+	}
+}

@@ -115,6 +115,7 @@ void Tablero::dibuja()
 	glTexCoord2d(1, 1); glVertex3f(-5, -5, 0);
 	glTexCoord2d(0, 1); glVertex3f(-5, 5, 0);
 	glEnd();
+	dibujaPiezas();
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 }
@@ -225,7 +226,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	Pieza* orig = obtenerPieza(origen);
 	Pieza* dest = obtenerPieza(destino);
 
-	cout << orig->movimientoValido(origen, destino) << endl;
+	//cout << orig->movimientoValido(origen, destino) << endl;
 	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento,orig))
 	{
 		movimiento++;
@@ -238,8 +239,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	}
 	else
 	{
-		cout << "movimiento invalido" << endl;
-		dibujaPiezas();
+		//cout << "movimiento invalido" << endl;
 	}
 }
 
@@ -392,3 +392,23 @@ bool Tablero::setTurno(int mov, Pieza* p) {
 		return false;
 	}
 }
+
+Vector2D* Tablero::seleccionarCasilla() {
+	if (raton.Estado == GLUT_DOWN) {
+		Vector2D aux;
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (raton.pulsaRect(145 + 68 * j, 35 + 67 * i, 180 + 68 * j, 95 + 67 * i) && pi[i][j] != NULL) {
+					aux.x = i; aux.y = j;
+					return &aux;
+				}
+			}
+		}
+	}
+	return NULL;
+}
+
+Raton& Tablero::getRaton() {
+	return raton;
+}
+

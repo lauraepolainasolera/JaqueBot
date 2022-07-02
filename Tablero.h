@@ -4,6 +4,7 @@
 #include "V2D.h"
 #include "Pieza.h"
 #include "Vector2D.h"
+#include "Raton.h"
 
 #define DIMENSION 8
 
@@ -24,6 +25,8 @@
 		Tablero();
 
 		//~Tablero();
+
+		Raton raton;
 
 		Vector2D PosicionReal[DIMENSION][DIMENSION];
 
@@ -49,6 +52,10 @@
 		bool casillaVacia(Vector2D pos);
 		void comerPieza(Pieza* origen, Pieza *destino);
 		bool setTurno(int movimiento, Pieza* p);
+
+		Vector2D* seleccionarCasilla();
+
+		Raton& getRaton();
 
 	};
 

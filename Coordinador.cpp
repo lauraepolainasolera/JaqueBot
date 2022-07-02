@@ -1,9 +1,6 @@
 #include "Coordinador.h"
 #include <iostream>
 
-
-Tablero tablero;
-
 Coordinador::Coordinador()
 {
 	estado = INICIO;
@@ -78,21 +75,20 @@ void Coordinador::dibuja()
 
 	}
 	else if (estado == JvJ) {
-		Vector2D origen, destino;
+		Vector2D *origen = nullptr, *destino = nullptr;
+
+		tablero.dibuja();
+		if (origen != nullptr && destino != nullptr) tablero.mueve(*origen, *destino);
 
 		cout << "introduce posciones origen" << endl;
-		cin >> origen.x;
-		cin >> origen.y;
+		
+		//cin >> origen.y;
 		//cout << "las posiciones origen son" << origen.x << origen.y << endl;
 		cout << "introduce posciones destino" << endl;
-		cin >> destino.x;
-		cin >> destino.y;
-		//cout << "las posiciones origen son" << destino.x << destino.y << endl;
 		
-		tablero.dibuja();
-		tablero.mueve(origen, destino);
-
-
+		//cin >> destino.x;
+		//cin >> destino.y;
+		//cout << "las posiciones origen son" << destino.x << destino.y << endl;
 	}
 	else if (estado == JvAI)
 	{
