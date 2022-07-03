@@ -3,34 +3,13 @@
 #include "../Coordinador.h"
 
 
-using ETSIDI::SpriteSequence;
-//
-//class Peon {
-//public:
-//	SpriteSequence peon;
-//
-//	informarme de si se pueden poner ifs en constructores, si no, clases peon negro y peon blanco
-//
-//	Peon(): peon("bin/peonblanco.png", 1, 1, 20) { peon.setCenter(5, 5); peon.setSize(10, 10); }
-//
-//	void dibuja(SpriteSequence peon) {
-//		glPushMatrix();
-//		glTranslatef(0, 0, 0);
-//		peon.flip(false, false);
-//		peon.draw();
-//		glTranslatef(0, 0, 0);
-//		glPopMatrix();
-//	}
-//};
-
-//void Peon::peon()
-
 Coordinador master;
 
 void OnKeyboardDown(unsigned char key, int x, int y);
 //void onSpecialKeyboardDown(int key, int x, int y);
 void OnDraw(void);
 void OnTimer(int value);
+void OnMouseClick(int button, int state, int x, int y);
 //void inicio();
 
 //los callback, funciones que seran llamadas automaticamente por la glut
@@ -58,6 +37,7 @@ int main(int argc,char* argv[])
 	glutDisplayFunc(OnDraw);
 	glutTimerFunc(25,OnTimer,0);//le decimos que dentro de 25ms llame 1 vez a la funcion OnTimer()
 	glutKeyboardFunc(OnKeyboardDown);
+	glutMouseFunc(OnMouseClick);
 
 		
 	//pasarle el control a GLUT,que llamara a los callbacks
@@ -122,3 +102,30 @@ void OnTimer(int value)
 	glutPostRedisplay();
 }
 
+void OnMouseClick(int b, int state, int x, int y) {
+
+
+	cout << "b"<< b << "state" << state <<"x"<< x <<"y" << y;
+	//////////////
+	//captures clicks with mouse with or without special keys (CTRL or SHIFT)
+	//gives control to board scene
+	bool down = (state == GLUT_DOWN);
+	int button;
+	if (b == GLUT_LEFT_BUTTON) {
+		button = MOUSE_LEFT_BUTTON;
+		cout << "MOUSE_RIGHT_BUTTON" << endl;
+	}
+	if (b == GLUT_RIGHT_BUTTON) {
+		button = MOUSE_RIGHT_BUTTON;
+		cout << "MOUSE_RIGHT_BUTTON" << endl;
+	}
+
+	int specialKey = glutGetModifiers();
+	bool ctrlKey = (specialKey & GLUT_ACTIVE_CTRL) ? true : false;
+	bool sKey = specialKey & GLUT_ACTIVE_SHIFT;
+	
+
+
+	master.MouseButton(x, y, b, down, sKey, ctrlKey);
+	glutPostRedisplay();
+}

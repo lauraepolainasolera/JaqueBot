@@ -24,6 +24,7 @@ Tablero::Tablero() {
 Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
 	int i = v.x;
 	int j = v.y;
+	
 		PosicionReal[i][j].x = -4.2 + (j * 1.2);
 		PosicionReal[i][j].y = 4.2 - (i * 1.2);
 
