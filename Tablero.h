@@ -57,6 +57,10 @@
 		void jaqueMate();
 		int buscaAdyacentes(Vector2D, Vector2D* proxi [8]);
 		Pieza* piezaJaque();
-		int trayectoria(Vector2D, Vector2D, Vector2D* tray[]);
+		int trayectoria(Vector2D, Vector2D, Vector2D* tray[6]);
+
+		bool enroque(Vector2D, Vector2D);
+		void enroque(Pieza*, Pieza*);
+		void desEnroque(Pieza*, Pieza*);
 	};
 

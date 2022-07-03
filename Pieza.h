@@ -18,6 +18,8 @@ enum color { BLANCA, NEGRA };
 class Pieza
 {
 public:
+	int mov = 0;
+
 	tipo type;
 	color colour;
 
