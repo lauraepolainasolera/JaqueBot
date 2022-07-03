@@ -1,5 +1,7 @@
 #pragma once
 #include "Pieza.h"
+
+
 using ETSIDI::SpriteSequence;
 
 class PiezaVacia :
@@ -7,6 +9,7 @@ class PiezaVacia :
 {
 public:
 	SpriteSequence piezav;
+
     PiezaVacia() :Pieza(VACIA, BLANCA), piezav("bin/piezavacia.png", 1, 1, 20) { piezav.setCenter(0.6, 1); piezav.setSize(1.5, 1.5); }
 
     void dibuja(Vector2D p) {

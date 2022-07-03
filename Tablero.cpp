@@ -19,51 +19,15 @@ using ETSIDI::SpriteSequence;
 
 Tablero::Tablero() {
 	
-
-	for (int j = 0; j < DIMENSION;j++)
-	{
-		for (int i = 0; i < DIMENSION; i++)
-		{
-				PosicionReal[i][j].x = -4.2 + (j * 1.2);
-				PosicionReal[i][j].y = 4.2 - (i * 1.2);
-				//m[i][j].setPosicion(i, j);
-		}
-
-	}
-
 }
 
 Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
 	int i = v.x;
 	int j = v.y;
-
-	if ((j % 2) == 0 && (i % 2) == 0)
-	{
+	
 		PosicionReal[i][j].x = -4.2 + (j * 1.2);
 		PosicionReal[i][j].y = 4.2 - (i * 1.2);
-		//m[i][j].setPosicion(i, j);
-	}
 
-	else if ((j % 2) != 0 && (i % 2) == 0)
-	{
-		PosicionReal[i][j].x = -4.2 + (j * 1.2);
-		PosicionReal[i][j].y = 4.2 - (i * 1.2);
-		//m[i][j].setPosicion(i, j);
-	}
-
-	else if ((j % 2) == 0 && (i % 2) != 0)
-	{
-		PosicionReal[i][j].x = -4.2 + (j * 1.2);
-		PosicionReal[i][j].y = 4.2 - (i * 1.2);
-		//PosicionReal[i][j].setPosicion(i, j);
-	}
-
-	else if ((j % 2) != 0 && (i % 2) != 0)
-	{
-		PosicionReal[i][j].x = -4.2 + (j * 1.2);
-		PosicionReal[i][j].y = 4.2 - (i * 1.2);
-		//m[i][j].setPosicion(i, j);
-	}
 	return PosicionReal[i][j];
 }
 
@@ -77,8 +41,7 @@ void Tablero::setLado(float l)
 void Tablero::dibuja()
 //Dibujo del tablero
 {
-
-	
+	//Dibujo de las casillas del tablero
 	glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/tablero0.png").id);
@@ -92,6 +55,98 @@ void Tablero::dibuja()
 	glEnd();
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
+
+	//Dibujo de las coordenadas del tablero
+	glEnable(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/CoordenadasTab.png").id);
+	glDisable(GL_LIGHTING);
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glTexCoord2d(0, 0); glVertex3f(5.7, 5.8, 0);
+	glTexCoord2d(1, 0); glVertex3f(5.7, -5.8, 0);
+	glTexCoord2d(1, 1); glVertex3f(-5.9, -5.8, 0);
+	glTexCoord2d(0, 1); glVertex3f(-5.9, 5.8, 0);
+	glEnd();
+	glEnable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	
+	
+}
+
+void Tablero::dibujaPiezas()
+{
+
+	for (int i = 0; i < DIMENSION; i++) {
+		for (int j = 0; j < DIMENSION; j++) {
+			Vector2D posR = { 0,0 };
+			posR = obtenerPosicionesReales(pi[i][j]->pos);
+			pi[i][j]->dibuja(posR);
+		}		
+	}
+}
+
+
+
+void Tablero::inicializaModoLocura()
+{
+
+	int a;
+	int b;
+
+	a = rand() %DIMENSION - 1; 
+	b = rand() %DIMENSION - 1;
+	
+	
+	pi[0][0] = new TorreBlanca();
+	pi[7][0] = new TorreBlanca();
+	pi[1][0] = new CaballoBlanco();
+	pi[6][0] = new CaballoBlanco();
+	pi[2][0] = new AlfilBlanco();
+	pi[5][0] = new AlfilBlanco();
+	pi[4][0] = new ReyBlanco();
+	pi[3][0] = new ReinaBlanca();
+	pi[0][7] = new TorreNegra();
+	pi[7][7] = new TorreNegra();
+	pi[1][7] = new CaballoNegro();
+	pi[6][7] = new CaballoNegro();
+	pi[2][7] = new AlfilNegro();
+	pi[5][7] = new AlfilNegro();
+	pi[4][7] = new ReyNegro();
+	pi[3][7] = new ReinaNegra();
+
+	for (int i = 0; i < DIMENSION; i++) {  //X
+		for (int j = 2 ; j < 6; j++) { //Y
+			{
+				pi[i][j] = new PiezaVacia();
+			}
+		}
+	}
+
+	for (int j = 0; j < DIMENSION; j++) {
+		if (a == j) {
+			pi[j][1] = new TorreBlanca();
+		}
+		else 
+			pi[j][1] = new PeonBlanco();
+	}
+
+	for (int j = 0; j < DIMENSION; j++) {
+		if (b == j) {
+			pi[j][6] = new TorreNegra();
+		}
+		else
+			pi[j][6] = new PeonNegro();
+	}
+
+	
+	for (int i = 0; i < DIMENSION; i++) {
+		for (int j = 0; j < DIMENSION; j++) {
+			pi[i][j]->pos.x = i;
+			pi[i][j]->pos.y = j;
+		}
+	}
+
 }
 
 
@@ -106,7 +161,7 @@ void Tablero::inicializa()
 	pi[4][0] = new ReyBlanco();
 	pi[3][0] = new ReinaBlanca();
 
-	pi[0][7] = new TorreNegra();//.setPieza(Tab[0][0].p, T, B);
+	pi[0][7] = new TorreNegra();
 	pi[7][7] = new TorreNegra();
 	pi[1][7] = new CaballoNegro();
 	pi[6][7] = new CaballoNegro();
@@ -134,6 +189,7 @@ void Tablero::inicializa()
 		}
 	}
 
+
 	for (int i = 0; i < DIMENSION; i++) {
 		for (int j = 0; j < DIMENSION; j++) {
 			pi[i][j]->pos.x = i;
@@ -143,16 +199,7 @@ void Tablero::inicializa()
 	
 }
 
-void Tablero::dibujaPiezas()
-{
-	for (int i = 0; i < DIMENSION; i++) {
-		for (int j = 0; j < DIMENSION; j++) {
-			Vector2D posR = { 0,0 };
-			posR = obtenerPosicionesReales(pi[i][j]->pos);
-			pi[i][j]->dibuja(posR);
-		}
-	}
-}
+
 
 
 Pieza* Tablero::obtenerPieza(Vector2D v) {
@@ -182,12 +229,13 @@ Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
 }
 
 void Tablero::mueve(Vector2D origen, Vector2D destino) {
+
 	cout << "es el movimiento numero " << movimiento << endl;
 
 	Pieza* orig = obtenerPieza(origen);
 	Pieza* dest = obtenerPieza(destino);
 
-	cout << orig->movimientoValido(origen, destino) << endl;
+	/*cout << orig->movimientoValido(origen, destino) << endl*/;
 	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino)){
 		
 		setPieza(orig, dest);
@@ -323,7 +371,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 
 	int ocupacion = 0;
 	if ((abs(res.x) == abs(res.y)) && (origen.x < destino.x) && (origen.y < destino.y)) { //diagonal con coordenadas x,y positiva
-		cout << "diagonal con coordenadas x,y positiva" << endl;
 		int i = origen.x + 1;
 		int j = origen.y + 1;
 
@@ -339,7 +386,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 	}
 
 	if ((abs(res.x) == abs(res.y)) && (origen.x > destino.x) && (origen.y > destino.y)) { //diagonal con coordenadas x,y negativa
-		cout << "diagonal con coordenadas x,y negativa" << endl;
 		int i = origen.x - 1;
 		int j = origen.y - 1;
 
@@ -355,7 +401,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 	}
 
 	if ((abs(res.x) == abs(res.y)) && (origen.x > destino.x) && (origen.y < destino.y)) { //diagonal con coordenadas x negativa, y positiva
-		cout << "diagonal con coordenadas x negativa y positiva" << endl;
 		int i = origen.x - 1;
 		int j = origen.y + 1;
 
@@ -371,7 +416,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 	}
 
 	if ((abs(res.x) == abs(res.y)) && (origen.x < destino.x) && (origen.y > destino.y)) { //diagonal con coordenadas x positiva, y negativa
-		cout << "diagonal con coordenadas x positiva y negativa" << endl;
 		int i = origen.x + 1;
 		int j = origen.y-1;
 	
@@ -387,7 +431,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 	}
 
 	if ((origen.x == destino.x) && (origen.y < destino.y)) { // desplazarse en y positiva
-		cout << "desplazarse y positiva" << endl;
 		for (int j = origen.y + 1; j < destino.y; j++) {
 			Vector2D v;
 			v.x = origen.x;
@@ -400,7 +443,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 	}
 
 	if ((origen.x == destino.x) && (origen.y > destino.y)) { //desplazarse y negativa
-		cout << "desplazarse y negativa" << endl;
 		for (int j = origen.y - 1; j > destino.y; j--) {
 			Vector2D v;
 			v.x = origen.x;
@@ -412,7 +454,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 	}
 
 	if ((origen.x < destino.x) && (origen.y == destino.y)) { //Desplazarse x positiva
-		cout << "desplazarse x positiva" << endl;
 		for (int i = origen.x + 1; i < destino.x; i++) {
 			Vector2D v;
 			v.x = i;
@@ -424,7 +465,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 	}
 
 	if ((origen.x > destino.x) && (origen.y == destino.y)) { //desplazarse x negativa
-		cout << "desplazarse x negativa" << endl;
 		for (int i = origen.x - 1; i > destino.x; i--) {
 			Vector2D v;
 			v.x = i;
@@ -596,69 +636,3 @@ bool Tablero::evaluaEnclavamiento()
 	else movimiento++; return false;
 }
 
-
-void Tablero::moverPiezas()
-{
-	V2D origen;
-	V2D destino;
-	Pieza* aux;
-	Pieza* piaux;
-	piaux = new Pieza(VACIA, NEGRA);
-	if (turno == 0) { //blancas
-		do {
-			cout << "insterte origen blancas" << endl;
-			cin >> origen.x;
-			cin >> origen.y;
-		} while (igualdadTipo(pi[origen.x][origen.y], piaux) || igualdadColor(pi[origen.x][origen.y], piaux));
-		cout << "coordenadas aceptadas" << endl;
-		do {
-			cout << "inserte destino blancas" << endl;
-			cin >> destino.x;
-			cin >> destino.y;
-			//if (Rey::movimientoValido(origen, destino)) break;
-		} while (igualdadTipo(pi[destino.x][destino.y], piaux) == 0);
-		cout << "destino aceptado" << endl;
-		aux = pi[origen.x][origen.y];
-		pi[origen.x][origen.y] = pi[destino.x][destino.y];
-		pi[destino.x][destino.y] = aux;
-
-		pi[destino.x][destino.y]->dibuja(PosicionReal[destino.x][destino.y]);
-
-		turno = 1;
-	}
-	else { //negras
-		do {
-			cout << "insterte origen negras" << endl;
-			cin >> origen.x;
-			cin >> origen.y;
-		} while (igualdadTipo(pi[origen.x][origen.y], piaux) || igualdadColor(pi[origen.x][origen.y], piaux) == 0);
-		cout << "coordenadas aceptadas" << endl;
-		do {
-			cout << "inserte destino negras" << endl;
-			cin >> destino.x;
-			cin >> destino.y;
-			//if (Rey::movimientoValido(origen, destino)) break;
-		} while (igualdadTipo(pi[destino.x][destino.y], piaux) == 0);
-		cout << "destino aceptado" << endl;
-		aux = pi[origen.x][origen.y];
-		pi[origen.x][origen.y] = pi[destino.x][destino.y];
-		pi[destino.x][destino.y] = aux;
-
-		pi[destino.x][destino.y]->dibuja(PosicionReal[destino.x][destino.y]);
-
-		
-		turno = 0;
-	}
-
-}
-
-bool Tablero::igualdadTipo(Pieza* p, Pieza* m)
-{
-	if (p->type == m->type) return true;
-	else return false;
-}
-bool Tablero::igualdadColor(Pieza* p, Pieza* m)
-{
-	if (p->colour == m->colour) return true;
-	else return false;
-}

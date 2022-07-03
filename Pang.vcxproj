@@ -42,7 +42,6 @@
     <ClCompile Include="Torre.cpp" />
     <ClCompile Include="TorreBlanca.cpp" />
     <ClCompile Include="TorreNegra.cpp" />
-    <ClCompile Include="V2D.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -68,7 +67,6 @@
     <ClInclude Include="Torre.h" />
     <ClInclude Include="TorreBlanca.h" />
     <ClInclude Include="TorreNegra.h" />
-    <ClInclude Include="V2D.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

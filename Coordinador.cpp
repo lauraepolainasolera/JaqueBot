@@ -2,52 +2,84 @@
 #include <iostream>
 
 
+
 Tablero tablero;
+
+void  Coordinador::MouseButton(int x, int y, int button, bool down, bool shiftKey, bool ctrlKey)
+
+{
+	if (down == true)
+	{
+		movimientohecho = true;
+		GLint viewport[4];
+		GLdouble modelview[16];
+		GLdouble projection[16];
+		GLfloat winX, winY, winZ;
+		GLdouble posX, posY, posZ;
+
+		glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+		glGetDoublev(GL_PROJECTION_MATRIX, projection);
+		glGetIntegerv(GL_VIEWPORT, viewport);
+
+		winX = (float)x;
+		winY = (float)viewport[3] - (float)y;
+
+		glReadPixels(x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+
+		winX = winX + 250;
+		winY = winY + 250;
+
+		gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+
+		//finally cell coordinates
+
+		posicionAux = world2cell(posX, posY, xcell_sel, ycell_sel);
+
+	}
+
+	else movimientohecho = false;
+
+	
+}
+
 
 Coordinador::Coordinador()
 {
+	width = 1.2;				//width of each cell in the grid	N = pb->getSize();		//Grid NxN
+	dist = 15 ;					//distance of viewpoint from center of the board
+	center_z = 0;
+
+	movimientohecho = false;
+	origen_detectado = false;
+
+	origen = 0;
+	destino = 0;
+
+	posicionAux.x = 0;
+	posicionAux.y = 0;
+
 	estado = INICIO;
 	movs = 0;
+	a = 0;
 }
-
-/*void Coordinador::teclaEspecial(unsigned char key)
-{
-
-}*/
 
 void Coordinador::tecla(unsigned char key)
 {
 
-
 	if (estado == INICIO) {
-		if (key == '1' ) {
-			estado = JvJ;
-			printf("cambio");
+		if (key == '1') {
+			estado = ModoNormal;
+			cout << "Iniciando el Modo Normal. Espere unos momentos." << endl;
 			tablero.inicializa();
-			tablero.dibuja();
 			tablero.dibujaPiezas();
 		}
-		else if (key == '2' ) {
-			//estado = JVAI;
-		}
-		else if (key == 'c' || key == 'e') {
-			exit(0);
-		}
-	}
-	else if (estado == JvJ) {
-		//mundo.tecla(key);
-		if (key == 's' || key == 'S') {
-			exit(0);
+		else if (key == '2') {
+			cout << "Iniciando el Modo Locura. Espere unos momentos." << endl;
+			estado = ModoLocura;
+			tablero.inicializaModoLocura();
+			tablero.dibujaPiezas();
 		}
 	}
-}
-
-void Coordinador::mueve()
-{
-
-//gestiona cuando mueve cada jugador
-
-
 }
 
 void Coordinador::dibuja()
@@ -73,27 +105,32 @@ void Coordinador::dibuja()
 		glDisable(GL_TEXTURE_2D);
 
 	}
-	else if (estado == JvJ) {
-		Vector2D origen, destino;
 
-		cout << "introduce posciones origen" << endl;
-		cin >> origen.x;
-		cin >> origen.y;
-		//cout << "las posiciones origen son" << origen.x << origen.y << endl;
-		cout << "introduce posciones destino" << endl;
-		cin >> destino.x;
-		cin >> destino.y;
-		//cout << "las posiciones origen son" << destino.x << destino.y << endl;
-		
-		tablero.dibuja();
-		tablero.mueve(origen, destino);
+	else if (estado == ModoNormal || estado == ModoLocura) {
 
 
-	}
-	else if (estado == JvAI)
-	{
+	tablero.dibuja();
 
-	}
+	tablero.dibujaPiezas();
 
+		if (movimientohecho == true && origen_detectado== false) {
+
+			origen.x = posicionAux.x;
+			origen.y = posicionAux.y;
+			movimientohecho = false;
+			origen_detectado = true;
+
+		}
+
+			/*cout << "Introduce posciones destino" << endl;*/
+		if (movimientohecho == true && origen_detectado==true)
+		{
+			destino = posicionAux;
+			movimientohecho = false;
+			origen_detectado = false;
+			tablero.mueve(origen, destino);
+			}
+		}
 }
+
 
