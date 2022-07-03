@@ -309,7 +309,7 @@ Pieza* Tablero::cambiarTipoPieza(Pieza* p, tipo t, color c, Vector2D posicion) {
 	switch (t) {
 	case VACIA:
 		pi[(int)puntero.x][(int)puntero.y] = new PiezaVacia(); //creamos ese mismo puntero, pero de la clase concreta
-		cout << "la posicion en la funcion es" << pi[(int)puntero.x][(int)puntero.y]->pos.x << pi[(int)puntero.x][(int)puntero.y]->pos.y << endl;
+		//cout << "la posicion en la funcion es" << pi[(int)puntero.x][(int)puntero.y]->pos.x << pi[(int)puntero.x][(int)puntero.y]->pos.y << endl;
 		break;
 	case ALFIL:
 		if (c == BLANCA)
