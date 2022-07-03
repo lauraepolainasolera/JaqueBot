@@ -14,12 +14,12 @@
 
 		float lado;
 
-		
-
-
 	public:
 
 		int movimiento = 0;
+		
+		bool jm;
+
 		Tablero();
 
 		//~Tablero();
@@ -56,11 +56,28 @@
 
 
 		bool jaque(Vector2D rey, Pieza* ataq);
+
 		int jaqueReal();
+		
 		bool evaluaEnclavamiento();
 
 		void mostrarMovimiento(Vector2D origen,Vector2D destino);
+		
 		void mostrarJaque();
+
+		int buscaAdyacentes(Vector2D p, Vector2D* prox[8]);
+
+		Pieza* piezaJaque();
+
+		int trayectoria(Vector2D origen, Vector2D destino, Vector2D* tray[6]);
+
+		bool jaqueMate();
+
+		bool enroque(Vector2D origen, Vector2D destino);
+
+		void enroque(Pieza* origen, Pieza* destino);
+
+		void desEnroque(Pieza* origen, Pieza* destino);
 
 	};
 

@@ -42,7 +42,6 @@ void  Coordinador::MouseButton(int x, int y, int button, bool down, bool shiftKe
 	
 }
 
-
 Coordinador::Coordinador()
 {
 	width = 1.2;				//width of each cell in the grid	N = pb->getSize();		//Grid NxN
@@ -65,9 +64,11 @@ Coordinador::Coordinador()
 
 void Coordinador::tecla(unsigned char key)
 {
-
-	if (estado == INICIO) {
-		switch(key){
+	switch (estado)
+	{
+	case INICIO:
+	{
+		switch (key) {
 		case '1':
 			estado = ModoNormal;
 			cout << "Iniciando el Modo Normal. Espere unos momentos." << endl;
@@ -75,39 +76,42 @@ void Coordinador::tecla(unsigned char key)
 			tablero.dibujaPiezas();
 			break;
 		case '2':
-			cout << "Iniciando el Modo Locura. Espere unos momentos." << endl;
 			estado = ModoLocura;
+			cout << "Iniciando el Modo Locura. Espere unos momentos." << endl;
 			tablero.inicializaModoLocura();
 			tablero.dibujaPiezas();
 			break;
 		case '3':
-			exit;
+			exit(0);
 		}
+		break;
 	}
-	if (estado == PantallaFinal)
+	case PantallaFinal:
 	{
-		glEnable(GL_TEXTURE_2D);
-
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_FINAL.png").id);
-		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 0); glVertex3f(5, 5, 0);
-		glTexCoord2d(1, 0); glVertex3f(5, -5, 0);
-		glTexCoord2d(1, 1); glVertex3f(-5, -5, 0);
-		glTexCoord2d(0, 1); glVertex3f(-5, 5, 0);
-		glEnd();
-		glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
-
 		switch (key) {
 		case '1':
 			estado = INICIO;
+			tablero.jm = 0;
+			movs = 0;
 			break;
 		case '2':
 			exit;
 			break;
 		}
+		break;
+	}
+	case ModoLocura:
+	case ModoNormal:
+		switch (key)
+		{
+		case '1':
+			estado = INICIO;
+			break;
+		default:
+			exit(0);
+			break;
+		}
+		break;
 	}
 }
 
@@ -168,11 +172,28 @@ void Coordinador::dibuja()
 
 
 
-	/*if (JaqueMate) {
-		estado = PantallaFinal;
-	}*/
-	//Implementar correctamente cuando se compruebe el jaque mate
+	if (tablero.jm == true) {
 
+		estado = PantallaFinal;
+
+		cout << "estoy pintando" << endl;
+
+		glEnable(GL_TEXTURE_2D);
+
+		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_FINAL.png").id);
+		glDisable(GL_LIGHTING);
+		glBegin(GL_POLYGON);
+		glColor3f(1, 1, 1);
+		glTexCoord2d(0, 0); glVertex3f(-5, 5, 0);
+		glTexCoord2d(1, 0); glVertex3f(5, 5, 0);
+		glTexCoord2d(1, 1); glVertex3f(5, -5, 0);
+		glTexCoord2d(0, 1); glVertex3f(-5, -5, 0);
+		glEnd();
+		glEnable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
+
+		//Implementar correctamente cuando se compruebe el jaque mate
+	}
 
 
 }
