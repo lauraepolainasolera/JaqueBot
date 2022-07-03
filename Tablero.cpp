@@ -176,6 +176,7 @@ void Tablero::dibujaPiezas()
 			pi[i][j]->dibuja(posR);
 		}
 	}
+	cout << "he dibujado" << endl;
 }
 
 
@@ -213,12 +214,20 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
 	cout << orig->movimientoValido(origen, destino) << endl;
 	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino)){
-		
 		setPieza(orig, dest);
-		if (evaluaEnclavamiento()) setPieza(dest, orig);
 
+		if (evaluaEnclavamiento()) {
+			setPieza(dest, orig);
+		}
+
+		else {
+			ETSIDI::play("bin/sonidos/mover.wav");
+			mostrarMovimiento(orig->pos, dest->pos);
+			
+		}
 		orig=coronar(orig);				//comprueba si la pieza ha coronado
 		dibujaPiezas();
+
 	}
 
 
@@ -232,9 +241,14 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 				dest = cambiarTipoPieza(dest, t, c, dest->pos);
 				setPieza(dest, orig);
 			}
-			
+			else {
+				ETSIDI::play("bin/sonidos/comer.wav");
+				mostrarMovimiento(orig->pos, dest->pos);
+			}
+
 		orig=coronar(orig);
 		dibujaPiezas();
+
 	}
 
 	else{
@@ -518,6 +532,7 @@ int Tablero::jaqueReal()
 							}
 							if (jaque(pos, aux2)) {
 								cout << "jaque NEGRAS1" << endl;
+								mostrarJaque(pi[4][7]->pos);
 								return 1;
 							}
 						}
@@ -536,6 +551,7 @@ int Tablero::jaqueReal()
 							}
 							if (jaque(pos, aux2)) {
 								cout << "jaque BLANCAS1" << endl;
+								mostrarJaque(pi[4][0]->pos);
 								return 2;
 							}
 						}
@@ -563,6 +579,7 @@ int Tablero::jaqueReal()
 							}
 							if (jaque(pos, aux2)) {
 								cout << "jaque BLANCAS2" << endl;
+								mostrarJaque(pi[4][0]->pos);
 								return 2;
 							}
 						}
@@ -581,6 +598,7 @@ int Tablero::jaqueReal()
 							}
 							if (jaque(pos, aux2)) {
 								cout << "jaque NEGRAS2" << endl;
+								mostrarJaque(pi[4][7]->pos);
 								return 1;
 							}
 						}
@@ -620,3 +638,27 @@ bool Tablero::evaluaEnclavamiento()
 	else movimiento++; return false;
 }
 
+void Tablero::mostrarMovimiento(Vector2D origen, Vector2D destino) {
+
+	Vector2D posRealOrigen=obtenerPosicionesReales(origen), posRealDestino=obtenerPosicionesReales(destino);
+	glColor3ub(130, 27, 0);
+	glTranslatef(posRealOrigen.x, posRealOrigen.y, 0);
+	glutWireCube(1.0);
+	glTranslatef(-posRealOrigen.x, -posRealOrigen.y, 0);
+
+	glColor3ub(130, 27, 0);
+	glTranslatef(posRealDestino.x, posRealDestino.y, 0);
+	glutWireCube(1.0);
+	glTranslatef(-posRealDestino.x, -posRealDestino.y, 0);
+
+}
+
+void Tablero::mostrarJaque(Vector2D posicion) {
+	Vector2D posRealRey = obtenerPosicionesReales(posicion);
+	glColor3ub(255, 0, 0);
+	glTranslatef(posRealRey.x, posRealRey.y, 0);
+	glutSolidTorus(0.05, 0.5, 100, 100);
+	glTranslatef(-posRealRey.x, -posRealRey.y, 0);
+	cout << "he pintado jaque" << endl;
+
+}

@@ -37,10 +37,12 @@
 
 		void setLado(float a);
 
+		//funciones dibujar el tablero
 		void inicializa();
 		void dibuja();
 		void dibujaPiezas();
 
+		//funciones para el movimiento
 		void mueve(Vector2D origen, Vector2D destino);
 		void setPieza(Pieza* origen, Pieza* destino);
 		Pieza* comerPieza(Pieza* origen, Pieza* destino);
@@ -51,8 +53,15 @@
 		bool casillaVacia(Vector2D pos);
 		bool setTurno(int movimiento, Pieza* p);
 
+
+		//funciones referentes al jaque
 		bool jaque(Vector2D rey, Pieza* ataq);
 		int jaqueReal();
 		bool evaluaEnclavamiento();
+
+
+		//funciones graficas
+		void mostrarMovimiento(Vector2D origen, Vector2D destino);
+		void mostrarJaque(Vector2D posicion);
 	};
 
