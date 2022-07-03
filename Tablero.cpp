@@ -213,17 +213,28 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
 	cout << orig->movimientoValido(origen, destino) << endl;
 	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino)){
-		//movimiento++;
+		
 		setPieza(orig, dest);
 		if (evaluaEnclavamiento()) setPieza(dest, orig);
-		coronar(orig);				//comprueba si la pieza ha coronado
+
+		orig=coronar(orig);				//comprueba si la pieza ha coronado
+		dibujaPiezas();
 	}
 
-	else if (orig->movimientoComer(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && (casillaVacia(destino) == false) && (dest->colour != orig->colour)){
-		//movimiento++;
-		comerPieza(orig, dest);
-		if (evaluaEnclavamiento()) setPieza(dest, orig);
-		coronar(orig);
+
+	else if (orig->movimientoComer(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && (casillaVacia(destino) == false) && (dest->colour != orig->colour)) {
+		tipo t = dest->type;
+		color c = dest->colour;
+	
+		dest = comerPieza(orig, dest);
+
+			if (evaluaEnclavamiento()) {
+				dest = cambiarTipoPieza(dest, t, c, dest->pos);
+				setPieza(dest, orig);
+			}
+			
+		orig=coronar(orig);
+		dibujaPiezas();
 	}
 
 	else{
@@ -238,26 +249,18 @@ void Tablero::setPieza(Pieza* origen, Pieza* destino) {
 	destino->pos = origen->pos;
 	origen->pos = aux;
 
-	dibujaPiezas();
 }
 
-void Tablero::comerPieza(Pieza* origen, Pieza *destino) {
-	Vector2D aux = { 0, 0}, aux2 = { 0, 0 };
-	aux = destino->pos;
-	aux2 = origen->pos;
-	
-	origen->pos = aux;										//se intercambian las posiciones de las piezas
-	destino->pos = aux2;
-	
-	destino=cambiarTipoPieza(destino, VACIA, BLANCA,aux2);
-	
-	cout << "posicion pieza vacia nueva" << destino->pos.x << destino->pos.y << endl;
+Pieza* Tablero::comerPieza(Pieza* origen, Pieza *destino) {
 
-	dibujaPiezas();
+	setPieza(origen, destino);
+	destino = cambiarTipoPieza(destino, VACIA, BLANCA, destino->pos);
+
+	return destino;
 
 }
 
-void Tablero::coronar(Pieza* p) {
+Pieza* Tablero::coronar(Pieza* p) {
 	char letra;
 
 	Vector2D aux = p->pos;
@@ -267,27 +270,23 @@ void Tablero::coronar(Pieza* p) {
 		cin >> letra;
 		switch (letra) {
 		case 'r':
-			cambiarTipoPieza(p, REINA, p->colour,aux);
-			p->pos = aux;
+			p=cambiarTipoPieza(p, REINA, p->colour,aux);
 			break;
 		case 't':
-			cambiarTipoPieza(p, TORRE, p->colour,aux);
-			p->pos = aux;
+			p=cambiarTipoPieza(p, TORRE, p->colour,aux);
 			break;
 		case 'a':
-			cambiarTipoPieza(p, ALFIL, p->colour,aux);
-			p->pos = aux;
+			p=cambiarTipoPieza(p, ALFIL, p->colour,aux);
 			break;
 		case 'c':
-			cambiarTipoPieza(p, CABALLO, p->colour,aux);
-			p->pos = aux;
+			p=cambiarTipoPieza(p, CABALLO, p->colour,aux);
 			break;
 		case 'p':
-			cambiarTipoPieza(p, PEON, p->colour,aux);
-			p->pos = aux;
+			p=cambiarTipoPieza(p, PEON, p->colour,aux);
 			break;
 		}
 		dibujaPiezas();
+		return p;
 	}
 }
 

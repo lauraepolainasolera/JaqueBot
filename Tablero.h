@@ -43,8 +43,8 @@
 
 		void mueve(Vector2D origen, Vector2D destino);
 		void setPieza(Pieza* origen, Pieza* destino);
-		void comerPieza(Pieza* origen, Pieza* destino);
-		void coronar(Pieza* origen);
+		Pieza* comerPieza(Pieza* origen, Pieza* destino);
+		Pieza* coronar(Pieza* origen);
 		Pieza* cambiarTipoPieza(Pieza* origen, tipo t, color c, Vector2D pos);
 
 		bool obstaculo(Vector2D origen, Vector2D destino);
