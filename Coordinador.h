@@ -53,7 +53,7 @@ public:
 protected:
 	float width;
 
-	enum Estado { INICIO, ModoNormal, ModoLocura, CONF };
+	enum Estado { INICIO, ModoNormal, ModoLocura, PantallaFinal};
 	Estado estado;
 
 	int N;								 //size 
