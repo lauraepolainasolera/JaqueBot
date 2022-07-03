@@ -10,3 +10,8 @@ bool Torre::movimientoValido(Vector2D origen, Vector2D destino) {
 		return true;
 	else return false;
 }
+
+
+bool Torre::movimientoComer(Vector2D origen, Vector2D destino) {
+	return movimientoValido(origen, destino);  //come en la misma direccion que se mueve
+}

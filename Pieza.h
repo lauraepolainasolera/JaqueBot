@@ -26,5 +26,6 @@ public:
 	virtual void dibuja(Vector2D p) =0;
 
 	virtual bool movimientoValido(Vector2D origen, Vector2D destino)=0;
+	virtual bool movimientoComer(Vector2D origen, Vector2D destino) = 0;
 
 };

@@ -13,7 +13,9 @@
 	private:
 
 		float lado;
+
 		int movimiento = 0;
+
 
 	public:
 		Tablero();
@@ -27,30 +29,32 @@
 		Vector2D obtenerPosicionesReales(Vector2D);
 
 		Pieza* obtenerPieza(Vector2D v);
-		
-		tipo obtenerTipo(Pieza* p) { return p->type; };
+		Vector2D obtenerPunteroPieza(Vector2D v);
 
 		void setLado(float a);
 
+		void inicializa();
 		void dibuja();
-
 		void dibujaPiezas();
 
 		void inicializaModoLocura();
 
-		void inicializa();
-		
+
 		void mueve(Vector2D origen, Vector2D destino);
 		
 		void setPieza(Pieza* origen, Pieza* destino);
-		
+		Pieza* comerPieza(Pieza* origen, Pieza* destino);
+		Pieza* coronar(Pieza* origen);
+		Pieza* cambiarTipoPieza(Pieza* origen, tipo t, color c, Vector2D pos);
+
 		bool obstaculo(Vector2D origen, Vector2D destino);
 		
 		bool casillaVacia(Vector2D pos);
-		
-		void comerPieza(Pieza* origen, Pieza *destino);
-		
 		bool setTurno(int movimiento, Pieza* p);
 
+
+		bool jaque(Vector2D rey, Pieza* ataq);
+		int jaqueReal();
+		bool evaluaEnclavamiento();
 	};
 
