@@ -14,10 +14,12 @@
 
 		float lado;
 
-		int movimiento = 0;
+		
 
 
 	public:
+
+		int movimiento = 0;
 		Tablero();
 
 		//~Tablero();
@@ -56,5 +58,9 @@
 		bool jaque(Vector2D rey, Pieza* ataq);
 		int jaqueReal();
 		bool evaluaEnclavamiento();
+
+		void mostrarMovimiento(Vector2D origen,Vector2D destino);
+		void mostrarJaque();
+
 	};
 

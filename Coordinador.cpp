@@ -108,10 +108,12 @@ void Coordinador::dibuja()
 
 	else if (estado == ModoNormal || estado == ModoLocura) {
 
+	
 
 	tablero.dibuja();
 
 	tablero.dibujaPiezas();
+
 
 		if (movimientohecho == true && origen_detectado== false) {
 
@@ -129,8 +131,13 @@ void Coordinador::dibuja()
 			movimientohecho = false;
 			origen_detectado = false;
 			tablero.mueve(origen, destino);
-			}
+			
 		}
+		tablero.mostrarMovimiento(origen, destino);
+		tablero.mostrarJaque();
+	}
+
+
 }
 
 

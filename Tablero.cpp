@@ -57,7 +57,7 @@ void Tablero::dibuja()
 	glDisable(GL_TEXTURE_2D);
 
 	//Dibujo de las coordenadas del tablero
-	glEnable(GL_TEXTURE_2D);
+	/*glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/CoordenadasTab.png").id);
 	glDisable(GL_LIGHTING);
@@ -70,7 +70,7 @@ void Tablero::dibuja()
 	glEnd();
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
-	
+	*/
 	
 }
 
@@ -239,7 +239,12 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino)){
 		
 		setPieza(orig, dest);
-		if (evaluaEnclavamiento()) setPieza(dest, orig);
+		if (evaluaEnclavamiento()) {
+			setPieza(dest, orig);
+		}
+		else 
+			ETSIDI::play("bin/sonidos/mover.wav");
+
 
 		orig=coronar(orig);				//comprueba si la pieza ha coronado
 		dibujaPiezas();
@@ -256,6 +261,9 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 				dest = cambiarTipoPieza(dest, t, c, dest->pos);
 				setPieza(dest, orig);
 			}
+
+			else
+				ETSIDI::play("bin/sonidos/comer.wav");
 			
 		orig=coronar(orig);
 		dibujaPiezas();
@@ -263,6 +271,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
 	else{
 		cout << "movimiento invalido" << endl;
+		ETSIDI::play("bin/sonidos/error.wav");
 		dibujaPiezas();
 	}
 }
@@ -322,7 +331,6 @@ Pieza* Tablero::cambiarTipoPieza(Pieza* p, tipo t, color c, Vector2D posicion) {
 	switch (t) {
 	case VACIA:
 		pi[(int)puntero.x][(int)puntero.y] = new PiezaVacia(); //creamos ese mismo puntero, pero de la clase concreta
-		cout << "la posicion en la funcion es" << pi[(int)puntero.x][(int)puntero.y]->pos.x << pi[(int)puntero.x][(int)puntero.y]->pos.y << endl;
 		break;
 	case ALFIL:
 		if (c == BLANCA)
@@ -634,5 +642,40 @@ bool Tablero::evaluaEnclavamiento()
 		return false;
 	}
 	else movimiento++; return false;
+}
+
+void Tablero::mostrarMovimiento(Vector2D origen, Vector2D destino) {
+
+	Vector2D posRealOrigen = obtenerPosicionesReales(origen), posRealDestino = obtenerPosicionesReales(destino);
+	glColor3ub(255, 255, 0);
+	glTranslatef(posRealOrigen.x, posRealOrigen.y, 0);
+	glutSolidCube(1.0);
+	glTranslatef(-posRealOrigen.x, -posRealOrigen.y, 0);
+
+	glColor3ub(255, 255, 0);
+	glTranslatef(posRealDestino.x, posRealDestino.y, 0);
+	glutWireCube(1.0);
+	glTranslatef(-posRealDestino.x, -posRealDestino.y, 0);
+
+}
+
+void Tablero::mostrarJaque() {
+	if (jaqueReal() == 1) {
+		Vector2D posRealRey = obtenerPosicionesReales(pi[4][7]->pos);
+		glColor3ub(255, 0, 0);
+		glTranslatef(posRealRey.x +0.1, posRealRey.y, 0);
+		glutSolidTorus(0.05, 0.5, 100, 100);
+		glTranslatef(-posRealRey.x -0.1, -posRealRey.y, 0);
+	}
+
+	if (jaqueReal() == 2) {
+		Vector2D posRealRey = obtenerPosicionesReales(pi[4][0]->pos);
+		glColor3ub(255, 0, 0);
+		glTranslatef(posRealRey.x -0.1, posRealRey.y, 0);
+		glutSolidTorus(0.05, 0.5, 100, 100);
+		glTranslatef(-posRealRey.x +0.1, -posRealRey.y, 0);
+	}
+	
+
 }
 
