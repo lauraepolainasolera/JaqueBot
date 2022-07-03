@@ -2,53 +2,46 @@
 #include <iostream>
 
 
+
 Tablero tablero;
 
-void Coordinador::MouseButton(int x, int y, int button, bool down, bool shiftKey, bool ctrlKey)
+void  Coordinador::MouseButton(int x, int y, int button, bool down, bool shiftKey, bool ctrlKey)
 
 {
-/////////
-//computes cell coordinates from mouse coordinates
+	if (down == true)
+	{
+		movimientohecho = true;
+		GLint viewport[4];
+		GLdouble modelview[16];
+		GLdouble projection[16];
+		GLfloat winX, winY, winZ;
+		GLdouble posX, posY, posZ;
 
-	GLint viewport[4];
-	GLdouble modelview[16];
-	GLdouble projection[16];
-	GLfloat winX, winY, winZ;
-	GLdouble posX, posY, posZ;
+		glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+		glGetDoublev(GL_PROJECTION_MATRIX, projection);
+		glGetIntegerv(GL_VIEWPORT, viewport);
 
-	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-	glGetDoublev(GL_PROJECTION_MATRIX, projection);
-	glGetIntegerv(GL_VIEWPORT, viewport);
+		winX = (float)x;
+		winY = (float)viewport[3] - (float)y;
 
-	winX = (float)x ;
-	winY = (float)viewport[3] - (float)y ;
+		glReadPixels(x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
 
-	glReadPixels(x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+		winX = winX + 250;
+		winY = winY + 250;
 
-	winX = winX + 250;
-	winY = winY + 250;
+		gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
-	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+		//finally cell coordinates
 
-	//finally cell coordinates
+		posicionAux = world2cell(posX, posY, xcell_sel, ycell_sel);
 
-	world2cell(posX , posY , xcell_sel, ycell_sel);
+	}
+
+	else movimientohecho = false;
+
 	
-	//capture other mouse events
-	if (button == MOUSE_LEFT_BUTTON)
-		leftButton = down;
-	else if (button == MOUSE_RIGHT_BUTTON)
-		rightButton = down;
-	else if (button == MOUSE_MIDDLE_BUTTON)
-		midButton = down;
-	///////////////////////////
-
-		//***WRITE ACTIONS CONNECTED TO MOUSE STATE HERE
-
-		//print cell coordinates after click
-	if (down)
-		cout << "(" << xcell_sel << "," << ycell_sel << ")" << endl;
 }
+
 
 Coordinador::Coordinador()
 {
@@ -56,23 +49,22 @@ Coordinador::Coordinador()
 	dist = 15 ;					//distance of viewpoint from center of the board
 	center_z = 0;
 
+	movimientohecho = false;
+	origen_detectado = false;
+
+	origen = 0;
+	destino = 0;
+
+	posicionAux.x = 0;
+	posicionAux.y = 0;
+
 	estado = INICIO;
 	movs = 0;
 	a = 0;
 }
 
-/*void Coordinador::teclaEspecial(unsigned char key)
-{
-
-}*/
-
 void Coordinador::tecla(unsigned char key)
 {
-	if (key == '0')
-	{
-		movs++;
-		a++;
-	}
 
 	if (estado == INICIO) {
 		if (key == '1') {
@@ -89,7 +81,6 @@ void Coordinador::tecla(unsigned char key)
 		}
 	}
 }
-
 
 void Coordinador::dibuja()
 {
@@ -114,29 +105,32 @@ void Coordinador::dibuja()
 		glDisable(GL_TEXTURE_2D);
 
 	}
-	
+
 	else if (estado == ModoNormal || estado == ModoLocura) {
-		
-		Vector2D origen, destino;
 
-		tablero.dibuja();
 
-		if (a == 0) {
-			tablero.dibujaPiezas();
-			//cout << "Estoy en el if" << endl;
-			a++;
+	tablero.dibuja();
+
+	tablero.dibujaPiezas();
+
+		if (movimientohecho == true && origen_detectado== false) {
+
+			origen.x = posicionAux.x;
+			origen.y = posicionAux.y;
+			movimientohecho = false;
+			origen_detectado = true;
+
 		}
-		else {
-		//cout << "Introduce posciones origen" << endl;
-		//cin >> origen.x;
-		//cin >> origen.y;
-		////cout << "las posiciones origen son" << origen.x << origen.y << endl;
-		//cout << "Introduce posciones destino" << endl;
-		//cin >> destino.x;
-		//cin >> destino.y;
-		////cout << "las posiciones origen son" << destino.x << destino.y << endl;
-		//tablero.mueve(origen, destino);
+
+			/*cout << "Introduce posciones destino" << endl;*/
+		if (movimientohecho == true && origen_detectado==true)
+		{
+			destino = posicionAux;
+			movimientohecho = false;
+			origen_detectado = false;
+			tablero.mueve(origen, destino);
+			}
 		}
-	}	
 }
+
 

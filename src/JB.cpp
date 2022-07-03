@@ -104,8 +104,6 @@ void OnTimer(int value)
 
 void OnMouseClick(int b, int state, int x, int y) {
 
-
-	cout << "b"<< b << "state" << state <<"x"<< x <<"y" << y;
 	//////////////
 	//captures clicks with mouse with or without special keys (CTRL or SHIFT)
 	//gives control to board scene
@@ -113,11 +111,9 @@ void OnMouseClick(int b, int state, int x, int y) {
 	int button;
 	if (b == GLUT_LEFT_BUTTON) {
 		button = MOUSE_LEFT_BUTTON;
-		cout << "MOUSE_RIGHT_BUTTON" << endl;
 	}
 	if (b == GLUT_RIGHT_BUTTON) {
 		button = MOUSE_RIGHT_BUTTON;
-		cout << "MOUSE_RIGHT_BUTTON" << endl;
 	}
 
 	int specialKey = glutGetModifiers();
@@ -127,5 +123,7 @@ void OnMouseClick(int b, int state, int x, int y) {
 
 
 	master.MouseButton(x, y, b, down, sKey, ctrlKey);
+	
+
 	glutPostRedisplay();
 }

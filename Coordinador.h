@@ -13,12 +13,19 @@ public:
 
 	int movs;
 
+	bool movimientohecho;
+
+	bool origen_detectado;
+
+	Vector2D posicionAux;
+
+	Vector2D origen, destino;
+
 	int a;
 
 	void tecla(unsigned char key);
 
 	void dibuja();
-
 
 //Event managers
 
@@ -30,10 +37,17 @@ public:
 
 	//coord
 
-	void world2cell(double x, double y, int& cell_x, int& cell_y) {
+	Vector2D world2cell(double x, double y, int& cell_x, int& cell_y) {
 		//world coordinates to cell
-		cell_x = (int)((x) / width);
-		cell_y = abs ((int)((y) / width)-7);
+		cell_y = (int)((x) / width);
+		cell_x = abs ((int)((y) / width)-7);
+
+		Vector2D posicion;
+
+		posicion.x = cell_x;
+		posicion.y = cell_y;
+
+		return posicion;
 	}
 
 protected:
