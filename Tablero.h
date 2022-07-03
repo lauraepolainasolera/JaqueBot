@@ -43,9 +43,9 @@
 
 		void mueve(Vector2D origen, Vector2D destino);
 		void setPieza(Pieza* origen, Pieza* destino);
-		void comerPieza(Pieza* origen, Pieza* destino);
+		//void comerPieza(Pieza* origen, Pieza* destino);
 		void coronar(Pieza* origen);
-		void cambiarTipoPieza(Pieza* origen, tipo t, color c);
+		Pieza* cambiarTipoPieza(Pieza* origen, tipo t, color c, Vector2D posicion);
 
 		bool obstaculo(Vector2D origen, Vector2D destino);
 		bool casillaVacia(Vector2D pos);
@@ -54,5 +54,9 @@
 		bool jaque(Vector2D rey, Pieza* ataq);
 		int jaqueReal();
 		bool evaluaEnclavamiento();
+		void jaqueMate();
+		int buscaAdyacentes(Vector2D, Vector2D* proxi [8]);
+		Pieza* piezaJaque();
+		int trayectoria(Vector2D, Vector2D, Vector2D* tray[]);
 	};
 
