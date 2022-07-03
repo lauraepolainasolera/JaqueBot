@@ -1,5 +1,16 @@
 #include "Caballo.h"
 
-void Caballo::dibuja(Vector2D p)
-{
+bool Caballo::movimientoValido(Vector2D origen, Vector2D destino) {
+	Vector2D res = destino - origen;
+	if (abs(res.x) == 2 && abs(res.y) == 1)
+		return true;
+	if (abs(res.y) == 2 && abs(res.x) == 1)
+		return true;
+	else
+		return false;
+}
+
+
+bool Caballo::movimientoComer(Vector2D origen, Vector2D destino) {
+	return movimientoValido(origen, destino);  //come en la misma direccion que se mueve
 }

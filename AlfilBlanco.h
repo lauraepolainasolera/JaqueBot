@@ -14,16 +14,8 @@ public:
 
 	AlfilBlanco() : Alfil(BLANCA), alfilb("bin/alfilblanco.png", 1, 1, 20) { alfilb.setCenter(0.6, 0.95); alfilb.setSize(1.5, 1.5); }
 
-	virtual void dibuja(Vector2D p)
-	{
-		glPushMatrix();
-		glTranslatef(p.x, p.y, 0.5);
-		alfilb.flip(false, false);
-		alfilb.draw();
-		glTranslatef(-p.x, -p.y, 0.5);
-		glPopMatrix();
+	void dibuja(Vector2D p);
 
-	}
 
 };
 

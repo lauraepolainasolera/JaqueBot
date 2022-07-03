@@ -15,7 +15,8 @@
 
 		float lado;
 
-		bool turno = 0;
+		int movimiento = 0;
+
 
 	public:
 
@@ -32,20 +33,30 @@
 
 		//Pieza p;
 
+		Vector2D obtenerPosicionesReales(Vector2D);
+		Pieza* obtenerPieza(Vector2D v);
+		Vector2D obtenerPunteroPieza(Vector2D v);
+
 		void setLado(float a);
 
-		void dibuja();
-
-		void dibujaPiezas(int);
-
 		void inicializa();
-
-		void moverPiezas();
-
-		bool igualdadTipo(Pieza* p, Pieza* m);
-
-		bool igualdadColor(Pieza* p, Pieza* m);
+		void dibuja();
+		void dibujaPiezas();
 
 
+		void mueve(Vector2D origen, Vector2D destino);
+		void setPieza(Pieza* origen, Pieza* destino);
+		Pieza* comerPieza(Pieza* origen, Pieza* destino);
+		Pieza* coronar(Pieza* origen);
+		Pieza* cambiarTipoPieza(Pieza* origen, tipo t, color c, Vector2D pos);
+
+		bool obstaculo(Vector2D origen, Vector2D destino);
+		bool casillaVacia(Vector2D pos);
+		bool setTurno(int movimiento, Pieza* p);
+
+
+		bool jaque(Vector2D rey, Pieza* ataq);
+		int jaqueReal();
+		bool evaluaEnclavamiento();
 	};
 

@@ -21,15 +21,16 @@ public:
 	tipo type;
 	color colour;
 
-	//const char *imagen;
-	
-	Pieza(tipo t, color c): colour(c), type(t){}
-	
+	Vector2D pos;
 
-	virtual void dibuja(Vector2D p);
+	Pieza(tipo t, color c): colour(c), type(t){}
+	Pieza() { colour = BLANCA; type = VACIA; }
+
+	virtual void dibuja(Vector2D p) =0;
 
 	//virtual ~Pieza();
 	//virtual void mueve() = 0;
-	//virtual bool movimientoValido(V2D origen, V2D destino) = 0;
+	virtual bool movimientoValido(Vector2D origen, Vector2D destino)=0;
+	virtual bool movimientoComer(Vector2D origen, Vector2D destino) = 0;
 
 };
