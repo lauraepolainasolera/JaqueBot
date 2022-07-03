@@ -137,14 +137,14 @@ void Coordinador::dibuja()
 
 	else if (estado == ModoNormal || estado == ModoLocura) {
 
-	
-
-	tablero.dibuja();
-
-	tablero.dibujaPiezas();
 
 
-		if (movimientohecho == true && origen_detectado== false) {
+		tablero.dibuja();
+
+		tablero.dibujaPiezas();
+
+
+		if (movimientohecho == true && origen_detectado == false) {
 
 			origen.x = posicionAux.x;
 			origen.y = posicionAux.y;
@@ -153,29 +153,26 @@ void Coordinador::dibuja()
 
 		}
 
-			/*cout << "Introduce posciones destino" << endl;*/
-		if (movimientohecho == true && origen_detectado==true)
+		/*cout << "Introduce posciones destino" << endl;*/
+		if (movimientohecho == true && origen_detectado == true)
 		{
 			destino = posicionAux;
 			movimientohecho = false;
 			origen_detectado = false;
 			tablero.mueve(origen, destino);
-			tablero.mostrarMovimiento(origen, destino);
-		  tablero.mostrarJaque();
 		}
-		
+		tablero.mostrarMovimiento(origen, destino);
+		tablero.mostrarJaque();
 	}
 
 
-			}
 
-		/*if (JaqueMate) {
-			estado = PantallaFinal;
-		}*/
-		//Implementar correctamente cuando se compruebe el jaque mate
-		}
+
+	/*if (JaqueMate) {
+		estado = PantallaFinal;
+	}*/
+	//Implementar correctamente cuando se compruebe el jaque mate
+
 
 
 }
-
-

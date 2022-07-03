@@ -57,7 +57,7 @@ void Tablero::dibuja()
 	glDisable(GL_TEXTURE_2D);
 
 	//Dibujo de las coordenadas del tablero
-	/*glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/CoordenadasTab.png").id);
 	glDisable(GL_LIGHTING);
@@ -70,7 +70,7 @@ void Tablero::dibuja()
 	glEnd();
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
-	*/
+	
 	
 }
 
@@ -513,7 +513,7 @@ bool Tablero::setTurno(int mov, Pieza* p) {
 
 bool Tablero::jaque(Vector2D rey, Pieza* ataq)
 {
-	if (ataq->movimientoValido(ataq->pos, rey) && obstaculo(rey, ataq->pos) == false) {
+	if (ataq->movimientoComer(ataq->pos, rey) && obstaculo(rey, ataq->pos) == false) {
 		//cout << "jaque" << endl;
 		return true;
 	}
