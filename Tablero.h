@@ -14,7 +14,9 @@
 	private:
 
 		float lado;
+
 		int movimiento = 0;
+
 
 	public:
 
@@ -41,6 +43,7 @@
 		void dibuja();
 		void dibujaPiezas();
 
+
 		void mueve(Vector2D origen, Vector2D destino);
 		void setPieza(Pieza* origen, Pieza* destino);
 		Pieza* comerPieza(Pieza* origen, Pieza* destino);
@@ -50,6 +53,7 @@
 		bool obstaculo(Vector2D origen, Vector2D destino);
 		bool casillaVacia(Vector2D pos);
 		bool setTurno(int movimiento, Pieza* p);
+
 
 		bool jaque(Vector2D rey, Pieza* ataq);
 		int jaqueReal();

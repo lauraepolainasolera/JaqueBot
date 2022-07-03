@@ -18,10 +18,6 @@ Coordinador::Coordinador()
 void Coordinador::tecla(unsigned char key)
 {
 
-	/*if (key == '0')
-	{
-		movs++;
-	}*/
 
 	if (estado == INICIO) {
 		if (key == '1' ) {
@@ -61,7 +57,7 @@ void Coordinador::dibuja()
 	ETSIDI::printxy("Ajedrez", -10, 11);
 
 	if (estado == INICIO) {
-		
+
 		glEnable(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_INICIO.png").id);
