@@ -67,17 +67,46 @@ void Coordinador::tecla(unsigned char key)
 {
 
 	if (estado == INICIO) {
-		if (key == '1') {
+		switch(key){
+		case '1':
 			estado = ModoNormal;
 			cout << "Iniciando el Modo Normal. Espere unos momentos." << endl;
 			tablero.inicializa();
 			tablero.dibujaPiezas();
-		}
-		else if (key == '2') {
+			break;
+		case '2':
 			cout << "Iniciando el Modo Locura. Espere unos momentos." << endl;
 			estado = ModoLocura;
 			tablero.inicializaModoLocura();
 			tablero.dibujaPiezas();
+			break;
+		case '3':
+			exit;
+		}
+	}
+	if (estado == PantallaFinal)
+	{
+		glEnable(GL_TEXTURE_2D);
+
+		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_FINAL.png").id);
+		glDisable(GL_LIGHTING);
+		glBegin(GL_POLYGON);
+		glColor3f(1, 1, 1);
+		glTexCoord2d(0, 0); glVertex3f(5, 5, 0);
+		glTexCoord2d(1, 0); glVertex3f(5, -5, 0);
+		glTexCoord2d(1, 1); glVertex3f(-5, -5, 0);
+		glTexCoord2d(0, 1); glVertex3f(-5, 5, 0);
+		glEnd();
+		glEnable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
+
+		switch (key) {
+		case '1':
+			estado = INICIO;
+			break;
+		case '2':
+			exit;
+			break;
 		}
 	}
 }
@@ -130,7 +159,13 @@ void Coordinador::dibuja()
 			origen_detectado = false;
 			tablero.mueve(origen, destino);
 			}
+
+		/*if (JaqueMate) {
+			estado = PantallaFinal;
+		}*/
+		//Implementar correctamente cuando se compruebe el jaque mate
 		}
+
 }
 
 
