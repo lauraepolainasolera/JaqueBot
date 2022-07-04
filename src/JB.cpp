@@ -6,15 +6,12 @@
 Coordinador master;
 
 void OnKeyboardDown(unsigned char key, int x, int y);
-//void onSpecialKeyboardDown(int key, int x, int y);
-void OnDraw(void);
-void OnTimer(int value);
-void OnMouseClick(int button, int state, int x, int y);
-//void inicio();
 
-//los callback, funciones que seran llamadas automaticamente por la glut
-//cuando sucedan eventos
-//NO HACE FALTA LLAMARLAS EXPLICITAMENTE
+void OnDraw(void);
+
+void OnTimer(int value);
+
+void OnMouseClick(int button, int state, int x, int y);
 
 int main(int argc,char* argv[])
 {
@@ -45,8 +42,6 @@ int main(int argc,char* argv[])
 
 	return 0;   
 }
-
-
 
 void OnDraw(void)
 {
@@ -82,6 +77,7 @@ void OnDraw(void)
 	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();
 }
+
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	
@@ -103,10 +99,6 @@ void OnTimer(int value)
 }
 
 void OnMouseClick(int b, int state, int x, int y) {
-
-	//////////////
-	//captures clicks with mouse with or without special keys (CTRL or SHIFT)
-	//gives control to board scene
 	bool down = (state == GLUT_DOWN);
 	int button;
 	if (b == GLUT_LEFT_BUTTON) {
@@ -115,14 +107,8 @@ void OnMouseClick(int b, int state, int x, int y) {
 	if (b == GLUT_RIGHT_BUTTON) {
 		button = MOUSE_RIGHT_BUTTON;
 	}
-
-	int specialKey = glutGetModifiers();
-	bool ctrlKey = (specialKey & GLUT_ACTIVE_CTRL) ? true : false;
-	bool sKey = specialKey & GLUT_ACTIVE_SHIFT;
 	
-
-
-	master.MouseButton(x, y, b, down, sKey, ctrlKey);
+	master.MouseButton(x, y, b, down);
 	
 
 	glutPostRedisplay();

@@ -208,7 +208,7 @@ Pieza* Tablero::obtenerPieza(Vector2D v) {
 	}
 }
 
-Vector2D Tablero::obtene	rPunteroPieza (Vector2D v) {
+Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
 	Vector2D punt = { 0,0 };
 	for (int i = 0; i < DIMENSION; i++) {
 		for (int j = 0; j < DIMENSION; j++) {
