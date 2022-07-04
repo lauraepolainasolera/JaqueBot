@@ -9,24 +9,7 @@ class Rey :
 {
 public:
 
-
-
-	//SpriteSequence reyn;
-
 	Rey(color c) : Pieza(REY, c){};
-
-	/*
-	void dibuja() {
-		
-		glPushMatrix();
-		glTranslatef(0, 0, 0);
-		im.flip(false, false);
-		im.draw();
-		glTranslatef(0, 0, 0);
-		glPopMatrix();
-	}
-	*/
-
 
 	virtual void dibuja(Vector2D p)=0;
 
