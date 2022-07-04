@@ -17,6 +17,7 @@
 #define DIMENSION 8
 
 using ETSIDI::SpriteSequence;
+using namespace std;
 
 Tablero::Tablero() {
 	jm = false;
@@ -102,15 +103,6 @@ void Tablero::inicializaModoLocura()
 		h = rand() % DIMENSION;
 	} while (a == c || a == e || a==g || c == e || c==g|| e==g || b == d || b == f || b==h || d == f || d ==h || f==h );
 	
-	
-	cout << a << endl;
-	cout << b << endl;
-	cout << c << endl;
-	cout << d << endl;
-	cout << e << endl;
-	cout << f << endl;
-	cout << g << endl;
-	cout << h << endl;
 
 	pi[0][0] = new TorreBlanca();
 	pi[7][0] = new TorreBlanca();
@@ -244,12 +236,10 @@ Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
 
 void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
-	cout << "es el movimiento numero " << movimiento << endl;
 
 	Pieza* orig = obtenerPieza(origen);
 	Pieza* dest = obtenerPieza(destino);
 
-	/*cout << orig->movimientoValido(origen, destino) << endl*/;
 	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino) && (enroque(origen, destino) == false)){
 		
 		setPieza(orig, dest);
@@ -301,8 +291,29 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		dibujaPiezas();
 	}
 
+	else if (capturaAlPaso(origen,destino) && casillaVacia(destino)) {
+		
+		int suma = 0;
+		setPieza(orig, dest);
+		(orig->colour == BLANCA) ? suma = -1 : suma = 1;
+		Pieza* peoncapt = obtenerPieza({ orig->pos.x, (orig->pos.y) + suma });
+		color c = peoncapt->colour;
+		peoncapt = cambiarTipoPieza(peoncapt, VACIA, BLANCA, peoncapt->pos);
+		orig->mov++;
+
+		if (evaluaEnclavamiento()) {
+			peoncapt = cambiarTipoPieza(peoncapt, PEON, c, { orig->pos.x,(orig->pos.y) + suma });
+			setPieza(dest, orig);
+			orig->mov--;
+		}
+		else
+			ETSIDI::play("bin/comer.wav");
+
+		jm = jaqueMate();
+		dibujaPiezas();
+	}
+
 	else{
-		cout << "movimiento invalido" << endl;
 		ETSIDI::play("bin/error.wav");
 		dibujaPiezas();
 	}
@@ -474,7 +485,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 
 			if (casillaVacia(v) == false)
 				ocupacion++;
-			cout << casillaVacia(v) << endl;
 		}
 	}
 
@@ -511,7 +521,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 		}
 	}
 	if (ocupacion >= 1) {
-		cout << "hay un obstaculo" << endl;
 		return true;
 	}
 	else
@@ -1072,3 +1081,20 @@ void Tablero::desEnroque(Pieza* origen, Pieza* destino)
 		setPieza(aux2, aux);
 	}
 }
+
+bool Tablero::capturaAlPaso(Vector2D origen, Vector2D destino) {
+	int suma = 0;
+	Pieza* peon = obtenerPieza(origen);
+	(peon->colour == BLANCA) ? suma = -1 : suma = 1;
+
+	Pieza* casVacia = obtenerPieza(destino);
+	Pieza* peoncapt = obtenerPieza({ casVacia->pos.x, (casVacia->pos.y) + suma });
+	
+	if (peon->type == PEON && peon->movimientoComer(origen, destino) && casillaVacia(casVacia->pos) && peoncapt->type == PEON && peoncapt->mov == 1)
+		return true;
+	
+	else
+		return false;
+}
+
+

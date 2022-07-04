@@ -53,6 +53,7 @@ public:
 
 	Pieza* cambiarTipoPieza(Pieza* origen, tipo t, color c, Vector2D pos);
 
+
 	bool obstaculo(Vector2D origen, Vector2D destino);
 		
 	bool casillaVacia(Vector2D pos);
@@ -60,6 +61,8 @@ public:
 	bool setTurno(int movimiento, Pieza* p);
 
 	bool jaque(Vector2D rey, Pieza* ataq);
+
+	bool capturaAlPaso(Vector2D origen, Vector2D destino);
 
 	int jaqueReal();
 		
