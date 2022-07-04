@@ -67,13 +67,13 @@ void Coordinador::tecla(unsigned char key)
 		switch (key) {
 		case '1':
 			estado = ModoNormal;
-			cout << "Iniciando el Modo Normal. Espere unos momentos." << endl;
+			cout << "Iniciando el Modo Normal, espere unos momentos..." << endl;
 			tablero.inicializa();
 			tablero.dibujaPiezas();
 			break;
 		case '2':
 			estado = ModoLocura;
-			cout << "Iniciando el Modo Locura. Espere unos momentos." << endl;
+			cout << "Iniciando el Modo Locura, espere unos momentos..." << endl;
 			tablero.inicializaModoLocura();
 			tablero.dibujaPiezas();
 			break;
@@ -153,7 +153,6 @@ void Coordinador::dibuja()
 
 		}
 
-		/*cout << "Introduce posciones destino" << endl;*/
 		if (movimientohecho == true && origen_detectado == true)
 		{
 			destino = posicionAux;
@@ -172,8 +171,6 @@ void Coordinador::dibuja()
 
 		estado = PantallaFinal;
 
-		cout << "estoy pintando" << endl;
-
 		glEnable(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_FINAL.png").id);
@@ -187,8 +184,6 @@ void Coordinador::dibuja()
 		glEnd();
 		glEnable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);
-
-		//Implementar correctamente cuando se compruebe el jaque mate
 	}
 
 
