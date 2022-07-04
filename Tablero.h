@@ -11,7 +11,7 @@ class Tablero
 {
 public:
 
-	int movimiento = 0;
+	int movimiento;
 		
 	bool jm;
 

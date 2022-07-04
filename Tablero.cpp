@@ -20,6 +20,7 @@ using ETSIDI::SpriteSequence;
 
 Tablero::Tablero() {
 	jm = false;
+	movimiento = 0;
 }
 
 Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
@@ -867,7 +868,7 @@ bool Tablero::jaqueMate()
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == NEGRA) { //busca el resto de las piezas negras
 					for (int l = 0; l < numero2; l++) {
-						if (aux->movimientoValido(aux->pos, *tray[l]) || aux->movimientoComer(aux->pos, aux3->pos)) jm++;
+						if (aux->movimientoValido(aux->pos, *tray[l]) || (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false)) jm++;
 					}
 				}
 			}
@@ -895,7 +896,7 @@ bool Tablero::jaqueMate()
 						Pieza* aux2 = obtenerPieza(*prox[k]);
 						if (aux2->type == VACIA) {
 							setPieza(aux, aux2);
-							if (jaqueReal() != 1) jm++;
+							if (jaqueReal() != 2) jm++;
 							setPieza(aux2, aux);
 						}
 					}
@@ -911,7 +912,7 @@ bool Tablero::jaqueMate()
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == BLANCA) { //busca el resto de las piezas BLANCAS
 					for (int l = 0; l < numero2; l++) {
-						if (aux->movimientoValido(aux->pos, *tray[l]) || aux->movimientoComer(aux->pos, aux3->pos)) jm++;
+						if (aux->movimientoValido(aux->pos, *tray[l]) || (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false)) jm++;
 					}
 				}
 			}
