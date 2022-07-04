@@ -17,6 +17,7 @@
 #define DIMENSION 8
 
 using ETSIDI::SpriteSequence;
+using namespace std;
 
 Tablero::Tablero() {
 	jm = false;
@@ -268,19 +269,40 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	else if (orig->movimientoComer(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && (casillaVacia(destino) == false) && (dest->colour != orig->colour)) {
 		tipo t = dest->type;
 		color c = dest->colour;
-	
+
 		dest = comerPieza(orig, dest);
 		orig->mov++;
-			if (evaluaEnclavamiento()) {
-				dest = cambiarTipoPieza(dest, t, c, dest->pos);
-				setPieza(dest, orig);
-				orig->mov--;
-			}
+		if (evaluaEnclavamiento()) {
+			dest = cambiarTipoPieza(dest, t, c, dest->pos);
+			setPieza(dest, orig);
+			orig->mov--;
+		}
 
-			else
-				ETSIDI::play("bin/comer.wav");
-			
-		orig=coronar(orig);
+		else
+			ETSIDI::play("bin/comer.wav");
+
+		orig = coronar(orig);
+		jm = jaqueMate();
+		dibujaPiezas();
+	}
+	else if (capturaAlPaso(origen, destino) && casillaVacia(destino)) {
+
+		int suma = 0;
+		setPieza(orig, dest);
+		(orig->colour == BLANCA) ? suma = -1 : suma = 1;
+		Pieza* peoncapt = obtenerPieza({ orig->pos.x, (orig->pos.y) + suma });
+		color c = peoncapt->colour;
+		peoncapt = cambiarTipoPieza(peoncapt, VACIA, BLANCA, peoncapt->pos);
+		orig->mov++;
+
+		if (evaluaEnclavamiento()) {
+			peoncapt = cambiarTipoPieza(peoncapt, PEON, c, { orig->pos.x,(orig->pos.y) + suma });
+			setPieza(dest, orig);
+			orig->mov--;
+		}
+		else
+			ETSIDI::play("bin/comer.wav");
+
 		jm = jaqueMate();
 		dibujaPiezas();
 	}
@@ -289,8 +311,30 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		cout << "movimiento invalido" << endl;
 		ETSIDI::play("bin/error.wav");
 		dibujaPiezas();
+
+
+
+
+
 	}
 }
+
+bool Tablero::capturaAlPaso(Vector2D origen, Vector2D destino) {
+	int suma = 0;
+	Pieza* peon = obtenerPieza(origen);
+	(peon->colour == BLANCA) ? suma = -1 : suma = 1;
+
+	Pieza* casVacia = obtenerPieza(destino);
+	Pieza* peoncapt = obtenerPieza({ casVacia->pos.x, (casVacia->pos.y) + suma });
+
+	if (peon->type == PEON && peon->movimientoComer(origen, destino) && casillaVacia(casVacia->pos) && peoncapt->type == PEON && peoncapt->mov == 1)
+		return true;
+
+	else
+		return false;
+}
+
+
 
 void Tablero::setPieza(Pieza* origen, Pieza* destino) {
 	Vector2D aux;
