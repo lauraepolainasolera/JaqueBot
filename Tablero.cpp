@@ -101,16 +101,6 @@ void Tablero::inicializaModoLocura()
 		g = rand() % DIMENSION;
 		h = rand() % DIMENSION;
 	} while (a == c || a == e || a==g || c == e || c==g|| e==g || b == d || b == f || b==h || d == f || d ==h || f==h );
-	
-	
-	cout << a << endl;
-	cout << b << endl;
-	cout << c << endl;
-	cout << d << endl;
-	cout << e << endl;
-	cout << f << endl;
-	cout << g << endl;
-	cout << h << endl;
 
 	pi[0][0] = new TorreBlanca();
 	pi[7][0] = new TorreBlanca();
@@ -244,17 +234,18 @@ Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
 
 void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
-	cout << "es el movimiento numero " << movimiento << endl;
+	cout << "es el movimiento numero " << (movimiento+1) << endl;
 
 	Pieza* orig = obtenerPieza(origen);
 	Pieza* dest = obtenerPieza(destino);
 
-	/*cout << orig->movimientoValido(origen, destino) << endl*/;
 	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino) && (enroque(origen, destino) == false)){
 		
 		setPieza(orig, dest);
+		orig->mov++;
 		if (evaluaEnclavamiento()) {
 			setPieza(dest, orig);
+			orig->mov--;
 		}
 		else 
 			ETSIDI::play("bin/mover.wav");
@@ -267,7 +258,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	else if (setTurno(movimiento, orig) && (enroque(origen, destino) == true))
 	{
 		enroque(orig, dest);
-		orig->mov;
+		orig->mov++;
 		if (evaluaEnclavamiento()) {
 			desEnroque(dest, orig);
 			orig->mov--;
@@ -284,10 +275,11 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		color c = dest->colour;
 	
 		dest = comerPieza(orig, dest);
-
+		orig->mov++;
 			if (evaluaEnclavamiento()) {
 				dest = cambiarTipoPieza(dest, t, c, dest->pos);
 				setPieza(dest, orig);
+				orig->mov--;
 			}
 
 			else
@@ -471,7 +463,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 
 			if (casillaVacia(v) == false)
 				ocupacion++;
-			cout << casillaVacia(v) << endl;
 		}
 	}
 
@@ -508,7 +499,6 @@ bool Tablero::obstaculo(Vector2D origen, Vector2D destino) {
 		}
 	}
 	if (ocupacion >= 1) {
-		cout << "hay un obstaculo" << endl;
 		return true;
 	}
 	else
@@ -538,7 +528,6 @@ bool Tablero::setTurno(int mov, Pieza* p) {
 bool Tablero::jaque(Vector2D rey, Pieza* ataq)
 {
 	if (ataq->movimientoComer(ataq->pos, rey) && obstaculo(rey, ataq->pos) == false) {
-		//cout << "jaque" << endl;
 		return true;
 	}
 	else return false;
@@ -554,36 +543,28 @@ int Tablero::jaqueReal()
 				pos.y = j;
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type == REY && aux->colour == NEGRA) {
-					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
 							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
-							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
-							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
-								//cout << "Evita" << endl;
+							if (aux2->colour == aux->colour || aux2->type == VACIA) {
 								continue;
 							}
 							if (jaque(pos, aux2)) {
-								cout << "jaque NEGRAS1" << endl;
 								return 1;
 							}
 						}
 					}
 				}
 				else if (aux->type == REY && aux->colour == BLANCA) {
-					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
 							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
-							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
-							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
-								//cout << "Evita" << endl;
+							if (aux2->colour == aux->colour || aux2->type == VACIA) {
 								continue;
 							}
 							if (jaque(pos, aux2)) {
-								cout << "jaque BLANCAS1" << endl;
 								return 2;
 							}
 						}
@@ -599,36 +580,28 @@ int Tablero::jaqueReal()
 				Pieza* aux = obtenerPieza(pos);
 
 				if (aux->type == REY && aux->colour == BLANCA) {
-					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
 							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
-							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
 							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
-								//cout << "Evita" << endl;
 								continue;
 							}
 							if (jaque(pos, aux2)) {
-								cout << "jaque BLANCAS2" << endl;
 								return 2;
 							}
 						}
 					}
 				}
 				else if (aux->type == REY && aux->colour == NEGRA) {
-					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
 							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
-							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
-							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
-								//cout << "Evita" << endl;
+							if (aux2->colour == aux->colour || aux2->type == VACIA) {
 								continue;
 							}
 							if (jaque(pos, aux2)) {
-								cout << "jaque NEGRAS2" << endl;
 								return 1;
 							}
 						}
@@ -644,9 +617,7 @@ int Tablero::jaqueReal()
 bool Tablero::evaluaEnclavamiento()
 {
 	int jr = jaqueReal();
-	cout << "Hay jaque del tipo" << jr << endl;
 	if (jr == 1 && movimiento % 2 == 0) {
-		//cout << "jaque" << endl;
 		movimiento++;
 		cout << "es el turno de las negras" << endl;
 		return false;
@@ -660,7 +631,6 @@ bool Tablero::evaluaEnclavamiento()
 		return true;
 	}
 	else if (jr == 2 && movimiento % 2 == 1) {
-		//cout << "jaque" << endl;
 		movimiento++;
 		cout << "es el turno de las blancas" << endl;
 		return false;
@@ -711,7 +681,6 @@ int Tablero::buscaAdyacentes(Vector2D p, Vector2D* prox[8])
 		for (int j = p.y - 1; j <= p.y + 1; j++) {
 			if ((i == p.x && j == p.y) || (j == DIMENSION) || (i == DIMENSION) || (j < 0) || (i < 0))continue;
 			prox[k] = new Vector2D{ (float)i,(float)j };
-			//cout << "Coordenadas proximas al rey" << prox[k]->x << prox[k]->y << endl;
 			k++;
 		}
 	}
@@ -727,14 +696,11 @@ Pieza* Tablero::piezaJaque()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type == REY && aux->colour == NEGRA) {
-					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
 							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
-							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
 							if ((aux2->colour != aux->colour || aux2->type != VACIA) && jaque(pos, aux2)) {
-								//cout << "Evita" << endl;
 								continue;
 							}
 							if (jaque(pos, aux2)) return aux2;
@@ -742,14 +708,11 @@ Pieza* Tablero::piezaJaque()
 					}
 				}
 				else if (aux->type == REY && aux->colour == BLANCA) {
-					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
 							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
-							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
-							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
-								//cout << "Evita" << endl;
+							if (aux2->colour == aux->colour || aux2->type == VACIA) {
 								continue;
 							}
 							if (jaque(pos, aux2)) return aux2;
@@ -765,14 +728,11 @@ Pieza* Tablero::piezaJaque()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type == REY && aux->colour == BLANCA) {
-					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
 							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
-							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
-							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
-								//cout << "Evita" << endl;
+							if (aux2->colour == aux->colour || aux2->type == VACIA) {
 								continue;
 							}
 							if (jaque(pos, aux2)) return aux2;
@@ -780,14 +740,11 @@ Pieza* Tablero::piezaJaque()
 					}
 				}
 				else if (aux->type == REY && aux->colour == NEGRA) {
-					//cout << "Tengo un rey de color "<< aux->colour << endl;
 					for (int k = 0; k < DIMENSION; k++) {
 						for (int l = 0; l < DIMENSION; l++) {
 							Vector2D pos2 = { (float)k, (float)l };
 							Pieza* aux2 = obtenerPieza(pos2);
-							//cout << "Tengo..." << aux2->type << "de color" << aux2->colour << endl;
-							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
-								//cout << "Evita" << endl;
+							if (aux2->colour == aux->colour || aux2->type == VACIA) {
 								continue;
 							}
 							if (jaque(pos, aux2)) return aux2;
@@ -804,11 +761,9 @@ int Tablero::trayectoria(Vector2D origen, Vector2D destino, Vector2D* tray[6])
 	Vector2D res = destino - origen;
 	int k = 0;
 	if ((abs(res.x) == abs(res.y)) && (origen.x < destino.x) && (origen.y < destino.y)) { //diagonal con coordenadas x,y positiva
-		//cout << "diagonal con coordenadas x,y positiva" << endl;
 		int i = origen.x + 1;
 		int j = origen.y + 1;
 		while (i < destino.x && j < destino.y) {
-			//cout << "la trayectoria es" << i << j << endl;
 			tray[k] = new Vector2D{ (float)i, (float)j };
 			i++;
 			j++;
@@ -817,12 +772,10 @@ int Tablero::trayectoria(Vector2D origen, Vector2D destino, Vector2D* tray[6])
 	}
 
 	if ((abs(res.x) == abs(res.y)) && (origen.x > destino.x) && (origen.y > destino.y)) { //diagonal con coordenadas x,y negativa
-		//cout << "diagonal con coordenadas x,y negativa" << endl;
 		int i = origen.x - 1;
 		int j = origen.y - 1;
 
 		while (i > destino.x && j > destino.y) {
-			//cout << "la trayectoria es" << i << j << endl;
 			tray[k] = new Vector2D{ (float)i, (float)j };
 			i--;
 			j--;
@@ -831,12 +784,10 @@ int Tablero::trayectoria(Vector2D origen, Vector2D destino, Vector2D* tray[6])
 	}
 
 	if ((abs(res.x) == abs(res.y)) && (origen.x > destino.x) && (origen.y < destino.y)) { //diagonal con coordenadas x negativa, y positiva
-		//cout << "diagonal con coordenadas x negativa y positiva" << endl;
 		int i = origen.x - 1;
 		int j = origen.y + 1;
 
 		while (i > destino.x && j < destino.y) {
-			//cout << "la trayectoria es" << i << j << endl;
 			tray[k] = new Vector2D{ (float)i, (float)j };
 			i--;
 			j++;
@@ -845,12 +796,10 @@ int Tablero::trayectoria(Vector2D origen, Vector2D destino, Vector2D* tray[6])
 	}
 
 	if ((abs(res.x) == abs(res.y)) && (origen.x < destino.x) && (origen.y > destino.y)) { //diagonal con coordenadas x positiva, y negativa
-		//cout << "diagonal con coordenadas x positiva y negativa" << endl;
 		int i = origen.x + 1;
 		int j = origen.y - 1;
 
 		while (i < destino.x && j>destino.y) {
-			//cout << "la trayectoria es" << i << j << endl;
 			tray[k] = new Vector2D{ (float)i, (float)j };
 			i++;
 			j--;
@@ -859,36 +808,28 @@ int Tablero::trayectoria(Vector2D origen, Vector2D destino, Vector2D* tray[6])
 	}
 
 	if ((origen.x == destino.x) && (origen.y < destino.y)) { // desplazarse en y positiva
-		//cout << "desplazarse y positiva" << endl;
 		for (int j = origen.y + 1; j < destino.y; j++) {
-			//cout << "la trayectoria es" << origen.x << j << endl;
 			tray[k] = new Vector2D{ (float)origen.x, (float)j };
 			k++;
 		}
 	}
 
 	if ((origen.x == destino.x) && (origen.y > destino.y)) { //desplazarse y negativa
-		//cout << "desplazarse y negativa" << endl;
 		for (int j = origen.y - 1; j > destino.y; j--) {
-			//cout << "la trayectoria es" << origen.x << j << endl;
 			tray[k] = new Vector2D{ (float)origen.x, (float)j };
 			k++;
 		}
 	}
 
 	if ((origen.x < destino.x) && (origen.y == destino.y)) { //Desplazarse x positiva
-		//cout << "desplazarse x positiva" << endl;
 		for (int i = origen.x + 1; i < destino.x; i++) {
-			//cout << "la trayectoria es" << i << origen.y << endl;
 			tray[k] = new Vector2D{ (float)i, (float)origen.y };
 			k++;
 		}
 	}
 
 	if ((origen.x > destino.x) && (origen.y == destino.y)) { //desplazarse x negativa
-		//cout << "desplazarse x negativa" << endl;
 		for (int i = origen.x - 1; i > destino.x; i--) {
-			//cout << "la trayectoria es" << i << origen.y << endl;
 			tray[k] = new Vector2D{ (float)i, (float)origen.y };
 			k++;
 		}
@@ -901,7 +842,6 @@ bool Tablero::jaqueMate()
 	
 	int jr = jaqueReal();
 	int jm = 0;
-	//Vector2D* aux[8];
 	Pieza* rey;
 
 	if (jr == 1) {
@@ -913,11 +853,8 @@ bool Tablero::jaqueMate()
 				if (aux->type == REY && aux->colour == NEGRA) { //busca el rey negro
 					Vector2D* prox[8];
 					int numero = buscaAdyacentes(aux->pos, prox);
-					//cout << "el numero es " << numero << endl;
 					for (int k = 0; k < numero; k++) {
-						//cout << prox[k]->x << prox[k]->y << endl;
 						Pieza* aux2 = obtenerPieza(*prox[k]);
-						//cout << aux2->type << aux2->colour << endl;
 						if (aux2->type == VACIA) {
 							setPieza(aux, aux2);
 							if (jaqueReal() != 1) jm++;
@@ -930,14 +867,12 @@ bool Tablero::jaqueMate()
 		}
 		Vector2D* tray[10];
 		int numero2 = trayectoria(rey->pos, aux3->pos, tray);
-		//cout << "el tamaño de las trayectorias es..." << numero2 << endl;
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == NEGRA) { //busca el resto de las piezas negras
 					for (int l = 0; l < numero2; l++) {
-						//cout << tray[l]->x << tray[l]->y << endl;
 						if (aux->movimientoValido(aux->pos, *tray[l]) || aux->movimientoComer(aux->pos, aux3->pos)) jm++;
 					}
 				}
@@ -962,11 +897,8 @@ bool Tablero::jaqueMate()
 				if (aux->type == REY && aux->colour == BLANCA) { //busca el rey BLANCO
 					Vector2D* prox[8];
 					int numero = buscaAdyacentes(aux->pos, prox);
-					//cout << "el numero es " << numero << endl;
 					for (int k = 0; k < numero; k++) {
-						//cout << prox[k]->x << prox[k]->y << endl;
 						Pieza* aux2 = obtenerPieza(*prox[k]);
-						//cout << aux2->type << aux2->colour << endl;
 						if (aux2->type == VACIA) {
 							setPieza(aux, aux2);
 							if (jaqueReal() != 1) jm++;
@@ -979,14 +911,12 @@ bool Tablero::jaqueMate()
 		}
 		Vector2D* tray[10];
 		int numero2 = trayectoria(rey->pos, aux3->pos, tray);
-		//cout << "el tamaño de las trayectorias es..." << numero2 << endl;
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == BLANCA) { //busca el resto de las piezas BLANCAS
 					for (int l = 0; l < numero2; l++) {
-						//cout << tray[l]->x << tray[l]->y << endl;
 						if (aux->movimientoValido(aux->pos, *tray[l]) || aux->movimientoComer(aux->pos, aux3->pos)) jm++;
 					}
 				}
@@ -1006,7 +936,6 @@ bool Tablero::jaqueMate()
 bool Tablero::enroque(Vector2D origen, Vector2D destino)
 {
 	if (((origen.x == destino.x - 2) || (origen.x == destino.x + 2)) && (origen.y == destino.y)) {
-		//cout << "estoy dentro" << endl;
 		Pieza* rey = obtenerPieza(origen);
 		Vector2D aux1 = { destino.x - 2, destino.y };
 		Pieza* torre1 = obtenerPieza(aux1);
@@ -1023,7 +952,6 @@ bool Tablero::enroque(Vector2D origen, Vector2D destino)
 void Tablero::enroque(Pieza* origen, Pieza* destino)
 {
 	if (destino->pos.x < origen->pos.x) {
-		//cout << "enroque LARGO" << endl;
 		setPieza(destino, origen);
 		Vector2D des = { origen->pos.x - 2, origen->pos.y };
 		Pieza* aux = obtenerPieza(des);
@@ -1032,14 +960,11 @@ void Tablero::enroque(Pieza* origen, Pieza* destino)
 		setPieza(aux, aux2);
 	}
 	else {
-		//cout << "enroque CORTO" << endl;
 		setPieza(destino, origen);
 		Vector2D des = { destino->pos.x + 1, origen->pos.y };
-		//cout << "des " << des.x << des.y << endl;
 		Pieza* aux = obtenerPieza(des);
 		Vector2D des2 = { origen->pos.x + 1, origen->pos.y };
 		Pieza* aux2 = obtenerPieza(des2);
-		//cout << "des " << des2.x << des2.y << endl;
 		setPieza(aux, aux2);
 	}
 }
@@ -1047,7 +972,6 @@ void Tablero::enroque(Pieza* origen, Pieza* destino)
 void Tablero::desEnroque(Pieza* origen, Pieza* destino)
 {
 	if (destino->pos.x < origen->pos.x) {
-		//cout << "desenroque LARGO" << endl;
 		setPieza(origen, destino);
 		Vector2D des = { origen->pos.x - 2, origen->pos.y };
 		Pieza* aux = obtenerPieza(des);
@@ -1056,14 +980,11 @@ void Tablero::desEnroque(Pieza* origen, Pieza* destino)
 		setPieza(aux2, aux);
 	}
 	else {
-		//cout << "desenroque CORTO" << endl;
 		setPieza(destino, origen);
 		Vector2D des = { destino->pos.x + 1, origen->pos.y };
-		//cout << "des " << des.x << des.y << endl;
 		Pieza* aux = obtenerPieza(des);
 		Vector2D des2 = { origen->pos.x + 1, origen->pos.y };
 		Pieza* aux2 = obtenerPieza(des2);
-		//cout << "des " << des2.x << des2.y << endl;
 		setPieza(aux2, aux);
 	}
 }
