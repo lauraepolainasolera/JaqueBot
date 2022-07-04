@@ -229,7 +229,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	Pieza* dest = obtenerPieza(destino);
 
 	/*cout << orig->movimientoValido(origen, destino) << endl*/;
-	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino) ){
+	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino) && (enroque(origen, destino) == false)){
 		
 		setPieza(orig, dest);
 		if (evaluaEnclavamiento()) {
@@ -242,6 +242,19 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		orig=coronar(orig);				//comprueba si la pieza ha coronado
 		jm = jaqueMate();
 		dibujaPiezas();
+	}
+	else if (setTurno(movimiento, orig) && (enroque(origen, destino) == true))
+	{
+		enroque(orig, dest);
+		orig->mov;
+		if (evaluaEnclavamiento()) {
+			desEnroque(dest, orig);
+			orig->mov--;
+		}
+		else
+			ETSIDI::play("bin/sonidos/mover.wav");
+
+		jm = jaqueMate();
 	}
 
 
@@ -966,5 +979,70 @@ bool Tablero::jaqueMate()
 			cout << "Has perdido amigo. GANAN LAS NEGRAS" << endl;
 			return true;
 		}
+	}
+}
+
+bool Tablero::enroque(Vector2D origen, Vector2D destino)
+{
+	if (((origen.x == destino.x - 2) || (origen.x == destino.x + 2)) && (origen.y == destino.y)) {
+		//cout << "estoy dentro" << endl;
+		Pieza* rey = obtenerPieza(origen);
+		Vector2D aux1 = { destino.x - 2, destino.y };
+		Pieza* torre1 = obtenerPieza(aux1);
+		Vector2D aux2 = { destino.x + 1, destino.y };
+		Pieza* torre2 = obtenerPieza(aux2);
+		if ((rey->colour == torre1->colour) && (rey->type == REY) && (torre1->type == TORRE) && (obstaculo(origen, aux1) == false) && (rey->mov == 0) && torre1->mov == 0) { return true; }
+		else if ((rey->colour == torre2->colour) && (rey->type == REY) && (torre2->type == TORRE) && (obstaculo(origen, aux2) == false) && (rey->mov == 0) && torre2->mov == 0) return true;
+		else return false;
+	}
+	else return false;
+
+}
+
+void Tablero::enroque(Pieza* origen, Pieza* destino)
+{
+	if (destino->pos.x < origen->pos.x) {
+		//cout << "enroque LARGO" << endl;
+		setPieza(destino, origen);
+		Vector2D des = { origen->pos.x - 2, origen->pos.y };
+		Pieza* aux = obtenerPieza(des);
+		Vector2D des2 = { destino->pos.x - 1, origen->pos.y };
+		Pieza* aux2 = obtenerPieza(des2);
+		setPieza(aux, aux2);
+	}
+	else {
+		//cout << "enroque CORTO" << endl;
+		setPieza(destino, origen);
+		Vector2D des = { destino->pos.x + 1, origen->pos.y };
+		//cout << "des " << des.x << des.y << endl;
+		Pieza* aux = obtenerPieza(des);
+		Vector2D des2 = { origen->pos.x + 1, origen->pos.y };
+		Pieza* aux2 = obtenerPieza(des2);
+		//cout << "des " << des2.x << des2.y << endl;
+		setPieza(aux, aux2);
+	}
+}
+
+void Tablero::desEnroque(Pieza* origen, Pieza* destino)
+{
+	if (destino->pos.x < origen->pos.x) {
+		//cout << "desenroque LARGO" << endl;
+		setPieza(origen, destino);
+		Vector2D des = { origen->pos.x - 2, origen->pos.y };
+		Pieza* aux = obtenerPieza(des);
+		Vector2D des2 = { destino->pos.x - 1, origen->pos.y };
+		Pieza* aux2 = obtenerPieza(des2);
+		setPieza(aux2, aux);
+	}
+	else {
+		//cout << "desenroque CORTO" << endl;
+		setPieza(destino, origen);
+		Vector2D des = { destino->pos.x + 1, origen->pos.y };
+		//cout << "des " << des.x << des.y << endl;
+		Pieza* aux = obtenerPieza(des);
+		Vector2D des2 = { origen->pos.x + 1, origen->pos.y };
+		Pieza* aux2 = obtenerPieza(des2);
+		//cout << "des " << des2.x << des2.y << endl;
+		setPieza(aux2, aux);
 	}
 }

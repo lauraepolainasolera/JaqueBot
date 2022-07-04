@@ -18,6 +18,8 @@ public:
 	tipo type;
 	color colour;
 
+	int mov = 0;
+
 	Vector2D pos;
 
 	Pieza(tipo t, color c): colour(c), type(t){}

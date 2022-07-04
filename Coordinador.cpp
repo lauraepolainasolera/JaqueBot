@@ -5,8 +5,24 @@
 
 Tablero tablero;
 
-void  Coordinador::MouseButton(int x, int y, int button, bool down, bool shiftKey, bool ctrlKey)
+Coordinador::Coordinador()
+{
+	width = 1.2;				//width of each cell in the grid	N = pb->getSize();		//Grid NxN
+	center_z = 0;
 
+	movimientohecho = false;
+	origen_detectado = false;
+
+	origen = 0;
+	destino = 0;
+
+	posicionAux.x = 0;
+	posicionAux.y = 0;
+
+	estado = INICIO;
+}
+
+void  Coordinador::MouseButton(int x, int y, int button, bool down)
 {
 	if (down == true)
 	{
@@ -33,33 +49,13 @@ void  Coordinador::MouseButton(int x, int y, int button, bool down, bool shiftKe
 
 		//finally cell coordinates
 
-		posicionAux = world2cell(posX, posY, xcell_sel, ycell_sel);
+		posicionAux = world2cell(posX, posY);
 
 	}
 
 	else movimientohecho = false;
 
 	
-}
-
-Coordinador::Coordinador()
-{
-	width = 1.2;				//width of each cell in the grid	N = pb->getSize();		//Grid NxN
-	dist = 15 ;					//distance of viewpoint from center of the board
-	center_z = 0;
-
-	movimientohecho = false;
-	origen_detectado = false;
-
-	origen = 0;
-	destino = 0;
-
-	posicionAux.x = 0;
-	posicionAux.y = 0;
-
-	estado = INICIO;
-	movs = 0;
-	a = 0;
 }
 
 void Coordinador::tecla(unsigned char key)
@@ -92,7 +88,7 @@ void Coordinador::tecla(unsigned char key)
 		case '1':
 			estado = INICIO;
 			tablero.jm = 0;
-			movs = 0;
+			tablero.movimiento = 0;
 			break;
 		case '2':
 			exit;
