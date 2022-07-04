@@ -9,10 +9,6 @@
 
 class Tablero
 {
-private:
-
-	float lado;
-
 public:
 
 	int movimiento = 0;
@@ -26,22 +22,20 @@ public:
 	Vector2D PosicionReal[DIMENSION][DIMENSION];
 
 	Pieza* pi[DIMENSION][DIMENSION];
-
-	Vector2D obtenerPosicionesReales(Vector2D);
-
-	Pieza* obtenerPieza(Vector2D v);
 	
 	Vector2D obtenerPunteroPieza(Vector2D v);
-
-	void setLado(float a);
 
 	void inicializa();
 	
 	void dibuja();
 	
+	void inicializaModoLocura();
+
 	void dibujaPiezas();
 
-	void inicializaModoLocura();
+	Vector2D obtenerPosicionesReales(Vector2D);
+
+	Pieza* obtenerPieza(Vector2D v);
 
 	void mueve(Vector2D origen, Vector2D destino);
 		

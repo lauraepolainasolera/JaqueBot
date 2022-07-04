@@ -32,12 +32,6 @@ Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
 	return PosicionReal[i][j];
 }
 
-void Tablero::setLado(float l)
-//Definición del tamaño del tablero
-{
-	lado = l;
-}
-
 void Tablero::dibuja()
 //Dibujo del tablero
 {
