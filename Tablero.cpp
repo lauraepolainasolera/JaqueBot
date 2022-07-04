@@ -12,6 +12,7 @@
 #include "PeonBlanco.h"
 #include "PeonNegro.h"
 #include "PiezaVacia.h"
+#include <stdlib.h>
 
 #define DIMENSION 8
 
@@ -87,14 +88,30 @@ void Tablero::dibujaPiezas()
 
 void Tablero::inicializaModoLocura()
 {
+	srand(time(0));
+	int a,b,c,d,e,f,g,h;
 
-	int a;
-	int b;
-
-	a = rand() %DIMENSION - 1; 
-	b = rand() %DIMENSION - 1;
+	do{
+		a = rand() % DIMENSION;
+		b = rand() % DIMENSION;
+		c = rand() % DIMENSION;
+		d = rand() % DIMENSION;
+		e = rand() % DIMENSION;
+		f = rand() % DIMENSION;
+		g = rand() % DIMENSION;
+		h = rand() % DIMENSION;
+	} while (a == c || a == e || a==g || c == e || c==g|| e==g || b == d || b == f || b==h || d == f || d ==h || f==h );
 	
 	
+	cout << a << endl;
+	cout << b << endl;
+	cout << c << endl;
+	cout << d << endl;
+	cout << e << endl;
+	cout << f << endl;
+	cout << g << endl;
+	cout << h << endl;
+
 	pi[0][0] = new TorreBlanca();
 	pi[7][0] = new TorreBlanca();
 	pi[1][0] = new CaballoBlanco();
@@ -121,17 +138,21 @@ void Tablero::inicializaModoLocura()
 	}
 
 	for (int j = 0; j < DIMENSION; j++) {
-		if (a == j) {
+		if (a == j || c == j ) {
 			pi[j][1] = new TorreBlanca();
 		}
+		else if (e == j || g==j)
+			pi[j][1] = new AlfilBlanco();
 		else 
 			pi[j][1] = new PeonBlanco();
 	}
 
 	for (int j = 0; j < DIMENSION; j++) {
-		if (b == j) {
+		if (b == j || d==j) {
 			pi[j][6] = new TorreNegra();
 		}
+		else if (f == j || h == j)
+			pi[j][6] = new AlfilNegro();
 		else
 			pi[j][6] = new PeonNegro();
 	}
@@ -236,7 +257,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 			setPieza(dest, orig);
 		}
 		else 
-			ETSIDI::play("bin/sonidos/mover.wav");
+			ETSIDI::play("bin/mover.wav");
 
 
 		orig=coronar(orig);				//comprueba si la pieza ha coronado
@@ -252,7 +273,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 			orig->mov--;
 		}
 		else
-			ETSIDI::play("bin/sonidos/mover.wav");
+			ETSIDI::play("bin/mover.wav");
 
 		jm = jaqueMate();
 	}
@@ -270,7 +291,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 			}
 
 			else
-				ETSIDI::play("bin/sonidos/comer.wav");
+				ETSIDI::play("bin/comer.wav");
 			
 		orig=coronar(orig);
 		jm = jaqueMate();
@@ -279,7 +300,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
 	else{
 		cout << "movimiento invalido" << endl;
-		ETSIDI::play("bin/sonidos/error.wav");
+		ETSIDI::play("bin/error.wav");
 		dibujaPiezas();
 	}
 }
