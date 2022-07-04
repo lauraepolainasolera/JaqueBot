@@ -253,8 +253,10 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino) && (enroque(origen, destino) == false)){
 		
 		setPieza(orig, dest);
+		orig->mov++;
 		if (evaluaEnclavamiento()) {
 			setPieza(dest, orig);
+			orig->mov--;
 		}
 		else 
 			ETSIDI::play("bin/mover.wav");
@@ -267,7 +269,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	else if (setTurno(movimiento, orig) && (enroque(origen, destino) == true))
 	{
 		enroque(orig, dest);
-		orig->mov;
+		orig->mov++;
 		if (evaluaEnclavamiento()) {
 			desEnroque(dest, orig);
 			orig->mov--;
@@ -284,10 +286,11 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		color c = dest->colour;
 	
 		dest = comerPieza(orig, dest);
-
+		orig->mov++;
 			if (evaluaEnclavamiento()) {
 				dest = cambiarTipoPieza(dest, t, c, dest->pos);
 				setPieza(dest, orig);
+				orig->mov--;
 			}
 
 			else
@@ -1022,25 +1025,27 @@ bool Tablero::enroque(Vector2D origen, Vector2D destino)
 
 void Tablero::enroque(Pieza* origen, Pieza* destino)
 {
-	if (destino->pos.x < origen->pos.x) {
-		//cout << "enroque LARGO" << endl;
-		setPieza(destino, origen);
-		Vector2D des = { origen->pos.x - 2, origen->pos.y };
-		Pieza* aux = obtenerPieza(des);
-		Vector2D des2 = { destino->pos.x - 1, origen->pos.y };
-		Pieza* aux2 = obtenerPieza(des2);
-		setPieza(aux, aux2);
-	}
-	else {
-		//cout << "enroque CORTO" << endl;
-		setPieza(destino, origen);
-		Vector2D des = { destino->pos.x + 1, origen->pos.y };
-		//cout << "des " << des.x << des.y << endl;
-		Pieza* aux = obtenerPieza(des);
-		Vector2D des2 = { origen->pos.x + 1, origen->pos.y };
-		Pieza* aux2 = obtenerPieza(des2);
-		//cout << "des " << des2.x << des2.y << endl;
-		setPieza(aux, aux2);
+	if (origen->mov==0) {
+		if (destino->pos.x < origen->pos.x) {
+			//cout << "enroque LARGO" << endl;
+			setPieza(destino, origen);
+			Vector2D des = { origen->pos.x - 2, origen->pos.y };
+			Pieza* aux = obtenerPieza(des);
+			Vector2D des2 = { destino->pos.x - 1, origen->pos.y };
+			Pieza* aux2 = obtenerPieza(des2);
+			setPieza(aux, aux2);
+		}
+		else {
+			//cout << "enroque CORTO" << endl;
+			setPieza(destino, origen);
+			Vector2D des = { destino->pos.x + 1, origen->pos.y };
+			//cout << "des " << des.x << des.y << endl;
+			Pieza* aux = obtenerPieza(des);
+			Vector2D des2 = { origen->pos.x + 1, origen->pos.y };
+			Pieza* aux2 = obtenerPieza(des2);
+			//cout << "des " << des2.x << des2.y << endl;
+			setPieza(aux, aux2);
+		}
 	}
 }
 
