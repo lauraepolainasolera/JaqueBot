@@ -912,7 +912,7 @@ bool Tablero::jaqueMate()
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == NEGRA) { //busca el resto de las piezas negras
 					for (int l = 0; l < numero2; l++) {
-						if (aux->movimientoValido(aux->pos, *tray[l]) || (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false)) jm++;
+						if ((aux->movimientoValido(aux->pos, *tray[l]) &&obstaculo(aux->pos, *tray[l])==false) || (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false)) jm++;
 					}
 				}
 			}
@@ -956,7 +956,7 @@ bool Tablero::jaqueMate()
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == BLANCA) { //busca el resto de las piezas BLANCAS
 					for (int l = 0; l < numero2; l++) {
-						if (aux->movimientoValido(aux->pos, *tray[l]) || (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false)) jm++;
+						if ((aux->movimientoValido(aux->pos, *tray[l]) && obstaculo(aux->pos, *tray[l]) == false) || (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false)) jm++;
 					}
 				}
 			}
