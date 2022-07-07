@@ -53,7 +53,8 @@ void Tablero::dibuja()
 
 	//Dibujo de las coordenadas del tablero
 	glEnable(GL_TEXTURE_2D);
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/CoordenadasTab.png").id);
 	glDisable(GL_LIGHTING);
 	glBegin(GL_POLYGON);
@@ -66,7 +67,14 @@ void Tablero::dibuja()
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 	
-	
+	/*glColor3f(0.7, 0.4, 0.3);
+	glBegin(GL_POLYGON);
+	glVertex3f(-7.5, 5.5, 0);
+	glVertex3f(7.5, 5.5, 0);
+	glVertex3f(7.5, -5.5, 0);
+	glVertex3f(-7.5, -5.5, 0);
+	glEnd();
+	*/
 }
 
 void Tablero::dibujaPiezas()
@@ -982,4 +990,10 @@ void Tablero::desEnroque(Pieza* origen, Pieza* destino)
 		Pieza* aux2 = obtenerPieza(des2);
 		setPieza(aux2, aux);
 	}
+}
+
+void Tablero::reset() {
+	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++)	delete pi[i][j];
+	movimiento = 0;
+	inicializa();
 }

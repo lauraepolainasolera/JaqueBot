@@ -4,7 +4,7 @@
 
 enum { MOUSE_LEFT_BUTTON, MOUSE_MIDDLE_BUTTON, MOUSE_RIGHT_BUTTON };
 enum { KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT };
-enum Estado { INICIO, ModoNormal, ModoLocura, PantallaFinal };
+enum Estado { INICIO, ModoNormal, ModoLocura, PantallaFinal, Pausa };
 
 class Coordinador
 {

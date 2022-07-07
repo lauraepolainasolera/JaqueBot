@@ -77,5 +77,7 @@ public:
 
 	void desEnroque(Pieza* origen, Pieza* destino);
 
+
+	void reset();
 };
 

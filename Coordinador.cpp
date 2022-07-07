@@ -100,25 +100,41 @@ void Coordinador::tecla(unsigned char key)
 	case ModoNormal:
 		switch (key)
 		{
-		case '1':
-			estado = INICIO;
+		case ('p'):
+			estado = Pausa;
 			break;
 		default:
-			exit(0);
+			//exit(0);
 			break;
 		}
 		break;
+	case Pausa:
+		switch (key)
+		{
+		case ('p'):
+			estado = ModoNormal;
+			break;
+		case 'e':
+			estado = INICIO;
+			break;
+		case 's':
+			break;
+		case 'r':
+			tablero.reset();
+			estado = ModoNormal;
+			break;
+		default:
+			break;
+		}
 	}
 }
 
 void Coordinador::dibuja()
 {
-	ETSIDI::setTextColor(1, 1, 0);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 12);
-	ETSIDI::printxy("Ajedrez", -10, 11);
+	ETSIDI::setTextColor(0, 0, 0);
+	ETSIDI::setFont("bin/droid-serif.italic.ttf", 14);
 
 	if (estado == INICIO) {
-
 		glEnable(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_INICIO.png").id);
@@ -132,7 +148,6 @@ void Coordinador::dibuja()
 		glEnd();
 		glEnable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);
-
 	}
 
 	else if (estado == ModoNormal || estado == ModoLocura) {
@@ -164,7 +179,29 @@ void Coordinador::dibuja()
 		tablero.mostrarJaque();
 	}
 
-
+	else if (estado == Pausa) {	
+		glColor3f(1, 1, 1);
+		glBegin(GL_POLYGON);
+		glVertex3f(-3.5, 4.5, 0);
+		glVertex3f(3.5, 4.5, 0);
+		glVertex3f(3.5, -4.5, 0);
+		glVertex3f(-3.5, -4.5, 0);
+		glEnd();
+		glColor3f(0, 0, 0);
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(-3.5, 4.5, 0);
+		glVertex3f(3.5, 4.5, 0);
+		glVertex3f(3.5, -4.5, 0);
+		glVertex3f(-3.5, -4.5, 0);
+		glEnd();
+		ETSIDI::printxy("   Pulsa P para volver a la partida", -3, 3);
+		ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
+		ETSIDI::printxy("   Pulsa S para guardar la partida", -3, -1);
+		ETSIDI::printxy("   Pulsa E para salir de la partida", -3, -3);
+		//tablero.dibujaPiezas();
+		tablero.dibuja();
+		
+	}
 
 
 	if (tablero.jm == true) {
@@ -177,6 +214,11 @@ void Coordinador::dibuja()
 		glDisable(GL_LIGHTING);
 		glBegin(GL_POLYGON);
 		glColor3f(1, 1, 1);
+		glBegin(GL_POLYGON);
+		glVertex3f(-8, 8, 0);
+		glVertex3f(8, 8, 0);
+		glVertex3f(8, -8, 0);
+		glVertex3f(-8, -8, 0);
 		glTexCoord2d(0, 0); glVertex3f(-5, 5, 0);
 		glTexCoord2d(1, 0); glVertex3f(5, 5, 0);
 		glTexCoord2d(1, 1); glVertex3f(5, -5, 0);
