@@ -545,34 +545,36 @@ int Tablero::jaqueReal()
 				pos.x = i;
 				pos.y = j;
 				Pieza* aux = obtenerPieza(pos);
-				if (aux->type == REY && aux->colour == NEGRA) {
-					for (int k = 0; k < DIMENSION; k++) {
-						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { (float)k, (float)l };
-							Pieza* aux2 = obtenerPieza(pos2);
-							if (aux2->colour == aux->colour || aux2->type == VACIA) {
-								continue;
-							}
-							if (jaque(pos, aux2)) {
-								return 1;
-							}
-						}
-					}
-				}
-				else if (aux->type == REY && aux->colour == BLANCA) {
-					for (int k = 0; k < DIMENSION; k++) {
-						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { (float)k, (float)l };
-							Pieza* aux2 = obtenerPieza(pos2);
-							if (aux2->colour == aux->colour || aux2->type == VACIA) {
-								continue;
-							}
-							if (jaque(pos, aux2)) {
-								return 2;
+				if (aux != nullptr) {
+					if (aux->type == REY && aux->colour == NEGRA) {
+						for (int k = 0; k < DIMENSION; k++) {
+							for (int l = 0; l < DIMENSION; l++) {
+								Vector2D pos2 = { (float)k, (float)l };
+								Pieza* aux2 = obtenerPieza(pos2);
+								if (aux2->colour == aux->colour || aux2->type == VACIA) {
+									continue;
+								}
+								if (jaque(pos, aux2)) {
+									return 1;
+								}
 							}
 						}
 					}
-				}
+					else if (aux->type == REY && aux->colour == BLANCA) {
+						for (int k = 0; k < DIMENSION; k++) {
+							for (int l = 0; l < DIMENSION; l++) {
+								Vector2D pos2 = { (float)k, (float)l };
+								Pieza* aux2 = obtenerPieza(pos2);
+								if (aux2->colour == aux->colour || aux2->type == VACIA) {
+									continue;
+								}
+								if (jaque(pos, aux2)) {
+									return 2;
+								}
+							}
+						}
+					}
+				} //este
 			}
 		}
 	}
@@ -581,35 +583,36 @@ int Tablero::jaqueReal()
 			for (int j = 0; j < DIMENSION; j++) {
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
-
-				if (aux->type == REY && aux->colour == BLANCA) {
-					for (int k = 0; k < DIMENSION; k++) {
-						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { (float)k, (float)l };
-							Pieza* aux2 = obtenerPieza(pos2);
-							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
-								continue;
-							}
-							if (jaque(pos, aux2)) {
-								return 2;
-							}
-						}
-					}
-				}
-				else if (aux->type == REY && aux->colour == NEGRA) {
-					for (int k = 0; k < DIMENSION; k++) {
-						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { (float)k, (float)l };
-							Pieza* aux2 = obtenerPieza(pos2);
-							if (aux2->colour == aux->colour || aux2->type == VACIA) {
-								continue;
-							}
-							if (jaque(pos, aux2)) {
-								return 1;
+				if (aux != nullptr) {
+					if (aux->type == REY && aux->colour == BLANCA) {
+						for (int k = 0; k < DIMENSION; k++) {
+							for (int l = 0; l < DIMENSION; l++) {
+								Vector2D pos2 = { (float)k, (float)l };
+								Pieza* aux2 = obtenerPieza(pos2);
+								if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
+									continue;
+								}
+								if (jaque(pos, aux2)) {
+									return 2;
+								}
 							}
 						}
 					}
-				}
+					else if (aux->type == REY && aux->colour == NEGRA) {
+						for (int k = 0; k < DIMENSION; k++) {
+							for (int l = 0; l < DIMENSION; l++) {
+								Vector2D pos2 = { (float)k, (float)l };
+								Pieza* aux2 = obtenerPieza(pos2);
+								if (aux2->colour == aux->colour || aux2->type == VACIA) {
+									continue;
+								}
+								if (jaque(pos, aux2)) {
+									return 1;
+								}
+							}
+						}
+					}
+				} //este
 			}
 		}
 	}
@@ -996,4 +999,39 @@ void Tablero::reset() {
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++)	delete pi[i][j];
 	movimiento = 0;
 	inicializa();
+}
+
+void Tablero::crearPieza(int tipo, int color, int x, int y) {
+	switch(tipo) {
+	case TORRE:
+		if (color == BLANCA) pi[x][y] = new TorreBlanca();
+		else pi[x][y] = new TorreNegra();
+		break;
+	case CABALLO:
+		if (color == BLANCA) pi[x][y] = new CaballoBlanco();
+		else pi[x][y] = new CaballoNegro();
+		break;
+	case ALFIL:
+		if (color == BLANCA) pi[x][y] = new AlfilBlanco();
+		else pi[x][y] = new AlfilNegro();
+		break;
+	case REY:
+		if (color == BLANCA) pi[x][y] = new ReyBlanco();
+		else pi[x][y] = new ReyNegro();
+		break;
+	case REINA:
+		if (color == BLANCA) pi[x][y] = new ReinaBlanca();
+		else pi[x][y] = new ReinaNegra();
+		break;
+	case PEON:
+		if (color == BLANCA) pi[x][y] = new PeonBlanco();
+		else pi[x][y] = new PeonNegro();
+		break;
+	case VACIA:
+		pi[x][y] = new PiezaVacia();
+		break;
+	default:
+		cout << "algo va mal";
+		break;
+	}
 }

@@ -20,6 +20,8 @@ Coordinador::Coordinador()
 	posicionAux.y = 0;
 
 	estado = INICIO;
+
+
 }
 
 void  Coordinador::MouseButton(int x, int y, int button, bool down)
@@ -118,9 +120,14 @@ void Coordinador::tecla(unsigned char key)
 			estado = INICIO;
 			break;
 		case 's':
+			guardar();
 			break;
 		case 'r':
 			tablero.reset();
+			estado = ModoNormal;
+			break;
+		case 'c':
+			cargar();
 			estado = ModoNormal;
 			break;
 		default:
@@ -229,4 +236,23 @@ void Coordinador::dibuja()
 	}
 
 
+}
+
+void Coordinador::guardar() {
+	save.open("bin/save.txt");
+	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) if (tablero.pi[i][j] != nullptr) save << tablero.pi[i][j]->type << endl << tablero.pi[i][j]->colour << endl;
+	save.close();
+}
+
+void Coordinador::cargar() {
+	int t, c;
+	save.open("bin/save.txt");
+	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) { 
+		if (save.eof()) break;
+		save >> t;
+		save >> c;
+		cout << "TIPO " << t << " COLOR " << c << endl;
+		if (!save.eof()) tablero.crearPieza(t, c, i, j); 
+	}
+	save.close();
 }

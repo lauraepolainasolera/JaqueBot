@@ -1,6 +1,7 @@
 #pragma once
 #include "ETSIDI.h"
 #include "Tablero.h"
+#include <fstream>
 
 enum { MOUSE_LEFT_BUTTON, MOUSE_MIDDLE_BUTTON, MOUSE_RIGHT_BUTTON };
 enum { KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT };
@@ -34,6 +35,8 @@ public:
 
 protected:
 
+	fstream save;
+
 	bool movimientohecho;
 
 	bool origen_detectado;
@@ -50,4 +53,7 @@ protected:
 
 	double center_x, center_y, center_z;
 
+	void cargar();
+
+	void guardar();
 };
