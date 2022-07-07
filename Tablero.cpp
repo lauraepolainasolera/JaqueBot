@@ -20,6 +20,13 @@ using ETSIDI::SpriteSequence;
 using namespace std;
 
 Tablero::Tablero() {
+
+	for (int i = 0; i < DIMENSION; i++) {
+		for (int j = 0; j < DIMENSION; j++) {
+		
+			pi[i][j] = new PiezaVacia();
+		}
+	}
 	jm = false;
 	movimiento = 0;
 }
@@ -28,7 +35,7 @@ Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
 	int i = v.x;
 	int j = v.y;
 	
-		PosicionReal[i][j].x = -4.2 + (j * 1.2);
+		PosicionReal[i][j].x = -float(4.2) + (j * 1.2);
 		PosicionReal[i][j].y = 4.2 - (i * 1.2);
 
 	return PosicionReal[i][j];
@@ -358,26 +365,37 @@ Pieza* Tablero::coronar(Pieza* p) {
 
 	Vector2D aux = p->pos;
 
-	if ((p->colour == BLANCA && p->pos.y == 7 && p->type == PEON) || (p->colour == NEGRA && p->pos.y == 1 && p->type == PEON)) {
+	if ((p->colour == BLANCA && p->pos.y == 7 && p->type == PEON) || (p->colour == NEGRA && p->pos.y == 0 && p->type == PEON)) {
+		ETSIDI::play("bin/coronao.waw");
 		cout << "Has coronado. Pulsa la inicial de la pieza que quieras" << endl;
 		cin >> letra;
-		switch (letra) {
-		case 'r':
-			p=cambiarTipoPieza(p, REINA, p->colour,aux);
-			break;
-		case 't':
-			p=cambiarTipoPieza(p, TORRE, p->colour,aux);
-			break;
-		case 'a':
-			p=cambiarTipoPieza(p, ALFIL, p->colour,aux);
-			break;
-		case 'c':
-			p=cambiarTipoPieza(p, CABALLO, p->colour,aux);
-			break;
-		case 'p':
-			p=cambiarTipoPieza(p, PEON, p->colour,aux);
-			break;
-		}
+		
+		//while ((letra != 'r') || (letra != 'R') || (letra != 't') || (letra != 'T') || (letra != 'c') || (letra != 'C') || (letra != 'p') || (letra != 'P')) {
+			//cout << "Has coronado. Pulsa la inicial de la pieza que quieras" << endl;
+			//cin >> letra;
+			switch (letra) {
+			case 'r':
+			case 'R':
+				p = cambiarTipoPieza(p, REINA, p->colour, aux);
+				break;
+			case 't':
+			case 'T':
+				p = cambiarTipoPieza(p, TORRE, p->colour, aux);
+				break;
+			case 'a':
+			case 'A':
+				p = cambiarTipoPieza(p, ALFIL, p->colour, aux);
+				break;
+			case 'c':
+			case 'C':
+				p = cambiarTipoPieza(p, CABALLO, p->colour, aux);
+				break;
+			case 'p':
+			case 'P':
+				p = cambiarTipoPieza(p, PEON, p->colour, aux);
+				break;
+			}
+		//}
 		dibujaPiezas();
 		return p;
 	}
@@ -922,6 +940,7 @@ bool Tablero::jaqueMate()
 			return false;
 		}
 		else {
+			ETSIDI::play("bin/JaqueMate.waw");
 			cout << "Has perdido amigo. GANAN LAS BLANCAS" << endl;
 			return true;
 		}
@@ -966,6 +985,7 @@ bool Tablero::jaqueMate()
 			return false;
 		}
 		else {
+			ETSIDI::play("bin/JaqueMate.waw");
 			cout << "Has perdido amigo. GANAN LAS NEGRAS" << endl;
 			return true;
 		}
