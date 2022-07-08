@@ -124,6 +124,7 @@ void Coordinador::tecla(unsigned char key)
 			break;
 		case 'r':
 			tablero.reset();
+			tablero.inicializa();
 			estado = ModoNormal;
 			break;
 		case 'c':
@@ -205,7 +206,6 @@ void Coordinador::dibuja()
 		ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
 		ETSIDI::printxy("   Pulsa S para guardar la partida", -3, -1);
 		ETSIDI::printxy("   Pulsa E para salir de la partida", -3, -3);
-		//tablero.dibujaPiezas();
 		tablero.dibuja();
 		
 	}
@@ -246,13 +246,14 @@ void Coordinador::guardar() {
 
 void Coordinador::cargar() {
 	int t, c;
+	tablero.reset();
 	save.open("bin/save.txt");
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) { 
 		if (save.eof()) break;
 		save >> t;
 		save >> c;
 		cout << "TIPO " << t << " COLOR " << c << endl;
-		if (!save.eof()) tablero.crearPieza(t, c, i, j); 
+		tablero.crearPieza(t, c, i, j); 
 	}
 	save.close();
 }

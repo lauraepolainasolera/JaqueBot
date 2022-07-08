@@ -27,8 +27,8 @@ Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
 	int i = v.x;
 	int j = v.y;
 	
-		PosicionReal[i][j].x = -4.2 + (j * 1.2);
-		PosicionReal[i][j].y = 4.2 - (i * 1.2);
+	PosicionReal[i][j].x = -4.2 + (j * 1.2);
+	PosicionReal[i][j].y = 4.2 - (i * 1.2);
 
 	return PosicionReal[i][j];
 }
@@ -210,7 +210,7 @@ void Tablero::inicializa()
 }
 
 Pieza* Tablero::obtenerPieza(Vector2D v) {
-	int piezax = 0, piezay = 0;
+	/*int piezax = 0, piezay = 0;
 	for (int i = 0; i < DIMENSION; i++) {
 		for (int j = 0; j < DIMENSION; j++) {
 			if (pi[i][j]->pos.x == v.x && pi[i][j]->pos.y == v.y) { //sobrecargar operador igual
@@ -219,7 +219,8 @@ Pieza* Tablero::obtenerPieza(Vector2D v) {
 				return pi[piezax][piezay];
 			}
 		}
-	}
+	}*/
+	return pi[(int) v.x][(int) v.y];
 }
 
 Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
@@ -538,7 +539,7 @@ bool Tablero::jaque(Vector2D rey, Pieza* ataq)
 
 int Tablero::jaqueReal()
 {
-	if (movimiento % 2 == 0) {
+	if (movimiento % 2 == 0) {	
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
 				Vector2D pos = { 0,0 };
@@ -998,7 +999,6 @@ void Tablero::desEnroque(Pieza* origen, Pieza* destino)
 void Tablero::reset() {
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++)	delete pi[i][j];
 	movimiento = 0;
-	inicializa();
 }
 
 void Tablero::crearPieza(int tipo, int color, int x, int y) {
