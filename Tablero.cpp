@@ -23,8 +23,10 @@ Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
 	int i = v.x;
 	int j = v.y;
 	
+
 		PosicionReal[i][j].x = -float(4.2) + (j * 1.2);
 		PosicionReal[i][j].y = 4.2 - (i * 1.2);
+
 
 	return PosicionReal[i][j];
 }
@@ -49,7 +51,8 @@ void Tablero::dibuja()
 
 	//Dibujo de las coordenadas del tablero
 	glEnable(GL_TEXTURE_2D);
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/CoordenadasTab.png").id);
 	glDisable(GL_LIGHTING);
 	glBegin(GL_POLYGON);
@@ -62,7 +65,14 @@ void Tablero::dibuja()
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 	
-	
+	/*glColor3f(0.7, 0.4, 0.3);
+	glBegin(GL_POLYGON);
+	glVertex3f(-7.5, 5.5, 0);
+	glVertex3f(7.5, 5.5, 0);
+	glVertex3f(7.5, -5.5, 0);
+	glVertex3f(-7.5, -5.5, 0);
+	glEnd();
+	*/
 }
 
 void Tablero::dibujaPiezas()
@@ -202,14 +212,10 @@ void Tablero::inicializa()
 
 Pieza* Tablero::obtenerPieza(Vector2D v) {
 	int piezax = 0, piezay = 0;
-	for (int i = 0; i < DIMENSION; i++) {
-		for (int j = 0; j < DIMENSION; j++) {
-			if (pi[i][j]->pos.x == v.x && pi[i][j]->pos.y == v.y) { //sobrecargar operador igual
-				piezax = i;
-				piezay = j;
-				return pi[piezax][piezay];
-			}
-		}
+	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) if (pi[i][j]->pos.x == v.x && pi[i][j]->pos.y == v.y) { //sobrecargar operador igual
+			piezax = i;
+			piezay = j;
+			return pi[piezax][piezay];
 	}
 }
 
@@ -231,7 +237,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	Pieza* orig = obtenerPieza(origen);
 	Pieza* dest = obtenerPieza(destino);
 
-	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino) && (enroque(origen, destino) == false)){
+		if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino) && (enroque(origen, destino) == false)){
 		
 		setPieza(orig, dest);
 		orig->mov++;
@@ -595,41 +601,43 @@ bool Tablero::jaque(Vector2D rey, Pieza* ataq)
 
 int Tablero::jaqueReal()
 {
-	if (movimiento % 2 == 0) {
+	if (movimiento % 2 == 0) {	
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
 				Vector2D pos = { 0,0 };
 				pos.x = i;
 				pos.y = j;
 				Pieza* aux = obtenerPieza(pos);
-				if (aux->type == REY && aux->colour == NEGRA) {
-					for (int k = 0; k < DIMENSION; k++) {
-						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { (float)k, (float)l };
-							Pieza* aux2 = obtenerPieza(pos2);
-							if (aux2->colour == aux->colour || aux2->type == VACIA) {
-								continue;
-							}
-							if (jaque(pos, aux2)) {
-								return 1;
-							}
-						}
-					}
-				}
-				else if (aux->type == REY && aux->colour == BLANCA) {
-					for (int k = 0; k < DIMENSION; k++) {
-						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { (float)k, (float)l };
-							Pieza* aux2 = obtenerPieza(pos2);
-							if (aux2->colour == aux->colour || aux2->type == VACIA) {
-								continue;
-							}
-							if (jaque(pos, aux2)) {
-								return 2;
+				if (aux != nullptr) {
+					if (aux->type == REY && aux->colour == NEGRA) {
+						for (int k = 0; k < DIMENSION; k++) {
+							for (int l = 0; l < DIMENSION; l++) {
+								Vector2D pos2 = { (float)k, (float)l };
+								Pieza* aux2 = obtenerPieza(pos2);
+								if (aux2->colour == aux->colour || aux2->type == VACIA) {
+									continue;
+								}
+								if (jaque(pos, aux2)) {
+									return 1;
+								}
 							}
 						}
 					}
-				}
+					else if (aux->type == REY && aux->colour == BLANCA) {
+						for (int k = 0; k < DIMENSION; k++) {
+							for (int l = 0; l < DIMENSION; l++) {
+								Vector2D pos2 = { (float)k, (float)l };
+								Pieza* aux2 = obtenerPieza(pos2);
+								if (aux2->colour == aux->colour || aux2->type == VACIA) {
+									continue;
+								}
+								if (jaque(pos, aux2)) {
+									return 2;
+								}
+							}
+						}
+					}
+				} //este
 			}
 		}
 	}
@@ -638,35 +646,36 @@ int Tablero::jaqueReal()
 			for (int j = 0; j < DIMENSION; j++) {
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
-
-				if (aux->type == REY && aux->colour == BLANCA) {
-					for (int k = 0; k < DIMENSION; k++) {
-						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { (float)k, (float)l };
-							Pieza* aux2 = obtenerPieza(pos2);
-							if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
-								continue;
-							}
-							if (jaque(pos, aux2)) {
-								return 2;
-							}
-						}
-					}
-				}
-				else if (aux->type == REY && aux->colour == NEGRA) {
-					for (int k = 0; k < DIMENSION; k++) {
-						for (int l = 0; l < DIMENSION; l++) {
-							Vector2D pos2 = { (float)k, (float)l };
-							Pieza* aux2 = obtenerPieza(pos2);
-							if (aux2->colour == aux->colour || aux2->type == VACIA) {
-								continue;
-							}
-							if (jaque(pos, aux2)) {
-								return 1;
+				if (aux != nullptr) {
+					if (aux->type == REY && aux->colour == BLANCA) {
+						for (int k = 0; k < DIMENSION; k++) {
+							for (int l = 0; l < DIMENSION; l++) {
+								Vector2D pos2 = { (float)k, (float)l };
+								Pieza* aux2 = obtenerPieza(pos2);
+								if (/*pos2 == pos || */ aux2->colour == aux->colour || aux2->type == VACIA) {
+									continue;
+								}
+								if (jaque(pos, aux2)) {
+									return 2;
+								}
 							}
 						}
 					}
-				}
+					else if (aux->type == REY && aux->colour == NEGRA) {
+						for (int k = 0; k < DIMENSION; k++) {
+							for (int l = 0; l < DIMENSION; l++) {
+								Vector2D pos2 = { (float)k, (float)l };
+								Pieza* aux2 = obtenerPieza(pos2);
+								if (aux2->colour == aux->colour || aux2->type == VACIA) {
+									continue;
+								}
+								if (jaque(pos, aux2)) {
+									return 1;
+								}
+							}
+						}
+					}
+				} //este
 			}
 		}
 	}
@@ -1057,4 +1066,45 @@ void Tablero::desEnroque(Pieza* origen, Pieza* destino)
 		Pieza* aux2 = obtenerPieza(des2);
 		setPieza(aux2, aux);
 	}
+}
+
+void Tablero::reset() {
+	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++)	delete pi[i][j];
+	movimiento = 0;
+}
+
+void Tablero::crearPieza(int tipo, int color, int x, int y, int i, int j) {
+	switch(tipo) {
+	case TORRE:
+		if (color == BLANCA) pi[i][j] = new TorreBlanca();
+		else pi[i][j] = new TorreNegra();
+		break;
+	case CABALLO:
+		if (color == BLANCA) pi[i][j] = new CaballoBlanco();
+		else pi[i][j] = new CaballoNegro();
+		break;
+	case ALFIL:
+		if (color == BLANCA) pi[i][j] = new AlfilBlanco();
+		else pi[i][j] = new AlfilNegro();
+		break;
+	case REY:
+		if (color == BLANCA) pi[i][j] = new ReyBlanco();
+		else pi[i][j] = new ReyNegro();
+		break;
+	case REINA:
+		if (color == BLANCA) pi[i][j] = new ReinaBlanca();
+		else pi[i][j] = new ReinaNegra();
+		break;
+	case PEON:
+		if (color == BLANCA) pi[i][j] = new PeonBlanco();
+		else pi[i][j] = new PeonNegro();
+		break;
+	case VACIA:
+		pi[i][j] = new PiezaVacia();
+		break;
+	default: //no puede suceder
+		break;
+	}
+	pi[i][j]->pos.x = x;
+	pi[i][j]->pos.y = y;
 }
