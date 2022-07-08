@@ -1,6 +1,8 @@
 #pragma once
+#define JUGADORES 10
 #include "ETSIDI.h"
 #include "Tablero.h"
+#include "Jugador.h"
 #include <fstream>
 
 enum { MOUSE_LEFT_BUTTON, MOUSE_MIDDLE_BUTTON, MOUSE_RIGHT_BUTTON };
@@ -35,7 +37,7 @@ public:
 
 protected:
 
-	fstream save;
+	fstream save, ranking;
 
 	bool movimientohecho;
 
@@ -49,11 +51,17 @@ protected:
 
 	Estado estado;
 
+	Jugador* jugadores[JUGADORES];
+
 	int N;								 //size 
 
 	double center_x, center_y, center_z;
 
 	void cargar();
+
+	void copiarRanking();
+
+	void añadirRanking();
 
 	void guardar();
 };

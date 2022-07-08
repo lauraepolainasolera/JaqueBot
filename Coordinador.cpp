@@ -21,7 +21,7 @@ Coordinador::Coordinador()
 
 	estado = INICIO;
 
-
+	for (int i = 0; i < JUGADORES; i++) jugadores[i] = new Jugador;
 }
 
 void  Coordinador::MouseButton(int x, int y, int button, bool down)
@@ -72,6 +72,7 @@ void Coordinador::tecla(unsigned char key)
 			cout << "Iniciando el Modo Normal, espere unos momentos..." << endl;
 			tablero.inicializa();
 			tablero.dibujaPiezas();
+			copiarRanking();
 			break;
 		case '2':
 			estado = ModoLocura;
@@ -130,6 +131,10 @@ void Coordinador::tecla(unsigned char key)
 		case 'c':
 			cargar();
 			estado = ModoNormal;
+			break;
+		case 'j':
+			tablero.jm = 1;
+			añadirRanking(); //esto hay que moverlo
 			break;
 		default:
 			break;
@@ -251,13 +256,53 @@ void Coordinador::cargar() {
 	tablero.reset();
 	save.open("bin/save.txt");
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) { 
-		save >> t;
-		save >> c;
-		save >> x;
-		save >> y;
-		cout << "TIPO " << t << " COLOR " << c << endl;
+		save >> t; save >> c; save >> x; save >> y;
 		tablero.crearPieza(t, c, x, y, i, j); 
 	}
 	save >> tablero.movimiento;
 	save.close();
+}
+
+void Coordinador::copiarRanking() {
+	ranking.open("bin/ranking.txt");	
+	int p;
+	string n;
+	for (int i = 0; i < JUGADORES - 1; i++) {
+		ranking >> n;
+		if (i > 0 && n == jugadores[i - 1]->getNombre()) break;
+		jugadores[i]->setNombre(n);
+		ranking >> p;
+		jugadores[i]->setPuntos(p);
+	}
+	for (int i = 0; i < JUGADORES; i++) {
+		cout << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
+	}
+	ranking.close();
+}
+
+void Coordinador::añadirRanking() {
+	string n;
+	do {
+		cout << "Introduce el nombre del ganador (máx. 8 caracteres): ";
+		cin >> n;
+	} while (n.length() > 8 || n == "");
+
+	for (int i = 0; i < JUGADORES; i++) {
+		if (n == jugadores[i]->getNombre()) { 
+			jugadores[i]->sumarPunto(); 
+			break; 
+		}
+		else if (jugadores[i]->getPuntos() == 0) { 
+			jugadores[i]->setNombre(n); 
+			jugadores[i]->setPuntos(1); 
+			break; 
+		}
+	}
+
+	ranking.open("bin/ranking.txt");
+	for (int i = 0; i < JUGADORES; i++) {
+		if (jugadores[i]->getPuntos() != 0) ranking << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
+		cout << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
+	}
+	ranking.close();
 }
