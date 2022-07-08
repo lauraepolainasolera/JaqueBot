@@ -3,16 +3,33 @@
 #include "freeglut.h"
 #include "Pieza.h"
 #include "Vector2D.h"
+#include "ReyBlanco.h"
+#include "ReyNegro.h"
+#include "TorreBlanca.h"
+#include "TorreNegra.h"
+#include "CaballoBlanco.h"
+#include "CaballoNegro.h"
+#include "AlfilBlanco.h"
+#include "AlfilNegro.h"
+#include "ReinaBlanca.h"
+#include "ReinaNegra.h"
+#include "PeonBlanco.h"
+#include "PeonNegro.h"
+#include "PiezaVacia.h"
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+
 #define DIMENSION 8
 
-
+using namespace std;
 
 class Tablero
 {
 public:
 
 	int movimiento;
-		
+	
 	bool jm;
 
 	Tablero();
@@ -40,6 +57,8 @@ public:
 	Pieza* obtenerPieza(Vector2D v);
 
 	void mueve(Vector2D origen, Vector2D destino);
+
+	bool capturaAlPaso(Vector2D origen, Vector2D destino);
 		
 	void setPieza(Pieza* origen, Pieza* destino);
 

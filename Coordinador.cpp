@@ -93,7 +93,7 @@ void Coordinador::tecla(unsigned char key)
 			tablero.movimiento = 0;
 			break;
 		case '2':
-			exit;
+			exit(0);
 			break;
 		}
 		break;
