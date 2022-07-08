@@ -1071,6 +1071,8 @@ void Tablero::desEnroque(Pieza* origen, Pieza* destino)
 void Tablero::reset() {
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++)	delete pi[i][j];
 	movimiento = 0;
+	out << "Se ha reseteado la partida." << endl;
+	out << endl;
 }
 
 void Tablero::crearPieza(int tipo, int color, int x, int y, int i, int j) {
