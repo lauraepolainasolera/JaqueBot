@@ -204,8 +204,8 @@ void Coordinador::dibuja()
 		glEnd();
 		ETSIDI::printxy("   Pulsa P para volver a la partida", -3, 3);
 		ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
-		ETSIDI::printxy("   Pulsa S para guardar la partida", -3, -1);
-		ETSIDI::printxy("   Pulsa E para salir de la partida", -3, -3);
+		ETSIDI::printxy("   Pulsa S para guardar partida", -3, -1);
+		ETSIDI::printxy("   Pulsa C para cargar de partida", -3, -3);
 		tablero.dibuja();
 		
 	}
@@ -240,20 +240,24 @@ void Coordinador::dibuja()
 
 void Coordinador::guardar() {
 	save.open("bin/save.txt");
-	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) if (tablero.pi[i][j] != nullptr) save << tablero.pi[i][j]->type << endl << tablero.pi[i][j]->colour << endl;
+	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) if (tablero.pi[i][j] != nullptr) save << tablero.pi[i][j]->type << endl << tablero.pi[i][j]->colour << endl 
+		<< tablero.pi[i][j]->pos.x << endl << tablero.pi[i][j]->pos.y << endl;
+	save << tablero.movimiento;
 	save.close();
 }
 
 void Coordinador::cargar() {
-	int t, c;
+	int t, c, x, y;
 	tablero.reset();
 	save.open("bin/save.txt");
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) { 
-		if (save.eof()) break;
 		save >> t;
 		save >> c;
+		save >> x;
+		save >> y;
 		cout << "TIPO " << t << " COLOR " << c << endl;
-		tablero.crearPieza(t, c, i, j); 
+		tablero.crearPieza(t, c, x, y, i, j); 
 	}
+	save >> tablero.movimiento;
 	save.close();
 }

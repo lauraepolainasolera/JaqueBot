@@ -210,17 +210,12 @@ void Tablero::inicializa()
 }
 
 Pieza* Tablero::obtenerPieza(Vector2D v) {
-	/*int piezax = 0, piezay = 0;
-	for (int i = 0; i < DIMENSION; i++) {
-		for (int j = 0; j < DIMENSION; j++) {
-			if (pi[i][j]->pos.x == v.x && pi[i][j]->pos.y == v.y) { //sobrecargar operador igual
-				piezax = i;
-				piezay = j;
-				return pi[piezax][piezay];
-			}
-		}
-	}*/
-	return pi[(int) v.x][(int) v.y];
+	int piezax = 0, piezay = 0;
+	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) if (pi[i][j]->pos.x == v.x && pi[i][j]->pos.y == v.y) { //sobrecargar operador igual
+			piezax = i;
+			piezay = j;
+			return pi[piezax][piezay];
+	}
 }
 
 Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
@@ -243,7 +238,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 	Pieza* orig = obtenerPieza(origen);
 	Pieza* dest = obtenerPieza(destino);
 
-	if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino) && (enroque(origen, destino) == false)){
+		if (orig->movimientoValido(origen, destino) && (obstaculo(origen, destino) == false) && setTurno(movimiento, orig) && casillaVacia(destino) && (enroque(origen, destino) == false)){
 		
 		setPieza(orig, dest);
 		orig->mov++;
@@ -1001,37 +996,38 @@ void Tablero::reset() {
 	movimiento = 0;
 }
 
-void Tablero::crearPieza(int tipo, int color, int x, int y) {
+void Tablero::crearPieza(int tipo, int color, int x, int y, int i, int j) {
 	switch(tipo) {
 	case TORRE:
-		if (color == BLANCA) pi[x][y] = new TorreBlanca();
-		else pi[x][y] = new TorreNegra();
+		if (color == BLANCA) pi[i][j] = new TorreBlanca();
+		else pi[i][j] = new TorreNegra();
 		break;
 	case CABALLO:
-		if (color == BLANCA) pi[x][y] = new CaballoBlanco();
-		else pi[x][y] = new CaballoNegro();
+		if (color == BLANCA) pi[i][j] = new CaballoBlanco();
+		else pi[i][j] = new CaballoNegro();
 		break;
 	case ALFIL:
-		if (color == BLANCA) pi[x][y] = new AlfilBlanco();
-		else pi[x][y] = new AlfilNegro();
+		if (color == BLANCA) pi[i][j] = new AlfilBlanco();
+		else pi[i][j] = new AlfilNegro();
 		break;
 	case REY:
-		if (color == BLANCA) pi[x][y] = new ReyBlanco();
-		else pi[x][y] = new ReyNegro();
+		if (color == BLANCA) pi[i][j] = new ReyBlanco();
+		else pi[i][j] = new ReyNegro();
 		break;
 	case REINA:
-		if (color == BLANCA) pi[x][y] = new ReinaBlanca();
-		else pi[x][y] = new ReinaNegra();
+		if (color == BLANCA) pi[i][j] = new ReinaBlanca();
+		else pi[i][j] = new ReinaNegra();
 		break;
 	case PEON:
-		if (color == BLANCA) pi[x][y] = new PeonBlanco();
-		else pi[x][y] = new PeonNegro();
+		if (color == BLANCA) pi[i][j] = new PeonBlanco();
+		else pi[i][j] = new PeonNegro();
 		break;
 	case VACIA:
-		pi[x][y] = new PiezaVacia();
+		pi[i][j] = new PiezaVacia();
 		break;
-	default:
-		cout << "algo va mal";
+	default: //no puede suceder
 		break;
 	}
+	pi[i][j]->pos.x = x;
+	pi[i][j]->pos.y = y;
 }

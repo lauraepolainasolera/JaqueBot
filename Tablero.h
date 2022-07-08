@@ -33,7 +33,7 @@ public:
 
 	void dibujaPiezas();
 
-	void crearPieza(int tipo, int color, int x, int y);
+	void crearPieza(int tipo, int color, int x, int y, int i, int j);
 
 	Vector2D obtenerPosicionesReales(Vector2D);
 
