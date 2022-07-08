@@ -48,6 +48,8 @@ protected:
 	float width;
 
 	Estado estado;
+	
+	Estado estadoAux;
 
 	int N;								 //size 
 

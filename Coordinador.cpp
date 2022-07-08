@@ -102,7 +102,10 @@ void Coordinador::tecla(unsigned char key)
 	case ModoNormal:
 		switch (key)
 		{
-		case ('p'):
+		case 'p':
+		case 'P':
+			estadoAux = estado;
+			cout << estadoAux << endl;
 			estado = Pausa;
 			break;
 		default:
@@ -113,23 +116,31 @@ void Coordinador::tecla(unsigned char key)
 	case Pausa:
 		switch (key)
 		{
-		case ('p'):
-			estado = ModoNormal;
+		case 'p':
+		case 'P':
+			estado = estadoAux;
 			break;
 		case 'e':
+		case 'E':
 			estado = INICIO;
 			break;
 		case 's':
+		case 'S':
 			guardar();
 			break;
 		case 'r':
+		case 'R':
 			tablero.reset();
-			tablero.inicializa();
-			estado = ModoNormal;
+			if (estadoAux == ModoNormal)
+				tablero.inicializa();
+			else if(estadoAux == ModoLocura)
+				tablero.inicializaModoLocura();
+			estado = estadoAux;
 			break;
 		case 'c':
+		case 'C':
 			cargar();
-			estado = ModoNormal;
+			estado = estadoAux;
 			break;
 		default:
 			break;
@@ -210,7 +221,6 @@ void Coordinador::dibuja()
 		
 	}
 
-
 	if (tablero.jm == true) {
 
 		estado = PantallaFinal;
@@ -219,13 +229,13 @@ void Coordinador::dibuja()
 
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_FINAL.png").id);
 		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
+		/*glBegin(GL_POLYGON);
 		glColor3f(1, 1, 1);
 		glBegin(GL_POLYGON);
 		glVertex3f(-8, 8, 0);
 		glVertex3f(8, 8, 0);
 		glVertex3f(8, -8, 0);
-		glVertex3f(-8, -8, 0);
+		glVertex3f(-8, -8, 0);*/
 		glTexCoord2d(0, 0); glVertex3f(-5, 5, 0);
 		glTexCoord2d(1, 0); glVertex3f(5, 5, 0);
 		glTexCoord2d(1, 1); glVertex3f(5, -5, 0);
@@ -234,7 +244,6 @@ void Coordinador::dibuja()
 		glEnable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);
 	}
-
 
 }
 

@@ -1,1 +1,11 @@
-
+Modo de juego Locura
+Es el movimiento numero 1
+Se ha movido de (0,1) a (0,3)
+Es el movimiento numero 2
+Se ha movido de (4,6) a (4,5)
+Es el movimiento numero 3
+Se ha movido de (0,3) a (0,4)
+Es el movimiento numero 4
+Se ha movido de (4,5) a (4,1)
+Se ha comido una pieza.
+Se produce jaque mate. Ganan las negras.
