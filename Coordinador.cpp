@@ -205,7 +205,7 @@ void Coordinador::dibuja()
 		ETSIDI::printxy("   Pulsa P para volver a la partida", -3, 3);
 		ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
 		ETSIDI::printxy("   Pulsa S para guardar partida", -3, -1);
-		ETSIDI::printxy("   Pulsa C para cargar de partida", -3, -3);
+		ETSIDI::printxy("   Pulsa C para cargar partida", -3, -3);
 		tablero.dibuja();
 		
 	}
