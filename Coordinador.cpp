@@ -21,7 +21,7 @@ Coordinador::Coordinador()
 
 	estado = INICIO;
 
-
+	for (int i = 0; i < JUGADORES; i++) jugadores[i] = new Jugador;
 }
 
 void  Coordinador::MouseButton(int x, int y, int button, bool down)
@@ -70,6 +70,7 @@ void Coordinador::tecla(unsigned char key)
 			cout << "Iniciando el Modo Normal, espere unos momentos..." << endl;
 			tablero.inicializa();
 			tablero.dibujaPiezas();
+			copiarRanking();
 			break;
 		case '2':
 			estado = ModoLocura;
@@ -86,6 +87,7 @@ void Coordinador::tecla(unsigned char key)
 	{
 		switch (key) {
 		case '1':
+			añadirRanking();
 			estado = INICIO;
 			tablero.jm = 0;
 			tablero.movimiento = 0;
@@ -209,6 +211,7 @@ void Coordinador::dibuja()
 		glVertex3f(3.5, -4.5, 0);
 		glVertex3f(-3.5, -4.5, 0);
 		glEnd();
+		mostrarRanking();
 		ETSIDI::printxy("   Pulsa P para volver a la partida", -3, 3);
 		ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
 		ETSIDI::printxy("   Pulsa S para guardar partida", -3, -1);
@@ -252,13 +255,75 @@ void Coordinador::cargar()
 	tablero.reset();
 	save.open("save.txt");
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) { 
-		save >> t;
-		save >> c;
-		save >> x;
-		save >> y;
-		cout << "TIPO " << t << " COLOR " << c << endl;
+		save >> t; save >> c; save >> x; save >> y;
 		tablero.crearPieza(t, c, x, y, i, j); 
 	}
 	save >> tablero.movimiento;
 	save.close();
+}
+
+void Coordinador::copiarRanking() {
+	ranking.open("bin/ranking.txt");	
+	int p;
+	string n;
+	for (int i = 0; i < JUGADORES - 1; i++) {
+		ranking >> n;
+		if ((i > 0 && n == jugadores[i - 1]->getNombre()) || n == "") break;
+		jugadores[i]->setNombre(n);
+		ranking >> p;
+		jugadores[i]->setPuntos(p);
+	}
+	ranking.close();
+}
+
+void Coordinador::añadirRanking() {
+	string n;
+	do {
+		cout << "Introduce el nombre del ganador (max. 8 caracteres): ";
+		cin >> n;
+	} while (n.length() > 8 || n == "");
+
+	for (int i = 0; i < JUGADORES; i++) {
+		if (n == jugadores[i]->getNombre()) { 
+			jugadores[i]->sumarPunto(); 
+			break; 
+		}
+		else if (jugadores[i]->getPuntos() == 0) { 
+			jugadores[i]->setNombre(n); 
+			jugadores[i]->setPuntos(1); 
+			break; 
+		}
+	}
+
+	ranking.open("bin/ranking.txt");
+	for (int i = 0; i < JUGADORES; i++) {
+		if (jugadores[i]->getPuntos() != 0) ranking << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
+	}
+	ranking.close();
+}
+
+void Coordinador::mostrarRanking() {
+	string s;
+	const char* c;
+	glColor3f(0, 0, 0);
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(-7, 3.5, 0);
+	glVertex3f(-3.5, 3.5, 0);
+	glVertex3f(-3.5, -3.5, 0);
+	glVertex3f(-7, -3.5, 0);
+	glEnd();
+	glColor3f(1, 1, 1);
+	glBegin(GL_POLYGON);
+	glVertex3f(-7, 3.5, 0);
+	glVertex3f(-3.5, 3.5, 0);
+	glVertex3f(-3.5, -3.5, 0);
+	glVertex3f(-7, -3.5, 0);
+	glEnd();
+	ETSIDI::printxy("            Ranking", -7, 3);
+	for (int i = 0; i < 5; i++) {
+		if (jugadores[i]->getPuntos() == 0) break;
+		s = "     " + to_string(i + 1) + ". " + jugadores[i]->getNombre() + " " + to_string(jugadores[i]->getPuntos());
+		c = s.c_str();
+		ETSIDI::printxy(c, -7, 2 - i);
+	}
 }

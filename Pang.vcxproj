@@ -26,6 +26,7 @@
     <ClCompile Include="CaballoBlanco.cpp" />
     <ClCompile Include="CaballoNegro.cpp" />
     <ClCompile Include="Coordinador.cpp" />
+    <ClCompile Include="Jugador.cpp" />
     <ClCompile Include="Peon.cpp" />
     <ClCompile Include="PeonBlanco.cpp" />
     <ClCompile Include="PeonNegro.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="CaballoBlanco.h" />
     <ClInclude Include="CaballoNegro.h" />
     <ClInclude Include="Coordinador.h" />
+    <ClInclude Include="Jugador.h" />
     <ClInclude Include="Peon.h" />
     <ClInclude Include="PeonBlanco.h" />
     <ClInclude Include="PeonNegro.h" />
