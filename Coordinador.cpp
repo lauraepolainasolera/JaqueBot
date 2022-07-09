@@ -89,8 +89,11 @@ void Coordinador::tecla(unsigned char key)
 			estado = INICIO;
 			tablero.jm = 0;
 			tablero.movimiento = 0;
+			tablero.partida++;
 			break;
 		case '2':
+			tablero.fin = true;
+			tablero.reset();
 			exit(0);
 			break;
 		}
@@ -138,6 +141,8 @@ void Coordinador::tecla(unsigned char key)
 			estado = estadoAux;
 			break;
 		default:
+			tablero.fin = true;
+			tablero.reset();
 			break;
 		}
 	}

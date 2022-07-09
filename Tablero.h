@@ -28,9 +28,13 @@ class Tablero
 {
 public:
 
+	bool fin;
+
 	int movimiento;
 	
 	bool jm;
+
+	int partida;
 
 	Tablero();
 

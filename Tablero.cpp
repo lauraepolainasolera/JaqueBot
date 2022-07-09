@@ -5,7 +5,7 @@
 using ETSIDI::SpriteSequence;
 using namespace std;
 
-int partida = 1;
+
 
 ofstream out("partida.txt");
 
@@ -18,7 +18,11 @@ Tablero::Tablero() {
 		}
 	}
 	jm = false;
+	fin = false;
+	partida = 1;
 	movimiento = 0;
+	
+
 }
 
 Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
@@ -1003,9 +1007,7 @@ bool Tablero::jaqueMate()
 			cout << "Has perdido amigo. GANAN LAS BLANCAS." << endl;
 			cout << "Espera a la pantalla final." << endl;
 			out << "Se produce jaque mate. Ganan las blancas." << endl;
-			out << endl;
 			partida++;
-			out.close();
 			return true;
 		}
 
@@ -1054,7 +1056,6 @@ bool Tablero::jaqueMate()
 			cout << "Has perdido amigo. GANAN LAS NEGRAS" << endl;
 			cout << "Espera a la pantalla final." << endl;
 			out << "Se produce jaque mate. Ganan las negras." << endl;
-			out.close();
 			return true;
 		}
 	}
@@ -1119,8 +1120,13 @@ void Tablero::desEnroque(Pieza* origen, Pieza* destino)
 void Tablero::reset() {
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++)	delete pi[i][j];
 	movimiento = 0;
-	out << "Se ha reseteado la partida." << endl;
-	out << endl;
+	if (fin == true)
+	{
+		out << "Esperamos verte de nuevo." << endl;
+		out.close();
+	}
+	else { out << "Se ha reseteado la partida." << endl; }
+	
 }
 
 void Tablero::crearPieza(int tipo, int color, int x, int y, int i, int j) {
