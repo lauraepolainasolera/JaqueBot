@@ -272,9 +272,6 @@ void Coordinador::copiarRanking() {
 		ranking >> p;
 		jugadores[i]->setPuntos(p);
 	}
-	/*for (int i = 0; i < JUGADORES; i++) {
-		cout << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
-	}*/
 	ranking.close();
 }
 
@@ -300,7 +297,6 @@ void Coordinador::añadirRanking() {
 	ranking.open("bin/ranking.txt");
 	for (int i = 0; i < JUGADORES; i++) {
 		if (jugadores[i]->getPuntos() != 0) ranking << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
-		//cout << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
 	}
 	ranking.close();
 }
