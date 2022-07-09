@@ -5,6 +5,8 @@
 using ETSIDI::SpriteSequence;
 using namespace std;
 
+
+
 ofstream out("partida.txt");
 
 Tablero::Tablero() {
@@ -16,7 +18,11 @@ Tablero::Tablero() {
 		}
 	}
 	jm = false;
+	fin = false;
+	partida = 1;
 	movimiento = 0;
+	
+
 }
 
 Vector2D Tablero::obtenerPosicionesReales(Vector2D v) {
@@ -37,7 +43,7 @@ void Tablero::dibuja()
 	//Dibujo de las casillas del tablero
 	glEnable(GL_TEXTURE_2D);
 
-	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/tablero0.png").id);
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("tablero0.png").id);
 	glDisable(GL_LIGHTING);
 	glBegin(GL_POLYGON);
 	glColor3f(1, 1, 1);
@@ -53,7 +59,7 @@ void Tablero::dibuja()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/CoordenadasTab.png").id);
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("CoordenadasTab.png").id);
 	glDisable(GL_LIGHTING);
 	glBegin(GL_POLYGON);
 	glColor3f(1, 1, 1);
@@ -90,6 +96,7 @@ void Tablero::dibujaPiezas()
 void Tablero::inicializaModoLocura()
 {
 	out << "Modo de juego Locura" << endl;
+	out << endl;
 	srand(time(0));
 	int a,b,c,d,e,f,g,h;
 
@@ -162,6 +169,7 @@ void Tablero::inicializaModoLocura()
 void Tablero::inicializa()
 {
 	out << "Modo de juego Normal" << endl;
+	out << endl;
 
 	pi[0][0] = new TorreBlanca();
 	pi[7][0] = new TorreBlanca();
@@ -232,6 +240,29 @@ Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
 	}
 }
 
+void Tablero::imprimirTurno()
+{
+	if (movimiento % 2 == 1) {
+		cout << "Es el turno de las blancas" << endl;
+		out << "Es el turno de las blancas" << endl;
+	}
+	else {
+		cout << "Es el turno de las negras" << endl;
+		out << "Es el turno de las negras" << endl;
+	}
+}
+
+void Tablero::imprimirMov(Vector2D &dest, Vector2D &orig) 
+{
+	cout << "Se ha movido de (" << dest.x << "," << dest.y << ") a (" << orig.x << "," << orig.y << ")" << endl;
+	out << "Se ha movido de (" << dest.x << "," << dest.y << ") a (" << orig.x << "," << orig.y << ")" << endl;
+}
+
+void Tablero::imprimirNumTurno() {
+
+	cout << "Es el movimiento numero " << (movimiento) << endl;
+	out << "Es el movimiento numero " << (movimiento) << endl;
+}
 void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
 	Pieza* orig = obtenerPieza(origen);
@@ -247,12 +278,13 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		}
 		else
 		{
-			cout << "Es el movimiento numero " << (movimiento) << endl;
-			out << "Es el movimiento numero " << (movimiento) << endl;
-			cout << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
-			out << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")"<<endl;
-	
-			ETSIDI::play("bin/mover.wav");
+			imprimirNumTurno();
+			imprimirTurno();
+			imprimirMov(dest->pos, orig->pos);
+
+			out << endl;
+			cout << endl;
+			ETSIDI::play("mover.wav");
 		}
 		orig=coronar(orig);				//comprueba si la pieza ha coronado
 		jm = jaqueMate();
@@ -267,8 +299,16 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 			orig->mov--;
 		}
 		else
-			ETSIDI::play("bin/mover.wav");
-
+		{
+			imprimirNumTurno(); 
+			imprimirTurno();
+			imprimirMov(dest->pos, orig->pos);
+			cout << "Se ha producido un enroque" << endl;
+			out << "Se ha producido un enroque" << endl;
+			out << endl;
+			cout << endl;
+			ETSIDI::play("mover.wav");
+		}
 		jm = jaqueMate();
 	}
 
@@ -286,12 +326,13 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		}
 		else
 		{
-			cout << "Es el movimiento numero " << (movimiento) << endl;
-			out << "Es el movimiento numero " << (movimiento) << endl;
-			ETSIDI::play("bin/comer.wav");
-			cout << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
-			out << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
-			out << "Se ha comido una pieza." << endl;
+			imprimirNumTurno(); 
+			imprimirTurno();
+			imprimirMov(dest->pos, orig->pos); 
+			out << "Se ha comido una pieza" << endl;
+			cout << endl;
+			out << endl;
+			ETSIDI::play("comer.wav");
 		}
 		orig = coronar(orig);
 		jm = jaqueMate();
@@ -314,12 +355,13 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		}
 		else
 		{
-			cout << "Es el movimiento numero " << (movimiento) << endl;
-			out << "Es el movimiento numero " << (movimiento) << endl;
-			ETSIDI::play("bin/comer.wav");
-			cout << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
-			out << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
+			imprimirNumTurno(); 
+			imprimirTurno();
+			imprimirMov(dest->pos, orig->pos); 
 			out << "Se ha realizado captura al paso" << endl;
+			cout << endl;
+			out << endl;
+			ETSIDI::play("comer.wav");
 		}
 
 		jm = jaqueMate();
@@ -328,7 +370,7 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
 	else{
 		cout << "Movimiento invalido." << endl;
-		ETSIDI::play("bin/error.wav");
+		ETSIDI::play("error.wav");
 		dibujaPiezas();
 	}
 }
@@ -373,7 +415,7 @@ Pieza* Tablero::coronar(Pieza* p) {
 	Vector2D aux = p->pos;
 
 	if ((p->colour == BLANCA && p->pos.y == 7 && p->type == PEON) || (p->colour == NEGRA && p->pos.y == 0 && p->type == PEON)) {
-		ETSIDI::play("bin/coronao.wav");
+		ETSIDI::play("coronao.wav");
 		cout << "Has coronado. Pulsa la inicial de la pieza que quieras." << endl;
 		out << "Se ha coronado." << endl;
 		cin >> letra;
@@ -383,26 +425,31 @@ Pieza* Tablero::coronar(Pieza* p) {
 			case 'R':
 				p = cambiarTipoPieza(p, REINA, p->colour, aux);
 				out << "Se cambia el peon por una reina." << endl;
+				out << endl;
 				break;
 			case 't':
 			case 'T':
 				p = cambiarTipoPieza(p, TORRE, p->colour, aux);
 				out << "Se cambia el peon por una torre." << endl;
+				out << endl;
 				break;
 			case 'a':
 			case 'A':
 				p = cambiarTipoPieza(p, ALFIL, p->colour, aux);
 				out << "Se cambia el peon por una alfil." << endl;
+				out << endl;
 				break;
 			case 'c':
 			case 'C':
 				p = cambiarTipoPieza(p, CABALLO, p->colour, aux);
 				out << "Se cambia el peon por una caballo." << endl;
+				out << endl;
 				break;
 			case 'p':
 			case 'P':
 				p = cambiarTipoPieza(p, PEON, p->colour, aux);
 				out << "No se cambia el peon." << endl;
+				out << endl;
 				break;
 			}
 		dibujaPiezas();
@@ -920,6 +967,7 @@ bool Tablero::jaqueMate()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type == REY && aux->colour == NEGRA) { //busca el rey negro
+					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) jm++;
 					Vector2D* prox[8];
 					int numero = buscaAdyacentes(aux->pos, prox);
 					for (int k = 0; k < numero; k++) {
@@ -941,8 +989,9 @@ bool Tablero::jaqueMate()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == NEGRA) { //busca el resto de las piezas negras
+					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) jm++;
 					for (int l = 0; l < numero2; l++) {
-						if ((aux->movimientoValido(aux->pos, *tray[l]) &&obstaculo(aux->pos, *tray[l])==false) || (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false)) jm++;
+						if (aux->movimientoValido(aux->pos, *tray[l]) &&obstaculo(aux->pos, *tray[l])==false) jm++;
 					}
 				}
 			}
@@ -950,14 +999,15 @@ bool Tablero::jaqueMate()
 		if (jm >= 1) {
 			cout << "Tienes salvacion" << endl;
 			out << "Se produce un jaque" << endl;
+			out << endl;
 			return false;
 		}
 		else {
-			ETSIDI::play("bin/JaqueMate.wav");
+			ETSIDI::play("JaqueMate.wav");
 			cout << "Has perdido amigo. GANAN LAS BLANCAS." << endl;
 			cout << "Espera a la pantalla final." << endl;
 			out << "Se produce jaque mate. Ganan las blancas." << endl;
-			out.close();
+			partida++;
 			return true;
 		}
 
@@ -1002,11 +1052,10 @@ bool Tablero::jaqueMate()
 			return false;
 		}
 		else {
-			ETSIDI::play("bin/JaqueMate.wav");
+			ETSIDI::play("JaqueMate.wav");
 			cout << "Has perdido amigo. GANAN LAS NEGRAS" << endl;
 			cout << "Espera a la pantalla final." << endl;
 			out << "Se produce jaque mate. Ganan las negras." << endl;
-			out.close();
 			return true;
 		}
 	}
@@ -1071,6 +1120,13 @@ void Tablero::desEnroque(Pieza* origen, Pieza* destino)
 void Tablero::reset() {
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++)	delete pi[i][j];
 	movimiento = 0;
+	if (fin == true)
+	{
+		out << "Esperamos verte de nuevo." << endl;
+		out.close();
+	}
+	else { out << "Se ha reseteado la partida." << endl; }
+	
 }
 
 void Tablero::crearPieza(int tipo, int color, int x, int y, int i, int j) {

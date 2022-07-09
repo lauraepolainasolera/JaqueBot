@@ -50,6 +50,8 @@ protected:
 	float width;
 
 	Estado estado;
+	
+	Estado estadoAux;
 
 	Jugador* jugadores[JUGADORES];
 

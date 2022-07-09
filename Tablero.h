@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
-
+#include <string>
 #define DIMENSION 8
 
 using namespace std;
@@ -28,9 +28,13 @@ class Tablero
 {
 public:
 
+	bool fin;
+
 	int movimiento;
 	
 	bool jm;
+
+	int partida;
 
 	Tablero();
 
@@ -98,6 +102,11 @@ public:
 
 	void desEnroque(Pieza* origen, Pieza* destino);
 
+	void imprimirTurno();
+
+	void imprimirMov(Vector2D &dest, Vector2D &orig);
+
+	void imprimirNumTurno();
 
 	void reset();
 };
