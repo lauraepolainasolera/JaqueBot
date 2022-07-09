@@ -120,13 +120,9 @@ void Coordinador::tecla(unsigned char key)
 		case 'P':
 			estado = estadoAux;
 			break;
-		case 'e':
-		case 'E':
-			estado = INICIO;
-			break;
 		case 's':
 		case 'S':
-			guardar();
+			estado = INICIO;
 			break;
 		case 'r':
 		case 'R':
@@ -212,10 +208,10 @@ void Coordinador::dibuja()
 		glVertex3f(-3.5, -4.5, 0);
 		glEnd();
 		mostrarRanking();
-		ETSIDI::printxy("   Pulsa P para volver a la partida", -3, 3);
-		ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
-		ETSIDI::printxy("   Pulsa S para guardar partida", -3, -1);
-		ETSIDI::printxy("   Pulsa C para cargar partida", -3, -3);
+		ETSIDI::printxy("   Pulsa P para volver a la partida", -3, 2);
+		ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 0);
+		ETSIDI::printxy("   Pulsa S para volver al inicio", -3, -2);
+		/*/ETSIDI::printxy("   Pulsa C para cargar partida", -3, -3); */
 		tablero.dibuja();
 		
 	}
@@ -296,9 +292,11 @@ void Coordinador::añadirRanking() {
 	}
 
 	ranking.open("bin/ranking.txt");
+
 	for (int i = 0; i < JUGADORES; i++) {
 		if (jugadores[i]->getPuntos() != 0) ranking << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
 	}
+
 	ranking.close();
 }
 
