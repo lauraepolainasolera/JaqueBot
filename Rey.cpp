@@ -8,7 +8,7 @@ bool Rey::movimientoValido(Vector2D origen, Vector2D destino)
 		return true;
 	else if (res.x == 0 && abs(res.y) == 1)
 		return true;
-	else if (abs(res.x) == abs(res.y))
+	else if ((abs(res.x) == abs(res.y)) && (abs(res.x)==1))
 		return true;
 	else
 		return false;
