@@ -329,7 +329,4 @@ void Coordinador::mostrarRanking() {
 		c = s.c_str();
 		ETSIDI::printxy(c, -7, 2 - i);
 	}
-	//ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
-	//ETSIDI::printxy("   Pulsa S para guardar partida", -3, -1);
-	//ETSIDI::printxy("   Pulsa C para cargar partida", -3, -3);
 }
