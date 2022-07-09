@@ -79,6 +79,8 @@ void Coordinador::tecla(unsigned char key)
 			tablero.dibujaPiezas();
 			break;
 		case '3':
+			tablero.fin = true;
+			tablero.reset();
 			exit(0);
 		}
 		break;
@@ -94,6 +96,7 @@ void Coordinador::tecla(unsigned char key)
 			tablero.partida++;
 			break;
 		case '2':
+			añadirRanking();
 			tablero.fin = true;
 			tablero.reset();
 			exit(0);
@@ -137,10 +140,6 @@ void Coordinador::tecla(unsigned char key)
 		case 'C':
 			cargar();
 			estado = estadoAux;
-			break;
-		default:
-			tablero.fin = true;
-			tablero.reset();
 			break;
 		}
 	}
