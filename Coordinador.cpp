@@ -89,6 +89,7 @@ void Coordinador::tecla(unsigned char key)
 	{
 		switch (key) {
 		case '1':
+			añadirRanking();
 			estado = INICIO;
 			tablero.jm = 0;
 			tablero.movimiento = 0;
@@ -131,10 +132,6 @@ void Coordinador::tecla(unsigned char key)
 		case 'c':
 			cargar();
 			estado = ModoNormal;
-			break;
-		case 'j':
-			tablero.jm = 1;
-			añadirRanking(); //esto hay que moverlo
 			break;
 		default:
 			break;
@@ -207,6 +204,7 @@ void Coordinador::dibuja()
 		glVertex3f(3.5, -4.5, 0);
 		glVertex3f(-3.5, -4.5, 0);
 		glEnd();
+		mostrarRanking();
 		ETSIDI::printxy("   Pulsa P para volver a la partida", -3, 3);
 		ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
 		ETSIDI::printxy("   Pulsa S para guardar partida", -3, -1);
@@ -269,21 +267,21 @@ void Coordinador::copiarRanking() {
 	string n;
 	for (int i = 0; i < JUGADORES - 1; i++) {
 		ranking >> n;
-		if (i > 0 && n == jugadores[i - 1]->getNombre()) break;
+		if ((i > 0 && n == jugadores[i - 1]->getNombre()) || n == "") break;
 		jugadores[i]->setNombre(n);
 		ranking >> p;
 		jugadores[i]->setPuntos(p);
 	}
-	for (int i = 0; i < JUGADORES; i++) {
+	/*for (int i = 0; i < JUGADORES; i++) {
 		cout << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
-	}
+	}*/
 	ranking.close();
 }
 
 void Coordinador::añadirRanking() {
 	string n;
 	do {
-		cout << "Introduce el nombre del ganador (máx. 8 caracteres): ";
+		cout << "Introduce el nombre del ganador (max. 8 caracteres): ";
 		cin >> n;
 	} while (n.length() > 8 || n == "");
 
@@ -302,7 +300,36 @@ void Coordinador::añadirRanking() {
 	ranking.open("bin/ranking.txt");
 	for (int i = 0; i < JUGADORES; i++) {
 		if (jugadores[i]->getPuntos() != 0) ranking << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
-		cout << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
+		//cout << jugadores[i]->getNombre() << endl << jugadores[i]->getPuntos() << endl;
 	}
 	ranking.close();
+}
+
+void Coordinador::mostrarRanking() {
+	string s;
+	const char* c;
+	glColor3f(0, 0, 0);
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(-7, 3.5, 0);
+	glVertex3f(-3.5, 3.5, 0);
+	glVertex3f(-3.5, -3.5, 0);
+	glVertex3f(-7, -3.5, 0);
+	glEnd();
+	glColor3f(1, 1, 1);
+	glBegin(GL_POLYGON);
+	glVertex3f(-7, 3.5, 0);
+	glVertex3f(-3.5, 3.5, 0);
+	glVertex3f(-3.5, -3.5, 0);
+	glVertex3f(-7, -3.5, 0);
+	glEnd();
+	ETSIDI::printxy("            Ranking", -7, 3);
+	for (int i = 0; i < 5; i++) {
+		if (jugadores[i]->getPuntos() == 0) break;
+		s = "     " + to_string(i + 1) + ". " + jugadores[i]->getNombre() + " " + to_string(jugadores[i]->getPuntos());
+		c = s.c_str();
+		ETSIDI::printxy(c, -7, 2 - i);
+	}
+	//ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
+	//ETSIDI::printxy("   Pulsa S para guardar partida", -3, -1);
+	//ETSIDI::printxy("   Pulsa C para cargar partida", -3, -3);
 }

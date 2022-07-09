@@ -1,5 +1,5 @@
 #pragma once
-#define JUGADORES 10
+#define JUGADORES 20
 #include "ETSIDI.h"
 #include "Tablero.h"
 #include "Jugador.h"
@@ -62,6 +62,8 @@ protected:
 	void copiarRanking();
 
 	void añadirRanking();
+
+	void mostrarRanking();
 
 	void guardar();
 };
