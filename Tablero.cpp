@@ -251,6 +251,20 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		{
 			cout << "Es el movimiento numero " << (movimiento) << endl;
 			out << "Es el movimiento numero " << (movimiento) << endl;
+
+			if (movimiento % 2 == 1) {
+				cout << "Es el turno de las blancas" << endl;
+				out << "Es el turno de las blancas" << endl;
+			}
+			else {
+				cout << "Es el turno de las negras" << endl;
+				out << "Es el turno de las negras" << endl;
+			}
+
+			//if (movimiento % 2 == 1) {
+			//	cout << "Es el turno de las negras" << endl;
+			//	out << "Es el turno de las negras" << endl;
+			//}
 			cout << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
 			out << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")"<<endl;
 			out << endl;
@@ -969,6 +983,7 @@ bool Tablero::jaqueMate()
 		if (jm >= 1) {
 			cout << "Tienes salvacion" << endl;
 			out << "Se produce un jaque" << endl;
+			out << endl;
 			return false;
 		}
 		else {
@@ -976,6 +991,7 @@ bool Tablero::jaqueMate()
 			cout << "Has perdido amigo. GANAN LAS BLANCAS." << endl;
 			cout << "Espera a la pantalla final." << endl;
 			out << "Se produce jaque mate. Ganan las blancas." << endl;
+			out << endl;
 			out.close();
 			return true;
 		}
