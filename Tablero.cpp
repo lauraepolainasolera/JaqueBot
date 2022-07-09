@@ -5,6 +5,8 @@
 using ETSIDI::SpriteSequence;
 using namespace std;
 
+int partida = 1;
+
 ofstream out("partida.txt");
 
 Tablero::Tablero() {
@@ -961,6 +963,7 @@ bool Tablero::jaqueMate()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type == REY && aux->colour == NEGRA) { //busca el rey negro
+					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) jm++;
 					Vector2D* prox[8];
 					int numero = buscaAdyacentes(aux->pos, prox);
 					for (int k = 0; k < numero; k++) {
@@ -982,8 +985,9 @@ bool Tablero::jaqueMate()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == NEGRA) { //busca el resto de las piezas negras
+					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) jm++;
 					for (int l = 0; l < numero2; l++) {
-						if ((aux->movimientoValido(aux->pos, *tray[l]) &&obstaculo(aux->pos, *tray[l])==false) || (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false)) jm++;
+						if (aux->movimientoValido(aux->pos, *tray[l]) &&obstaculo(aux->pos, *tray[l])==false) jm++;
 					}
 				}
 			}
@@ -1000,6 +1004,7 @@ bool Tablero::jaqueMate()
 			cout << "Espera a la pantalla final." << endl;
 			out << "Se produce jaque mate. Ganan las blancas." << endl;
 			out << endl;
+			partida++;
 			out.close();
 			return true;
 		}
