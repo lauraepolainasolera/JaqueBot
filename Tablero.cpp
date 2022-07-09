@@ -955,7 +955,6 @@ int Tablero::trayectoria(Vector2D origen, Vector2D destino, Vector2D* tray[6])
 
 bool Tablero::jaqueMate()
 {
-	
 	int jr = jaqueReal();
 	int jm = 0;
 	Pieza* rey;
@@ -967,7 +966,14 @@ bool Tablero::jaqueMate()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type == REY && aux->colour == NEGRA) { //busca el rey negro
-					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) jm++;
+					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) {
+						tipo t = aux3->type;
+						color c = aux3->colour;
+						aux3 = comerPieza(aux, aux3);
+						if (jaqueReal() != 1)jm++;
+						aux3 = cambiarTipoPieza(aux3, t, c, aux3->pos);
+						setPieza(aux3, aux);
+					}
 					Vector2D* prox[8];
 					int numero = buscaAdyacentes(aux->pos, prox);
 					for (int k = 0; k < numero; k++) {
@@ -989,9 +995,9 @@ bool Tablero::jaqueMate()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == NEGRA) { //busca el resto de las piezas negras
-					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) jm++;
+					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) { jm++; }
 					for (int l = 0; l < numero2; l++) {
-						if (aux->movimientoValido(aux->pos, *tray[l]) &&obstaculo(aux->pos, *tray[l])==false) jm++;
+						if ((aux->movimientoValido(aux->pos, *tray[l]) && obstaculo(aux->pos, *tray[l]) == false)) jm++;
 					}
 				}
 			}
@@ -999,15 +1005,14 @@ bool Tablero::jaqueMate()
 		if (jm >= 1) {
 			cout << "Tienes salvacion" << endl;
 			out << "Se produce un jaque" << endl;
-			out << endl;
 			return false;
 		}
 		else {
-			ETSIDI::play("JaqueMate.wav");
+			ETSIDI::play("bin/JaqueMate.wav");
 			cout << "Has perdido amigo. GANAN LAS BLANCAS." << endl;
 			cout << "Espera a la pantalla final." << endl;
 			out << "Se produce jaque mate. Ganan las blancas." << endl;
-			partida++;
+			out.close();
 			return true;
 		}
 
@@ -1019,6 +1024,14 @@ bool Tablero::jaqueMate()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type == REY && aux->colour == BLANCA) { //busca el rey BLANCO
+					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) {
+						tipo t = aux3->type;
+						color c = aux3->colour;
+						aux3 = comerPieza(aux, aux3);
+						if (jaqueReal() != 2)jm++;
+						aux3 = cambiarTipoPieza(aux3, t, c, aux3->pos);
+						setPieza(aux3, aux);
+					}
 					Vector2D* prox[8];
 					int numero = buscaAdyacentes(aux->pos, prox);
 					for (int k = 0; k < numero; k++) {
@@ -1040,8 +1053,9 @@ bool Tablero::jaqueMate()
 				Vector2D pos = { (float)i,(float)j };
 				Pieza* aux = obtenerPieza(pos);
 				if (aux->type != REY && aux->colour == BLANCA) { //busca el resto de las piezas BLANCAS
+					if (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false) jm++;
 					for (int l = 0; l < numero2; l++) {
-						if ((aux->movimientoValido(aux->pos, *tray[l]) && obstaculo(aux->pos, *tray[l]) == false) || (aux->movimientoComer(aux->pos, aux3->pos) && obstaculo(aux->pos, aux3->pos) == false)) jm++;
+						if ((aux->movimientoValido(aux->pos, *tray[l]) && obstaculo(aux->pos, *tray[l]) == false)) jm++;
 					}
 				}
 			}
@@ -1052,13 +1066,15 @@ bool Tablero::jaqueMate()
 			return false;
 		}
 		else {
-			ETSIDI::play("JaqueMate.wav");
+			ETSIDI::play("bin/JaqueMate.wav");
 			cout << "Has perdido amigo. GANAN LAS NEGRAS" << endl;
 			cout << "Espera a la pantalla final." << endl;
 			out << "Se produce jaque mate. Ganan las negras." << endl;
+			out.close();
 			return true;
 		}
 	}
+
 }
 
 bool Tablero::enroque(Vector2D origen, Vector2D destino)
