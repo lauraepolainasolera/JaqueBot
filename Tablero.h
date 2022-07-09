@@ -98,6 +98,11 @@ public:
 
 	void desEnroque(Pieza* origen, Pieza* destino);
 
+	void imprimirTurno();
+
+	void imprimirMov(Vector2D &dest, Vector2D &orig);
+
+	void imprimirNumTurno();
 
 	void reset();
 };

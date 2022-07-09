@@ -234,6 +234,29 @@ Vector2D Tablero::obtenerPunteroPieza (Vector2D v) {
 	}
 }
 
+void Tablero::imprimirTurno()
+{
+	if (movimiento % 2 == 1) {
+		cout << "Es el turno de las blancas" << endl;
+		out << "Es el turno de las blancas" << endl;
+	}
+	else {
+		cout << "Es el turno de las negras" << endl;
+		out << "Es el turno de las negras" << endl;
+	}
+}
+
+void Tablero::imprimirMov(Vector2D &dest, Vector2D &orig) 
+{
+	cout << "Se ha movido de (" << dest.x << "," << dest.y << ") a (" << orig.x << "," << orig.y << ")" << endl;
+	out << "Se ha movido de (" << dest.x << "," << dest.y << ") a (" << orig.x << "," << orig.y << ")" << endl;
+}
+
+void Tablero::imprimirNumTurno() {
+
+	cout << "Es el movimiento numero " << (movimiento) << endl;
+	out << "Es el movimiento numero " << (movimiento) << endl;
+}
 void Tablero::mueve(Vector2D origen, Vector2D destino) {
 
 	Pieza* orig = obtenerPieza(origen);
@@ -249,24 +272,10 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		}
 		else
 		{
-			cout << "Es el movimiento numero " << (movimiento) << endl;
-			out << "Es el movimiento numero " << (movimiento) << endl;
+			imprimirNumTurno();
+			imprimirTurno();
+			imprimirMov(dest->pos, orig->pos);
 
-			if (movimiento % 2 == 1) {
-				cout << "Es el turno de las blancas" << endl;
-				out << "Es el turno de las blancas" << endl;
-			}
-			else {
-				cout << "Es el turno de las negras" << endl;
-				out << "Es el turno de las negras" << endl;
-			}
-
-			//if (movimiento % 2 == 1) {
-			//	cout << "Es el turno de las negras" << endl;
-			//	out << "Es el turno de las negras" << endl;
-			//}
-			cout << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
-			out << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")"<<endl;
 			out << endl;
 			cout << endl;
 			ETSIDI::play("bin/mover.wav");
@@ -285,8 +294,9 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		}
 		else
 		{
-			cout << "Es el movimiento numero " << (movimiento) << endl;
-			out << "Es el movimiento numero " << (movimiento) << endl;
+			imprimirNumTurno(); 
+			imprimirTurno();
+			imprimirMov(dest->pos, orig->pos);
 			cout << "Se ha producido un enroque" << endl;
 			out << "Se ha producido un enroque" << endl;
 			out << endl;
@@ -310,11 +320,10 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		}
 		else
 		{
-			cout << "Es el movimiento numero " << (movimiento) << endl;
-			out << "Es el movimiento numero " << (movimiento) << endl;
-			cout << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
-			out << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
-			out << "Se ha comido una pieza." << endl;
+			imprimirNumTurno(); 
+			imprimirTurno();
+			imprimirMov(dest->pos, orig->pos); 
+			out << "Se ha comido una pieza" << endl;
 			cout << endl;
 			out << endl;
 			ETSIDI::play("bin/comer.wav");
@@ -340,10 +349,9 @@ void Tablero::mueve(Vector2D origen, Vector2D destino) {
 		}
 		else
 		{
-			cout << "Es el movimiento numero " << (movimiento) << endl;
-			out << "Es el movimiento numero " << (movimiento) << endl;
-			cout << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
-			out << "Se ha movido de (" << dest->pos.x << "," << dest->pos.y << ") a (" << orig->pos.x << "," << orig->pos.y << ")" << endl;
+			imprimirNumTurno(); 
+			imprimirTurno();
+			imprimirMov(dest->pos, orig->pos); 
 			out << "Se ha realizado captura al paso" << endl;
 			cout << endl;
 			out << endl;
