@@ -108,9 +108,6 @@ void Coordinador::tecla(unsigned char key)
 			cout << estadoAux << endl;
 			estado = Pausa;
 			break;
-		default:
-			//exit(0);
-			break;
 		}
 		break;
 	case Pausa:
@@ -171,20 +168,16 @@ void Coordinador::dibuja()
 
 	else if (estado == ModoNormal || estado == ModoLocura) {
 
-
-
 		tablero.dibuja();
 
 		tablero.dibujaPiezas();
 
-
-		if (movimientohecho == true && origen_detectado == false) {
-
+		if (movimientohecho == true && origen_detectado == false) 
+		{
 			origen.x = posicionAux.x;
 			origen.y = posicionAux.y;
 			movimientohecho = false;
 			origen_detectado = true;
-
 		}
 
 		if (movimientohecho == true && origen_detectado == true)
@@ -239,9 +232,6 @@ void Coordinador::dibuja()
 		tablero.dibuja();
 		
 	}
-
-	
-
 }
 
 void Coordinador::guardar() {
@@ -252,7 +242,8 @@ void Coordinador::guardar() {
 	save.close();
 }
 
-void Coordinador::cargar() {
+void Coordinador::cargar() 
+{
 	int t, c, x, y;
 	tablero.reset();
 	save.open("bin/save.txt");

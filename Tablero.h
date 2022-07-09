@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
-
+#include <string>
 #define DIMENSION 8
 
 using namespace std;
