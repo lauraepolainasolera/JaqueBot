@@ -124,6 +124,7 @@ void Coordinador::tecla(unsigned char key)
 			break;
 		case 's':
 		case 'S':
+			tablero.reset();
 			estado = INICIO;
 			break;
 		case 'r':
