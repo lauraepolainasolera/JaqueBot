@@ -198,6 +198,25 @@ void Coordinador::dibuja()
 		tablero.mostrarJaque();
 	}
 
+	if (tablero.jm == true) {
+
+		estado = PantallaFinal;
+
+		glEnable(GL_TEXTURE_2D);
+
+		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_FINAL.png").id);
+		glDisable(GL_LIGHTING);
+		glBegin(GL_POLYGON);
+		glColor3f(1, 1, 1);
+		glTexCoord2d(0, 0); glVertex3f(-5, 5, 0);
+		glTexCoord2d(1, 0); glVertex3f(5, 5, 0);
+		glTexCoord2d(1, 1); glVertex3f(5, -5, 0);
+		glTexCoord2d(0, 1); glVertex3f(-5, -5, 0);
+		glEnd();
+		glEnable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
+	}
+
 	else if (estado == Pausa) {	
 		glColor3f(1, 1, 1);
 		glBegin(GL_POLYGON);
@@ -221,29 +240,7 @@ void Coordinador::dibuja()
 		
 	}
 
-	if (tablero.jm == true) {
-
-		estado = PantallaFinal;
-
-		glEnable(GL_TEXTURE_2D);
-
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_FINAL.png").id);
-		glDisable(GL_LIGHTING);
-		/*glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glBegin(GL_POLYGON);
-		glVertex3f(-8, 8, 0);
-		glVertex3f(8, 8, 0);
-		glVertex3f(8, -8, 0);
-		glVertex3f(-8, -8, 0);*/
-		glTexCoord2d(0, 0); glVertex3f(-5, 5, 0);
-		glTexCoord2d(1, 0); glVertex3f(5, 5, 0);
-		glTexCoord2d(1, 1); glVertex3f(5, -5, 0);
-		glTexCoord2d(0, 1); glVertex3f(-5, -5, 0);
-		glEnd();
-		glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
-	}
+	
 
 }
 
