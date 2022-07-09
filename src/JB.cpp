@@ -9,8 +9,6 @@ void OnKeyboardDown(unsigned char key, int x, int y);
 
 void OnDraw(void);
 
-void OnTimer(int value);
-
 void OnMouseClick(int button, int state, int x, int y);
 
 int main(int argc,char* argv[])
@@ -32,7 +30,6 @@ int main(int argc,char* argv[])
 
 	//Registrar los callbacks
 	glutDisplayFunc(OnDraw);
-	glutTimerFunc(25,OnTimer,0);//le decimos que dentro de 25ms llame 1 vez a la funcion OnTimer()
 	glutKeyboardFunc(OnKeyboardDown);
 	glutMouseFunc(OnMouseClick);
 
@@ -49,8 +46,6 @@ void OnDraw(void)
 		0.0, 0, 0.0,      // hacia que punto mira  (0,0,0) 
 		0.0, 10.0, 0.0);      // definimos hacia arriba (eje Y)    
 
-//aqui es donde hay que poner el codigo de dibujo
-//dibujo del suelo
 	glDisable(GL_LIGHTING);
 	glBegin(GL_POLYGON);
 	glColor3ub(255, 0, 0);
@@ -72,31 +67,16 @@ void OnDraw(void)
 
 	master.dibuja();
 
-	//p.dibuja();
-
-	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();
 }
 
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
-	
-	//poner aqui el código de teclado
 
 	master.tecla(key);
 
-	//glutPostRedisplay();
-
 }
 
-void OnTimer(int value)
-{
-//poner aqui el código de animacion
-
-	//no borrar estas lineas
-	glutTimerFunc(25,OnTimer,0);
-	glutPostRedisplay();
-}
 
 void OnMouseClick(int b, int state, int x, int y) {
 	bool down = (state == GLUT_DOWN);
