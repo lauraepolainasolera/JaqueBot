@@ -20,6 +20,8 @@ Coordinador::Coordinador()
 	posicionAux.y = 0;
 
 	estado = INICIO;
+
+
 }
 
 void  Coordinador::MouseButton(int x, int y, int button, bool down)
@@ -67,13 +69,13 @@ void Coordinador::tecla(unsigned char key)
 		switch (key) {
 		case '1':
 			estado = ModoNormal;
-			cout << "Iniciando el Modo Normal. Espere unos momentos." << endl;
+			cout << "Iniciando el Modo Normal, espere unos momentos..." << endl;
 			tablero.inicializa();
 			tablero.dibujaPiezas();
 			break;
 		case '2':
 			estado = ModoLocura;
-			cout << "Iniciando el Modo Locura. Espere unos momentos." << endl;
+			cout << "Iniciando el Modo Locura, espere unos momentos..." << endl;
 			tablero.inicializaModoLocura();
 			tablero.dibujaPiezas();
 			break;
@@ -91,7 +93,7 @@ void Coordinador::tecla(unsigned char key)
 			tablero.movimiento = 0;
 			break;
 		case '2':
-			exit;
+			exit(0);
 			break;
 		}
 		break;
@@ -100,25 +102,58 @@ void Coordinador::tecla(unsigned char key)
 	case ModoNormal:
 		switch (key)
 		{
-		case '1':
-			estado = INICIO;
+		case 'p':
+		case 'P':
+			estadoAux = estado;
+			cout << estadoAux << endl;
+			estado = Pausa;
 			break;
 		default:
-			exit(0);
+			//exit(0);
 			break;
 		}
 		break;
+	case Pausa:
+		switch (key)
+		{
+		case 'p':
+		case 'P':
+			estado = estadoAux;
+			break;
+		case 'e':
+		case 'E':
+			estado = INICIO;
+			break;
+		case 's':
+		case 'S':
+			guardar();
+			break;
+		case 'r':
+		case 'R':
+			tablero.reset();
+			if (estadoAux == ModoNormal)
+				tablero.inicializa();
+			else if(estadoAux == ModoLocura)
+				tablero.inicializaModoLocura();
+			estado = estadoAux;
+			break;
+		case 'c':
+		case 'C':
+			cargar();
+			estado = estadoAux;
+			break;
+		default:
+			break;
+		}
 	}
 }
 
 void Coordinador::dibuja()
 {
-	ETSIDI::setTextColor(1, 1, 0);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 12);
-	ETSIDI::printxy("Ajedrez", -10, 11);
+	ETSIDI::setTextColor(0, 0, 0);
+	ETSIDI::setFont("bin/droid-serif.italic.ttf", 14);
 
 	if (estado == INICIO) {
-
 		glEnable(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_INICIO.png").id);
@@ -132,7 +167,6 @@ void Coordinador::dibuja()
 		glEnd();
 		glEnable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);
-
 	}
 
 	else if (estado == ModoNormal || estado == ModoLocura) {
@@ -153,7 +187,6 @@ void Coordinador::dibuja()
 
 		}
 
-		/*cout << "Introduce posciones destino" << endl;*/
 		if (movimientohecho == true && origen_detectado == true)
 		{
 			destino = posicionAux;
@@ -165,21 +198,44 @@ void Coordinador::dibuja()
 		tablero.mostrarJaque();
 	}
 
-
-
+	else if (estado == Pausa) {	
+		glColor3f(1, 1, 1);
+		glBegin(GL_POLYGON);
+		glVertex3f(-3.5, 4.5, 0);
+		glVertex3f(3.5, 4.5, 0);
+		glVertex3f(3.5, -4.5, 0);
+		glVertex3f(-3.5, -4.5, 0);
+		glEnd();
+		glColor3f(0, 0, 0);
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(-3.5, 4.5, 0);
+		glVertex3f(3.5, 4.5, 0);
+		glVertex3f(3.5, -4.5, 0);
+		glVertex3f(-3.5, -4.5, 0);
+		glEnd();
+		ETSIDI::printxy("   Pulsa P para volver a la partida", -3, 3);
+		ETSIDI::printxy("   Pulsa R para resetear la partida", -3, 1);
+		ETSIDI::printxy("   Pulsa S para guardar partida", -3, -1);
+		ETSIDI::printxy("   Pulsa C para cargar partida", -3, -3);
+		tablero.dibuja();
+		
+	}
 
 	if (tablero.jm == true) {
 
 		estado = PantallaFinal;
 
-		cout << "estoy pintando" << endl;
-
 		glEnable(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_FINAL.png").id);
 		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
+		/*glBegin(GL_POLYGON);
 		glColor3f(1, 1, 1);
+		glBegin(GL_POLYGON);
+		glVertex3f(-8, 8, 0);
+		glVertex3f(8, 8, 0);
+		glVertex3f(8, -8, 0);
+		glVertex3f(-8, -8, 0);*/
 		glTexCoord2d(0, 0); glVertex3f(-5, 5, 0);
 		glTexCoord2d(1, 0); glVertex3f(5, 5, 0);
 		glTexCoord2d(1, 1); glVertex3f(5, -5, 0);
@@ -187,9 +243,30 @@ void Coordinador::dibuja()
 		glEnd();
 		glEnable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);
-
-		//Implementar correctamente cuando se compruebe el jaque mate
 	}
 
+}
 
+void Coordinador::guardar() {
+	save.open("bin/save.txt");
+	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) if (tablero.pi[i][j] != nullptr) save << tablero.pi[i][j]->type << endl << tablero.pi[i][j]->colour << endl 
+		<< tablero.pi[i][j]->pos.x << endl << tablero.pi[i][j]->pos.y << endl;
+	save << tablero.movimiento;
+	save.close();
+}
+
+void Coordinador::cargar() {
+	int t, c, x, y;
+	tablero.reset();
+	save.open("bin/save.txt");
+	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) { 
+		save >> t;
+		save >> c;
+		save >> x;
+		save >> y;
+		cout << "TIPO " << t << " COLOR " << c << endl;
+		tablero.crearPieza(t, c, x, y, i, j); 
+	}
+	save >> tablero.movimiento;
+	save.close();
 }

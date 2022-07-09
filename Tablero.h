@@ -3,20 +3,33 @@
 #include "freeglut.h"
 #include "Pieza.h"
 #include "Vector2D.h"
+#include "ReyBlanco.h"
+#include "ReyNegro.h"
+#include "TorreBlanca.h"
+#include "TorreNegra.h"
+#include "CaballoBlanco.h"
+#include "CaballoNegro.h"
+#include "AlfilBlanco.h"
+#include "AlfilNegro.h"
+#include "ReinaBlanca.h"
+#include "ReinaNegra.h"
+#include "PeonBlanco.h"
+#include "PeonNegro.h"
+#include "PiezaVacia.h"
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+
 #define DIMENSION 8
 
-
+using namespace std;
 
 class Tablero
 {
-private:
-
-	float lado;
-
 public:
 
-	int movimiento = 0;
-		
+	int movimiento;
+	
 	bool jm;
 
 	Tablero();
@@ -26,24 +39,26 @@ public:
 	Vector2D PosicionReal[DIMENSION][DIMENSION];
 
 	Pieza* pi[DIMENSION][DIMENSION];
-
-	Vector2D obtenerPosicionesReales(Vector2D);
-
-	Pieza* obtenerPieza(Vector2D v);
 	
 	Vector2D obtenerPunteroPieza(Vector2D v);
-
-	void setLado(float a);
 
 	void inicializa();
 	
 	void dibuja();
 	
-	void dibujaPiezas();
-
 	void inicializaModoLocura();
 
+	void dibujaPiezas();
+
+	void crearPieza(int tipo, int color, int x, int y, int i, int j);
+
+	Vector2D obtenerPosicionesReales(Vector2D);
+
+	Pieza* obtenerPieza(Vector2D v);
+
 	void mueve(Vector2D origen, Vector2D destino);
+
+	bool capturaAlPaso(Vector2D origen, Vector2D destino);
 		
 	void setPieza(Pieza* origen, Pieza* destino);
 
@@ -86,5 +101,7 @@ public:
 
 	void desEnroque(Pieza* origen, Pieza* destino);
 
+
+	void reset();
 };
 
