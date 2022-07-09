@@ -8,7 +8,7 @@ class CaballoNegro :
 public:
 	SpriteSequence caballon;
 
-	CaballoNegro() : Caballo(NEGRA), caballon("bin/caballonegro.png", 1.0, 1.0, 20) { caballon.setCenter(0.6, 0.9); caballon.setSize(1.5, 1.5); }
+	CaballoNegro() : Caballo(NEGRA), caballon("caballonegro.png", 1.0, 1.0, 20) { caballon.setCenter(0.6, 0.9); caballon.setSize(1.5, 1.5); }
 
 	virtual void dibuja(Vector2D p);
 };

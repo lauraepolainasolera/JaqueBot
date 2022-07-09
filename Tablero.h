@@ -57,8 +57,6 @@ public:
 	Pieza* obtenerPieza(Vector2D v);
 
 	void mueve(Vector2D origen, Vector2D destino);
-
-	bool capturaAlPaso(Vector2D origen, Vector2D destino);
 		
 	void setPieza(Pieza* origen, Pieza* destino);
 
