@@ -111,7 +111,6 @@ void Coordinador::tecla(unsigned char key)
 		case 'p':
 		case 'P':
 			estadoAux = estado;
-			cout << estadoAux << endl;
 			estado = Pausa;
 			break;
 		}
