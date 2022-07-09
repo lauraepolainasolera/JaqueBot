@@ -7,7 +7,7 @@ Tablero tablero;
 
 Coordinador::Coordinador()
 {
-	width = 1.2;				//width of each cell in the grid	N = pb->getSize();		//Grid NxN
+	width = 1.2;			
 	center_z = 0;
 
 	movimientohecho = false;
@@ -48,8 +48,6 @@ void  Coordinador::MouseButton(int x, int y, int button, bool down)
 		winY = winY + 250;
 
 		gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
-
-		//finally cell coordinates
 
 		posicionAux = world2cell(posX, posY);
 
@@ -194,6 +192,25 @@ void Coordinador::dibuja()
 	if (tablero.jm == true) {
 
 		estado = PantallaFinal;
+
+
+		glColor3f(1, 1, 1);
+		glBegin(GL_POLYGON);
+		glVertex3f(-3.5, 4.5, 0);
+		glVertex3f(3.5, 4.5, 0);
+		glVertex3f(3.5, -4.5, 0);
+		glVertex3f(-3.5, -4.5, 0);
+		glEnd();
+		glColor3f(0, 0, 0);
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(-3.5, 4.5, 0);
+		glVertex3f(3.5, 4.5, 0);
+		glVertex3f(3.5, -4.5, 0);
+		glVertex3f(-3.5, -4.5, 0);
+		glEnd();
+		ETSIDI::printxy("Se ha producido un jaque mate.", -3, 3);
+		ETSIDI::printxy("Espere a la pantalla final.", -3, 2);
+		tablero.dibuja();
 
 		glEnable(GL_TEXTURE_2D);
 
