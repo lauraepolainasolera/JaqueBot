@@ -146,12 +146,12 @@ void Coordinador::tecla(unsigned char key)
 void Coordinador::dibuja()
 {
 	ETSIDI::setTextColor(0, 0, 0);
-	ETSIDI::setFont("bin/droid-serif.italic.ttf", 14);
+	ETSIDI::setFont("droid-serif.italic.ttf", 14);
 
 	if (estado == INICIO) {
 		glEnable(GL_TEXTURE_2D);
 
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_INICIO.png").id);
+		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("PANTALLA_INICIO.png").id);
 		glDisable(GL_LIGHTING);
 		glBegin(GL_POLYGON);
 		glColor3f(1, 1, 1);
@@ -218,7 +218,7 @@ void Coordinador::dibuja()
 
 		glEnable(GL_TEXTURE_2D);
 
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/PANTALLA_FINAL.png").id);
+		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("PANTALLA_FINAL.png").id);
 		glDisable(GL_LIGHTING);
 		glBegin(GL_POLYGON);
 		glColor3f(1, 1, 1);
@@ -234,7 +234,7 @@ void Coordinador::dibuja()
 }
 
 void Coordinador::guardar() {
-	save.open("bin/save.txt");
+	save.open("save.txt");
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) if (tablero.pi[i][j] != nullptr) save << tablero.pi[i][j]->type << endl << tablero.pi[i][j]->colour << endl 
 		<< tablero.pi[i][j]->pos.x << endl << tablero.pi[i][j]->pos.y << endl;
 	save << tablero.movimiento;
@@ -245,7 +245,7 @@ void Coordinador::cargar()
 {
 	int t, c, x, y;
 	tablero.reset();
-	save.open("bin/save.txt");
+	save.open("save.txt");
 	for (int i = 0; i < DIMENSION; i++) for (int j = 0; j < DIMENSION; j++) { 
 		save >> t;
 		save >> c;
